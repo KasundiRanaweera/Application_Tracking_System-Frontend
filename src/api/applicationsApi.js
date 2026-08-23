@@ -1,0 +1,10 @@
+import axiosClient from './axiosClient'
+export const applyToJob              = (data) => axiosClient.post('/api/applications', data)
+export const getMyApplications       = (p)    => axiosClient.get('/api/applications/me', { params: p })
+export const getMyApplicationById    = (id)   => axiosClient.get(`/api/applications/me/${id}`)
+export const withdrawApplication     = (id)   => axiosClient.delete(`/api/applications/${id}`)
+export const getJobApplications      = (jid, p) => axiosClient.get(`/api/applications/job/${jid}`, { params: p })
+export const getApplicationDetail    = (id)   => axiosClient.get(`/api/applications/${id}`)
+export const rateApplication         = (id, r) => axiosClient.patch(`/api/applications/${id}/rating`, { rating: r })
+export const addNote                 = (id, c) => axiosClient.post(`/api/applications/${id}/notes`, { content: c })
+export const changeApplicationStatus = (id, s) => axiosClient.patch(`/api/applications/${id}/status`, { status: s })
