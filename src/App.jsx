@@ -9,7 +9,7 @@ import JobsPage             from './pages/candidate/JobsPage'
 import MyApplicationsPage   from './pages/candidate/MyApplicationsPage'
 import RecruiterDashboard   from './pages/recruiter/RecruiterDashboardPage'
 import RecruiterJobsPage    from './pages/recruiter/RecruiterJobsPage'
-
+import JobDetailPage from './pages/candidate/JobDetailPage'
 function HomeRedirect() {
   const { user } = useAuth()
   if (!user) return <Navigate to="/login" replace />
@@ -32,6 +32,9 @@ export default function App() {
       <Route path="/recruiter/jobs"      element={<RecruiterRoute><RecruiterJobsPage /></RecruiterRoute>} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
+
+      <Route path="/jobs/:jobId" element={<PrivateRoute><JobDetailPage /></PrivateRoute>} />
+      
     </Routes>
   )
 }
