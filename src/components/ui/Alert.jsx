@@ -13,7 +13,7 @@ export default function Alert({ type = 'error', message }) {
     warning: '⚠',
   }
   return (
-    <div className={`flex items-start gap-3 border rounded-lg px-4 py-3 text-sm font-[Manrope] ${styles[type]}`}>
+    <div className={`flex items-start gap-3 border rounded-lg px-4 py-3 text-sm font-sans ${styles[type]}`}>
       <span className="font-bold mt-0.5">{icons[type]}</span>
       <span>{message}</span>
     </div>

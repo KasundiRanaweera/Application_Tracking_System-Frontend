@@ -19,7 +19,7 @@ export default function Navbar() {
   const navLink = (path, label) => (
     <Link
       to={path}
-      className={`text-sm font-semibold font-[Manrope] px-3 py-1.5 rounded-lg transition-colors ${
+      className={`text-sm font-semibold font-sans px-3 py-1.5 rounded-lg transition-colors ${
         active(path)
           ? 'text-indigo-600 bg-indigo-50'
           : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f2f4f6]'
@@ -37,9 +37,9 @@ export default function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
-              <span className="text-white font-bold text-xs font-[Hanken_Grotesk]">TB</span>
+              <span className="text-white font-bold text-xs font-sans">TB</span>
             </div>
-            <span className="font-bold text-[#0f172a] font-[Hanken_Grotesk] text-base">
+            <span className="font-bold text-[#0f172a] font-sans text-base">
               TalentBridge
             </span>
           </Link>
@@ -64,16 +64,16 @@ export default function Navbar() {
               <div className="flex items-center gap-2.5 pl-4 border-l border-[#e2e8f0]">
                 <div className={`
                   w-8 h-8 rounded-full flex items-center justify-center text-xs
-                  font-bold text-white font-[Hanken_Grotesk]
+                  font-bold text-white font-sans
                   ${isRec ? 'bg-indigo-600' : 'bg-blue-500'}
                 `}>
                   {user.name?.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-[#0f172a] font-[Hanken_Grotesk] leading-none">
+                  <p className="text-xs font-semibold text-[#0f172a] font-sans leading-none">
                     {user.name}
                   </p>
-                  <p className="text-xs text-[#64748b] font-[Manrope] mt-0.5">
+                  <p className="text-xs text-[#64748b] font-sans mt-0.5">
                     {isRec ? 'Recruiter' : 'Candidate'}
                   </p>
                 </div>
@@ -81,7 +81,7 @@ export default function Navbar() {
               <button
                 onClick={handleLogout}
                 className="text-xs font-semibold text-[#64748b] hover:text-red-500
-                  font-[Manrope] transition-colors px-2 py-1 rounded"
+                  font-sans transition-colors px-2 py-1 rounded"
               >
                 Sign out
               </button>
@@ -108,27 +108,27 @@ export default function Navbar() {
           <div className="md:hidden border-t border-[#e2e8f0] py-3 space-y-1">
             {isCan && (<>
               <Link to="/jobs" onClick={() => setOpen(false)}
-                className="block px-3 py-2 text-sm font-[Manrope] text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
+                className="block px-3 py-2 text-sm font-sans text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
                 Browse Jobs
               </Link>
               <Link to="/my-applications" onClick={() => setOpen(false)}
-                className="block px-3 py-2 text-sm font-[Manrope] text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
+                className="block px-3 py-2 text-sm font-sans text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
                 My Applications
               </Link>
             </>)}
             {isRec && (<>
               <Link to="/recruiter/dashboard" onClick={() => setOpen(false)}
-                className="block px-3 py-2 text-sm font-[Manrope] text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
+                className="block px-3 py-2 text-sm font-sans text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
                 Dashboard
               </Link>
               <Link to="/recruiter/jobs" onClick={() => setOpen(false)}
-                className="block px-3 py-2 text-sm font-[Manrope] text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
+                className="block px-3 py-2 text-sm font-sans text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
                 My Jobs
               </Link>
             </>)}
             <div className="px-3 py-2 border-t border-[#e2e8f0] mt-2 flex items-center justify-between">
-              <span className="text-sm font-semibold text-[#0f172a] font-[Hanken_Grotesk]">{user.name}</span>
-              <button onClick={handleLogout} className="text-xs text-red-500 font-[Manrope] font-semibold">
+              <span className="text-sm font-semibold text-[#0f172a] font-sans">{user.name}</span>
+              <button onClick={handleLogout} className="text-xs text-red-500 font-sans font-semibold">
                 Sign out
               </button>
             </div>

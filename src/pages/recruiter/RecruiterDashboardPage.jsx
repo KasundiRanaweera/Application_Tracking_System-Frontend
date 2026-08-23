@@ -1,4 +1,11 @@
+// src/pages/recruiter/RecruiterDashboardPage.jsx
 import Layout from '../../components/layout/Layout'
 export default function RecruiterDashboardPage() {
-  return <Layout><div className="p-8">Recruiter Dashboard — placeholder</div></Layout>
+  return (
+    <Layout>
+      <div className="font-sans text-2xl font-bold text-[#0f172a]">
+        Recruiter Dashboard — coming in Phase 4
+      </div>
+    </Layout>
+  )
 }
