@@ -51,16 +51,16 @@ export default function LoginPage() {
       <div className="hidden lg:flex lg:w-1/2 bg-indigo-600 flex-col justify-between p-12">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm font-[Hanken_Grotesk]">TB</span>
+            <span className="text-white font-bold text-sm font-sans">TB</span>
           </div>
-          <span className="text-white font-bold text-lg font-[Hanken_Grotesk]">TalentBridge</span>
+          <span className="text-white font-bold text-lg font-sans">TalentBridge</span>
         </div>
 
         <div>
-          <h1 className="text-4xl font-bold text-white font-[Hanken_Grotesk] leading-tight mb-4">
+          <h1 className="text-4xl font-bold text-white font-sans leading-tight mb-4">
             The smarter way to hire great people.
           </h1>
-          <p className="text-indigo-200 text-base font-[Manrope] leading-relaxed">
+          <p className="text-indigo-200 text-base font-sans leading-relaxed">
             Post jobs, review applicants, and move candidates through your pipeline — all in one place.
           </p>
 
@@ -73,14 +73,14 @@ export default function LoginPage() {
               { label: 'Response Time', value: 'Real-time' },
             ].map(({ label, value }) => (
               <div key={label} className="bg-white/10 rounded-xl p-4">
-                <p className="text-white font-bold text-lg font-[Hanken_Grotesk]">{value}</p>
-                <p className="text-indigo-200 text-xs font-[Manrope] mt-0.5">{label}</p>
+                <p className="text-white font-bold text-lg font-sans">{value}</p>
+                <p className="text-indigo-200 text-xs font-sans mt-0.5">{label}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <p className="text-indigo-300 text-xs font-[Manrope]">
+        <p className="text-indigo-300 text-xs font-sans">
           © {new Date().getFullYear()} TalentBridge ATS. All rights reserved.
         </p>
       </div>
@@ -92,15 +92,15 @@ export default function LoginPage() {
           {/* Mobile logo */}
           <div className="flex items-center gap-2 mb-10 lg:hidden">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xs font-[Hanken_Grotesk]">TB</span>
+              <span className="text-white font-bold text-xs font-sans">TB</span>
             </div>
-            <span className="font-bold text-[#0f172a] font-[Hanken_Grotesk]">TalentBridge</span>
+            <span className="font-bold text-[#0f172a] font-sans">TalentBridge</span>
           </div>
 
-          <h2 className="text-2xl font-bold text-[#0f172a] font-[Hanken_Grotesk] mb-1">
+          <h2 className="text-2xl font-bold text-[#0f172a] font-sans mb-1">
             Welcome back
           </h2>
-          <p className="text-sm text-[#64748b] font-[Manrope] mb-8">
+          <p className="text-sm text-[#64748b] font-sans mb-8">
             Sign in to your account to continue
           </p>
 
@@ -145,7 +145,7 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <p className="text-sm text-center text-[#64748b] font-[Manrope] mt-6">
+          <p className="text-sm text-center text-[#64748b] font-sans mt-6">
             New to TalentBridge?{' '}
             <Link
               to="/register"
@@ -157,15 +157,15 @@ export default function LoginPage() {
 
           {/* Demo credentials box */}
           <div className="mt-8 p-4 bg-[#f2f4f6] rounded-xl border border-[#e2e8f0]">
-            <p className="text-xs font-semibold text-[#0f172a] font-[Hanken_Grotesk] mb-2">
+            <p className="text-xs font-semibold text-[#0f172a] font-sans mb-2">
               Demo credentials
             </p>
             <div className="space-y-1">
-              <div className="flex items-center justify-between text-xs font-[Manrope]">
+              <div className="flex items-center justify-between text-xs font-sans">
                 <span className="text-[#64748b]">Recruiter</span>
                 <span className="text-[#0f172a] font-medium">recruiter@talentbridge.com</span>
               </div>
-              <div className="flex items-center justify-between text-xs font-[Manrope]">
+              <div className="flex items-center justify-between text-xs font-sans">
                 <span className="text-[#64748b]">Password</span>
                 <span className="text-[#0f172a] font-medium">Recruiter@123</span>
               </div>

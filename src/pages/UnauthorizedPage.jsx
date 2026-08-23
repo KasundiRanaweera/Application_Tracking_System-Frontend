@@ -23,10 +23,10 @@ export default function UnauthorizedPage() {
               d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-[#0f172a] font-[Hanken_Grotesk] mb-2">
+        <h1 className="text-2xl font-bold text-[#0f172a] font-sans mb-2">
           Access Denied
         </h1>
-        <p className="text-[#64748b] font-[Manrope] text-sm mb-8 leading-relaxed">
+        <p className="text-[#64748b] font-sans text-sm mb-8 leading-relaxed">
           You don't have permission to view this page. If you believe this is a mistake,
           please sign in with the correct account.
         </p>

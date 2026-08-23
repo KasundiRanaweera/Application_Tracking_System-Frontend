@@ -72,16 +72,16 @@ export default function RegisterPage() {
       <div className="hidden lg:flex lg:w-1/2 bg-indigo-600 flex-col justify-between p-12">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm font-[Hanken_Grotesk]">TB</span>
+            <span className="text-white font-bold text-sm font-sans">TB</span>
           </div>
-          <span className="text-white font-bold text-lg font-[Hanken_Grotesk]">TalentBridge</span>
+          <span className="text-white font-bold text-lg font-sans">TalentBridge</span>
         </div>
 
         <div>
-          <h1 className="text-4xl font-bold text-white font-[Hanken_Grotesk] leading-tight mb-4">
+          <h1 className="text-4xl font-bold text-white font-sans leading-tight mb-4">
             Find your next opportunity.
           </h1>
-          <p className="text-indigo-200 text-base font-[Manrope] leading-relaxed mb-10">
+          <p className="text-indigo-200 text-base font-sans leading-relaxed mb-10">
             Create a free candidate account and start applying to open positions today.
           </p>
 
@@ -90,16 +90,16 @@ export default function RegisterPage() {
             {steps.map((step, i) => (
               <div key={step} className="flex items-center gap-4">
                 <div className="w-8 h-8 rounded-full bg-white/20 flex items-center
-                  justify-center text-white text-sm font-bold font-[Hanken_Grotesk]">
+                  justify-center text-white text-sm font-bold font-sans">
                   {i + 1}
                 </div>
-                <span className="text-white text-sm font-[Manrope] font-medium">{step}</span>
+                <span className="text-white text-sm font-sans font-medium">{step}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <p className="text-indigo-300 text-xs font-[Manrope]">
+        <p className="text-indigo-300 text-xs font-sans">
           © {new Date().getFullYear()} TalentBridge ATS. All rights reserved.
         </p>
       </div>
@@ -111,15 +111,15 @@ export default function RegisterPage() {
           {/* Mobile logo */}
           <div className="flex items-center gap-2 mb-10 lg:hidden">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xs font-[Hanken_Grotesk]">TB</span>
+              <span className="text-white font-bold text-xs font-sans">TB</span>
             </div>
-            <span className="font-bold text-[#0f172a] font-[Hanken_Grotesk]">TalentBridge</span>
+            <span className="font-bold text-[#0f172a] font-sans">TalentBridge</span>
           </div>
 
-          <h2 className="text-2xl font-bold text-[#0f172a] font-[Hanken_Grotesk] mb-1">
+          <h2 className="text-2xl font-bold text-[#0f172a] font-sans mb-1">
             Create your account
           </h2>
-          <p className="text-sm text-[#64748b] font-[Manrope] mb-8">
+          <p className="text-sm text-[#64748b] font-sans mb-8">
             Join TalentBridge as a candidate — it's free
           </p>
 
@@ -181,7 +181,7 @@ export default function RegisterPage() {
             </Button>
           </form>
 
-          <p className="text-sm text-center text-[#64748b] font-[Manrope] mt-6">
+          <p className="text-sm text-center text-[#64748b] font-sans mt-6">
             Already have an account?{' '}
             <Link
               to="/login"
@@ -191,7 +191,7 @@ export default function RegisterPage() {
             </Link>
           </p>
 
-          <p className="text-xs text-center text-[#94a3b8] font-[Manrope] mt-4 leading-relaxed">
+          <p className="text-xs text-center text-[#94a3b8] font-sans mt-4 leading-relaxed">
             Recruiter accounts are provisioned by the company admin — they cannot self-register.
           </p>
         </div>
