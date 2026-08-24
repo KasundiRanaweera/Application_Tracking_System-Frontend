@@ -41,7 +41,8 @@ export default function App() {
       <Route path="/recruiter/jobs/create"      element={<RecruiterRoute><CreateJobPage /></RecruiterRoute>} />
       <Route path="/recruiter/jobs/:id/edit"    element={<RecruiterRoute><EditJobPage /></RecruiterRoute>} />
       <Route path="/recruiter/jobs/:id/applicants" element={<RecruiterRoute><JobApplicantsPage /></RecruiterRoute>} />
-
+      
+      
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
