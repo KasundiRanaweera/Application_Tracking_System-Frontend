@@ -23,6 +23,7 @@ export default function JobDetailPage() {
   const [applySuccess, setApplySuccess]   = useState(false)
   const [alreadyApplied, setAlreadyApplied] = useState(false)
   const [coverNote, setCoverNote]         = useState('')
+  const [resumeUrl, setResumeUrl]         = useState('')
   const [showApplyForm, setShowApplyForm] = useState(false)
 
   useEffect(() => {
@@ -50,7 +51,11 @@ export default function JobDetailPage() {
     setApplying(true)
     setApplyError('')
     try {
-      await applyToJob({ jobId: Number(id), coverNote })
+      await applyToJob({
+        jobId: Number(id),
+        coverNote,
+        resumeUrl: resumeUrl.trim() || null,
+      })
       setApplySuccess(true)
       setAlreadyApplied(true)
       setShowApplyForm(false)
@@ -264,6 +269,21 @@ export default function JobDetailPage() {
                       text-sm resize-none focus:outline-none focus:ring-2
                       focus:ring-indigo-500 focus:border-transparent text-[#191c1e]
                       placeholder-[#94a3b8]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-[#0f172a] mb-1.5">
+                    Resume URL
+                    <span className="text-[#64748b] font-normal ml-1">(optional)</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={resumeUrl}
+                    onChange={(e) => setResumeUrl(e.target.value)}
+                    placeholder="https://drive.google.com/your-cv-link"
+                    className="w-full px-3.5 py-2.5 border border-[#e2e8f0] rounded-xl
+                      text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500
+                      focus:border-transparent text-[#191c1e] placeholder-[#94a3b8]"
                   />
                 </div>
                 {applyError && <Alert type="error" message={applyError} />}
