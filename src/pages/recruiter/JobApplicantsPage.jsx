@@ -33,12 +33,14 @@ export default function JobApplicantsPage() {
   const [totalPages, setTotalPages]     = useState(0)
   const [statusFilter, setStatusFilterRaw] = useState('')
   const [page, setPage]                 = useState(0)
+  const [sort, setSortRaw]              = useState('appliedAt,desc')
 
-  // Wrapped setter so changing the status filter also resets the page —
+  // Wrapped setters so changing a filter also resets the page —
   // this replaces resetting page via a separate useEffect, which React's
   // docs recommend avoiding since we already control every place the
-  // filter changes (the status tabs below).
+  // filter changes (the status tabs / sort dropdown below).
   const setStatusFilter = (v) => { setStatusFilterRaw(v); setPage(0) }
+  const setSort = (v) => { setSortRaw(v); setPage(0) }
 
   const pageSize = 20
 
@@ -56,6 +58,7 @@ export default function JobApplicantsPage() {
     try {
       const params = {
         page, size: pageSize,
+        sort,
         ...(statusFilter && { status: statusFilter }),
       }
       const res = await getJobApplications(id, params)
@@ -67,7 +70,7 @@ export default function JobApplicantsPage() {
     } finally {
       setLoading(false)
     }
-  }, [id, page, statusFilter])
+  }, [id, page, statusFilter, sort])
 
   // Data-fetching effect: fetchApps() sets loading/error/data state,
   // matching React's documented fetch-on-mount/dependency-change pattern.
@@ -196,6 +199,21 @@ export default function JobApplicantsPage() {
             {label}
           </button>
         ))}
+      </div>
+
+      {/* Sort dropdown */}
+      <div className="flex justify-end mt-3 mb-5">
+        <select
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+          className="text-sm border border-[#e2e8f0] rounded-lg py-2 pl-3
+            pr-8 bg-white focus:outline-none focus:ring-2
+            focus:ring-indigo-500 text-[#0f172a] cursor-pointer"
+        >
+          <option value="appliedAt,desc">Newest first</option>
+          <option value="appliedAt,asc">Oldest first</option>
+          <option value="rating,desc">Highest rated</option>
+        </select>
       </div>
 
       {/* States */}
