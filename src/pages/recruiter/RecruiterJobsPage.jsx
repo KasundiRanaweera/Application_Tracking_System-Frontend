@@ -31,6 +31,7 @@ export default function RecruiterJobsPage() {
   const [statusFilter, setStatusFilterRaw] = useState('')
   const [search, setSearchRaw]      = useState('')
   const [confirmDelete, setConfirmDelete] = useState(null)
+  const [confirmClose, setConfirmClose] = useState(null)
   const [deletingId, setDeletingId] = useState(null)
   const [statusChanging, setStatusChanging] = useState(null)
 
@@ -324,8 +325,8 @@ export default function RecruiterJobsPage() {
                         </Button>
                       )}
 
-                      {/* Status transition */}
-                      {nextStatus(job.status) && (
+                      {/* Status transition — DRAFT → OPEN (one-click) */}
+                      {job.status === 'DRAFT' && (
                         <Button
                           variant="ghost"
                           size="xs"
@@ -337,6 +338,42 @@ export default function RecruiterJobsPage() {
                         >
                           {nextStatusLabel(job.status)}
                         </Button>
+                      )}
+
+                      {/* Status transition — OPEN → CLOSED (with confirm) */}
+                      {job.status === 'OPEN' && (
+                        confirmClose === job.id ? (
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-[#64748b]">Close?</span>
+                            <Button
+                              variant="danger"
+                              size="xs"
+                              loading={statusChanging === job.id}
+                              onClick={() => {
+                                handleStatusChange(job.id, 'CLOSED')
+                                setConfirmClose(null)
+                              }}
+                            >
+                              Yes
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="xs"
+                              onClick={() => setConfirmClose(null)}
+                            >
+                              No
+                            </Button>
+                          </div>
+                        ) : (
+                          <Button
+                            variant="ghost"
+                            size="xs"
+                            onClick={() => setConfirmClose(job.id)}
+                            className="text-indigo-600 hover:bg-indigo-50"
+                          >
+                            → Close
+                          </Button>
+                        )
                       )}
 
                       {/* Delete — only DRAFT */}
