@@ -25,20 +25,13 @@ export default function RegisterPage() {
 
   const validate = () => {
     const e = {}
-    if (!form.name.trim())
-      e.name = 'Full name is required'
-    if (!form.email.trim())
-      e.email = 'Email is required'
-    else if (!/\S+@\S+\.\S+/.test(form.email))
-      e.email = 'Enter a valid email address'
-    if (!form.password)
-      e.password = 'Password is required'
-    else if (form.password.length < 8)
-      e.password = 'Password must be at least 8 characters'
-    if (!form.confirmPassword)
-      e.confirmPassword = 'Please confirm your password'
-    else if (form.password !== form.confirmPassword)
-      e.confirmPassword = 'Passwords do not match'
+    if (!form.name.trim())                         e.name = 'Full name is required'
+    if (!form.email.trim())                        e.email = 'Email is required'
+    else if (!/\S+@\S+\.\S+/.test(form.email))    e.email = 'Enter a valid email address'
+    if (!form.password)                            e.password = 'Password is required'
+    else if (form.password.length < 8)             e.password = 'Must be at least 8 characters'
+    if (!form.confirmPassword)                     e.confirmPassword = 'Please confirm your password'
+    else if (form.password !== form.confirmPassword) e.confirmPassword = 'Passwords do not match'
     return e
   }
 
@@ -47,7 +40,6 @@ export default function RegisterPage() {
     setServerError('')
     const errs = validate()
     if (Object.keys(errs).length) { setErrors(errs); return }
-
     setLoading(true)
     try {
       const res = await registerCandidate({
@@ -63,65 +55,74 @@ export default function RegisterPage() {
     }
   }
 
-  const steps = ['Create account', 'Browse jobs', 'Apply & track']
-
   return (
-    <div className="min-h-screen bg-[#f7f9fb] flex">
+    <div className="min-h-screen flex">
 
       {/* Left panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-indigo-600 flex-col justify-between p-12">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm font-sans">TB</span>
+      <div className="hidden lg:flex lg:w-[46%] flex-col justify-between
+        bg-indigo-600 p-12 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/40
+          rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-800/40
+          rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl pointer-events-none" />
+
+        <div className="relative flex items-center gap-3 z-10">
+          <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center
+            justify-center border border-white/20">
+            <span className="text-white font-black text-sm">TB</span>
           </div>
-          <span className="text-white font-bold text-lg font-sans">TalentBridge</span>
+          <span className="text-white font-bold text-lg tracking-tight">TalentBridge</span>
         </div>
 
-        <div>
-          <h1 className="text-4xl font-bold text-white font-sans leading-tight mb-4">
-            Find your next opportunity.
+        <div className="relative z-10">
+          <h1 className="text-4xl font-black text-white leading-[1.1]
+            tracking-tight mb-5">
+            Find your next<br />opportunity.
           </h1>
-          <p className="text-indigo-200 text-base font-sans leading-relaxed mb-10">
+          <p className="text-indigo-200 text-base leading-relaxed mb-10 max-w-sm">
             Create a free candidate account and start applying to open positions today.
           </p>
 
-          {/* Steps */}
           <div className="space-y-4">
-            {steps.map((step, i) => (
+            {['Create your account', 'Browse open positions', 'Apply & track progress'].map((step, i) => (
               <div key={step} className="flex items-center gap-4">
-                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center
-                  justify-center text-white text-sm font-bold font-sans">
+                <div className="w-8 h-8 rounded-full bg-white/20
+                  flex items-center justify-center text-white text-sm
+                  font-bold flex-shrink-0 border border-white/20">
                   {i + 1}
                 </div>
-                <span className="text-white text-sm font-sans font-medium">{step}</span>
+                <span className="text-white text-sm font-medium">{step}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <p className="text-indigo-300 text-xs font-sans">
-          © {new Date().getFullYear()} TalentBridge ATS. All rights reserved.
+        <p className="relative z-10 text-indigo-400 text-xs">
+          © {new Date().getFullYear()} TalentBridge ATS
         </p>
       </div>
 
-      {/* Right panel — form */}
-      <div className="flex-1 flex flex-col justify-center px-6 py-12 sm:px-12 lg:px-16">
-        <div className="w-full max-w-sm mx-auto">
+      {/* Right panel */}
+      <div className="flex-1 flex flex-col justify-center bg-slate-50
+        px-6 py-12 sm:px-12 lg:px-16">
+        <div className="w-full max-w-[360px] mx-auto">
 
-          {/* Mobile logo */}
-          <div className="flex items-center gap-2 mb-10 lg:hidden">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xs font-sans">TB</span>
+          <Link to="/" className="flex items-center gap-2 mb-10 lg:hidden">
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center
+              justify-center shadow-sm shadow-indigo-300">
+              <span className="text-white font-black text-xs">TB</span>
             </div>
-            <span className="font-bold text-[#0f172a] font-sans">TalentBridge</span>
-          </div>
+            <span className="font-bold text-slate-900">TalentBridge</span>
+          </Link>
 
-          <h2 className="text-2xl font-bold text-[#0f172a] font-sans mb-1">
-            Create your account
-          </h2>
-          <p className="text-sm text-[#64748b] font-sans mb-8">
-            Join TalentBridge as a candidate — it's free
-          </p>
+          <div className="mb-7">
+            <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-1">
+              Create your account
+            </h2>
+            <p className="text-sm text-slate-500">
+              Join TalentBridge as a candidate — it's free
+            </p>
+          </div>
 
           {serverError && (
             <div className="mb-5">
@@ -131,68 +132,45 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
-              id="name"
-              label="Full name"
-              value={form.name}
-              onChange={handleChange}
+              id="name" label="Full name"
+              value={form.name} onChange={handleChange}
               placeholder="Jane Doe"
-              error={errors.name}
-              required
+              error={errors.name} required
             />
             <Input
-              id="email"
-              label="Email address"
-              type="email"
-              value={form.email}
-              onChange={handleChange}
+              id="email" label="Email address" type="email"
+              value={form.email} onChange={handleChange}
               placeholder="you@example.com"
-              error={errors.email}
-              required
+              error={errors.email} required
             />
             <Input
-              id="password"
-              label="Password"
-              type="password"
-              value={form.password}
-              onChange={handleChange}
+              id="password" label="Password" type="password"
+              value={form.password} onChange={handleChange}
               placeholder="At least 8 characters"
               error={errors.password}
               hint="Minimum 8 characters"
               required
             />
             <Input
-              id="confirmPassword"
-              label="Confirm password"
-              type="password"
-              value={form.confirmPassword}
-              onChange={handleChange}
+              id="confirmPassword" label="Confirm password" type="password"
+              value={form.confirmPassword} onChange={handleChange}
               placeholder="Repeat your password"
-              error={errors.confirmPassword}
-              required
+              error={errors.confirmPassword} required
             />
-            <Button
-              type="submit"
-              loading={loading}
-              fullWidth
-              size="lg"
-              className="mt-2"
-            >
-              Create account
+            <Button type="submit" loading={loading} fullWidth size="lg">
+              Create account →
             </Button>
           </form>
 
-          <p className="text-sm text-center text-[#64748b] font-sans mt-6">
+          <p className="text-sm text-center text-slate-500 mt-6">
             Already have an account?{' '}
-            <Link
-              to="/login"
-              className="text-indigo-600 font-semibold hover:text-indigo-700"
-            >
+            <Link to="/login"
+              className="text-indigo-600 font-semibold hover:text-indigo-700">
               Sign in
             </Link>
           </p>
-
-          <p className="text-xs text-center text-[#94a3b8] font-sans mt-4 leading-relaxed">
-            Recruiter accounts are provisioned by the company admin — they cannot self-register.
+          <p className="text-xs text-center text-slate-400 mt-4 leading-relaxed">
+            Recruiter accounts are provisioned by the company — they cannot self-register.
           </p>
         </div>
       </div>

@@ -1,12 +1,32 @@
-export default function Card({ children, className = '', onClick, hover = false }) {
+export default function Card({
+  children,
+  className = '',
+  onClick,
+  hover = false,
+  padding = 'default',
+}) {
+  const paddings = {
+    none:    '',
+    sm:      'p-4',
+    default: 'p-5',
+    lg:      'p-6',
+  }
+
   return (
     <div
       onClick={onClick}
-      className={`
-        bg-white rounded-xl border border-[#e2e8f0] p-6
-        ${hover ? 'hover:shadow-md hover:border-indigo-200 transition-all duration-200 cursor-pointer' : ''}
-        ${className}
-      `}
+      className={[
+        'bg-white rounded-xl border border-slate-200',
+        'shadow-sm',
+        paddings[padding] ?? paddings.default,
+        hover ? [
+          'cursor-pointer',
+          'hover:border-indigo-300 hover:shadow-md',
+          'hover:-translate-y-0.5',
+          'transition-all duration-200',
+        ].join(' ') : '',
+        className,
+      ].join(' ')}
     >
       {children}
     </div>

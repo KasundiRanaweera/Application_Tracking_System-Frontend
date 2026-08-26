@@ -1,140 +1,197 @@
 import { useState } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/AuthContext'
+
+function NavLink({ to, children }) {
+  const { pathname } = useLocation()
+  const active = pathname === to || pathname.startsWith(to + '/')
+
+  return (
+    <Link
+      to={to}
+      className={[
+        'relative px-3 py-1.5 text-sm font-semibold rounded-md',
+        'transition-colors duration-150',
+        active
+          ? 'text-indigo-600 bg-indigo-50'
+          : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100',
+      ].join(' ')}
+    >
+      {children}
+      {active && (
+        <span className="absolute bottom-0 left-1/2 -translate-x-1/2
+          translate-y-[14px] w-4 h-0.5 bg-indigo-600 rounded-full" />
+      )}
+    </Link>
+  )
+}
 
 export default function Navbar() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-  const location = useLocation()
   const [open, setOpen] = useState(false)
 
   const isRec = user?.role === 'RECRUITER'
   const isCan = user?.role === 'USER'
 
-  const handleLogout = () => { logout(); navigate('/login') }
-
-  const active = (path) =>
-    location.pathname === path || location.pathname.startsWith(path + '/')
-
-  const navLink = (path, label) => (
-    <Link
-      to={path}
-      className={`text-sm font-semibold font-sans px-3 py-1.5 rounded-lg transition-colors ${
-        active(path)
-          ? 'text-indigo-600 bg-indigo-50'
-          : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f2f4f6]'
-      }`}
-    >
-      {label}
-    </Link>
-  )
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
 
   return (
-    <nav className="bg-white border-b border-[#e2e8f0] sticky top-0 z-50">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm
+      border-b border-slate-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
-              <span className="text-white font-bold text-xs font-sans">TB</span>
+          <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center
+              justify-center shadow-sm shadow-indigo-300">
+              <span className="text-white font-black text-xs tracking-tight">
+                TB
+              </span>
             </div>
-            <span className="font-bold text-[#0f172a] font-sans text-base">
+            <span className="font-bold text-slate-900 text-[15px]
+              tracking-tight hidden sm:block">
               TalentBridge
             </span>
           </Link>
 
-          {/* Desktop links */}
+          {/* Desktop nav */}
           {user && (
-            <div className="hidden md:flex items-center gap-1">
-              {isCan && (<>
-                {navLink('/jobs', 'Browse Jobs')}
-                {navLink('/my-applications', 'My Applications')}
-              </>)}
-              {isRec && (<>
-                {navLink('/recruiter/dashboard', 'Dashboard')}
-                {navLink('/recruiter/jobs', 'My Jobs')}
-              </>)}
-            </div>
+            <nav className="hidden md:flex items-center gap-1">
+              {isCan && (
+                <>
+                  <NavLink to="/jobs">Browse Jobs</NavLink>
+                  <NavLink to="/my-applications">My Applications</NavLink>
+                </>
+              )}
+              {isRec && (
+                <>
+                  <NavLink to="/recruiter/dashboard">Dashboard</NavLink>
+                  <NavLink to="/recruiter/jobs">My Jobs</NavLink>
+                </>
+              )}
+            </nav>
           )}
 
-          {/* User area */}
+          {/* Right side */}
           {user && (
             <div className="hidden md:flex items-center gap-3">
-              <div className="flex items-center gap-2.5 pl-4 border-l border-[#e2e8f0]">
-                <div className={`
-                  w-8 h-8 rounded-full flex items-center justify-center text-xs
-                  font-bold text-white font-sans
-                  ${isRec ? 'bg-indigo-600' : 'bg-blue-500'}
-                `}>
+              <div className="flex items-center gap-2.5 pl-3
+                border-l border-slate-200">
+
+                {/* Avatar + name */}
+                <div className={[
+                  'w-8 h-8 rounded-full flex items-center justify-center',
+                  'text-xs font-bold text-white flex-shrink-0',
+                  'shadow-sm',
+                  isRec
+                    ? 'bg-gradient-to-br from-indigo-500 to-indigo-700'
+                    : 'bg-gradient-to-br from-blue-500 to-blue-700',
+                ].join(' ')}>
                   {user.name?.charAt(0).toUpperCase()}
                 </div>
-                <div>
-                  <p className="text-xs font-semibold text-[#0f172a] font-sans leading-none">
+
+                <div className="hidden lg:block leading-none">
+                  <p className="text-xs font-semibold text-slate-800">
                     {user.name}
                   </p>
-                  <p className="text-xs text-[#64748b] font-sans mt-0.5">
+                  <p className="text-[11px] text-slate-400 mt-0.5">
                     {isRec ? 'Recruiter' : 'Candidate'}
                   </p>
                 </div>
               </div>
+
               <button
                 onClick={handleLogout}
-                className="text-xs font-semibold text-[#64748b] hover:text-red-500
-                  font-sans transition-colors px-2 py-1 rounded"
+                className="text-xs font-semibold text-slate-400
+                  hover:text-red-500 transition-colors px-2 py-1 rounded
+                  hover:bg-red-50"
               >
                 Sign out
               </button>
             </div>
           )}
 
-          {/* Mobile hamburger */}
+          {/* Mobile burger */}
           {user && (
             <button
-              onClick={() => setOpen(!open)}
-              className="md:hidden p-2 rounded-lg text-[#64748b] hover:bg-[#f2f4f6]"
+              onClick={() => setOpen(v => !v)}
+              className="md:hidden p-2 rounded-lg text-slate-500
+                hover:bg-slate-100 transition-colors"
+              aria-label="Toggle menu"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
                 {open
-                  ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
-                  : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>}
+                  ? <path strokeLinecap="round" strokeLinejoin="round"
+                      strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+                  : <path strokeLinecap="round" strokeLinejoin="round"
+                      strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>}
               </svg>
             </button>
           )}
         </div>
-
-        {/* Mobile menu */}
-        {user && open && (
-          <div className="md:hidden border-t border-[#e2e8f0] py-3 space-y-1">
-            {isCan && (<>
-              <Link to="/jobs" onClick={() => setOpen(false)}
-                className="block px-3 py-2 text-sm font-sans text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
-                Browse Jobs
-              </Link>
-              <Link to="/my-applications" onClick={() => setOpen(false)}
-                className="block px-3 py-2 text-sm font-sans text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
-                My Applications
-              </Link>
-            </>)}
-            {isRec && (<>
-              <Link to="/recruiter/dashboard" onClick={() => setOpen(false)}
-                className="block px-3 py-2 text-sm font-sans text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
-                Dashboard
-              </Link>
-              <Link to="/recruiter/jobs" onClick={() => setOpen(false)}
-                className="block px-3 py-2 text-sm font-sans text-[#0f172a] hover:bg-[#f2f4f6] rounded-lg">
-                My Jobs
-              </Link>
-            </>)}
-            <div className="px-3 py-2 border-t border-[#e2e8f0] mt-2 flex items-center justify-between">
-              <span className="text-sm font-semibold text-[#0f172a] font-sans">{user.name}</span>
-              <button onClick={handleLogout} className="text-xs text-red-500 font-sans font-semibold">
-                Sign out
-              </button>
-            </div>
-          </div>
-        )}
       </div>
-    </nav>
+
+      {/* Mobile dropdown */}
+      {user && open && (
+        <div className="md:hidden border-t border-slate-200 bg-white
+          shadow-lg animate-fade-up">
+          <div className="px-4 py-3 space-y-1">
+            {isCan && (
+              <>
+                <Link to="/jobs" onClick={() => setOpen(false)}
+                  className="block px-3 py-2 text-sm font-medium text-slate-700
+                    hover:bg-slate-50 rounded-lg">
+                  Browse Jobs
+                </Link>
+                <Link to="/my-applications" onClick={() => setOpen(false)}
+                  className="block px-3 py-2 text-sm font-medium text-slate-700
+                    hover:bg-slate-50 rounded-lg">
+                  My Applications
+                </Link>
+              </>
+            )}
+            {isRec && (
+              <>
+                <Link to="/recruiter/dashboard" onClick={() => setOpen(false)}
+                  className="block px-3 py-2 text-sm font-medium text-slate-700
+                    hover:bg-slate-50 rounded-lg">
+                  Dashboard
+                </Link>
+                <Link to="/recruiter/jobs" onClick={() => setOpen(false)}
+                  className="block px-3 py-2 text-sm font-medium text-slate-700
+                    hover:bg-slate-50 rounded-lg">
+                  My Jobs
+                </Link>
+              </>
+            )}
+          </div>
+          <div className="px-4 py-3 border-t border-slate-100
+            flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className={[
+                'w-7 h-7 rounded-full flex items-center justify-center',
+                'text-[11px] font-bold text-white',
+                isRec ? 'bg-indigo-600' : 'bg-blue-500',
+              ].join(' ')}>
+                {user.name?.charAt(0).toUpperCase()}
+              </div>
+              <span className="text-sm font-semibold text-slate-700">
+                {user.name}
+              </span>
+            </div>
+            <button onClick={handleLogout}
+              className="text-xs font-semibold text-red-500 hover:text-red-700">
+              Sign out
+            </button>
+          </div>
+        </div>
+      )}
+    </header>
   )
 }
