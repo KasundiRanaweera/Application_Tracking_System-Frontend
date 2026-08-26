@@ -279,7 +279,8 @@ export default function CreateJobPage() {
               <div className="flex items-center gap-2">
                 <div className="relative flex-1">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2
-                    text-[#64748b] text-sm">$</span>
+                    text-slate-400 text-sm">Rs.</span>
+                    
                   <input
                     id="salaryMin"
                     type="number"
@@ -295,7 +296,7 @@ export default function CreateJobPage() {
                 <span className="text-[#64748b] text-sm flex-shrink-0">—</span>
                 <div className="relative flex-1">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2
-                    text-[#64748b] text-sm">$</span>
+                    text-slate-400 text-sm">Rs.</span>
                   <input
                     id="salaryMax"
                     type="number"
