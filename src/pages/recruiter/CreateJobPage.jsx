@@ -274,20 +274,19 @@ export default function CreateJobPage() {
             </h2>
             <div className="space-y-3">
               <label className="block text-sm font-semibold text-[#0f172a]">
-                Salary Range (Annual)
+                Salary Range (Annual, LKR)
               </label>
               <div className="flex items-center gap-2">
                 <div className="relative flex-1">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2
                     text-slate-400 text-sm">Rs.</span>
-                    
                   <input
                     id="salaryMin"
                     type="number"
                     value={form.salaryMin}
                     onChange={handleChange}
                     placeholder="Min"
-                    className="w-full pl-7 pr-3 py-2.5 border border-[#e2e8f0]
+                    className="w-full pl-9 pr-3 py-2.5 border border-[#e2e8f0]
                       rounded-lg text-sm focus:outline-none focus:ring-2
                       focus:ring-indigo-500 focus:border-transparent
                       text-[#0f172a]"
@@ -303,7 +302,7 @@ export default function CreateJobPage() {
                     value={form.salaryMax}
                     onChange={handleChange}
                     placeholder="Max"
-                    className="w-full pl-7 pr-3 py-2.5 border border-[#e2e8f0]
+                    className="w-full pl-9 pr-3 py-2.5 border border-[#e2e8f0]
                       rounded-lg text-sm focus:outline-none focus:ring-2
                       focus:ring-indigo-500 focus:border-transparent
                       text-[#0f172a]"
