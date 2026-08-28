@@ -173,7 +173,14 @@ export default function RegisterPage() {
             </Link>
           </p>
           <p className="text-xs text-center text-slate-400 mt-4 leading-relaxed">
-            Recruiter accounts are provisioned by the company — they cannot self-register.
+            By signing up, you agree to our{' '}
+            <a href="/terms" className="underline hover:text-slate-500">
+              Terms of Service
+            </a>
+            {' '}and{' '}
+            <a href="/privacy" className="underline hover:text-slate-500">
+              Privacy Policy
+            </a>
           </p>
         </div>
       </div>
