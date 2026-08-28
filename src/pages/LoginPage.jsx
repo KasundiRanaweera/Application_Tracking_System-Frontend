@@ -47,61 +47,91 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex">
 
-      {/* Left — indigo brand panel */}
+      {/* Left — ink hero panel */}
       <div className="hidden lg:flex lg:w-[46%] flex-col justify-between
-        bg-indigo-600 p-12 relative overflow-hidden">
+        bg-slate-950 p-12 relative overflow-hidden">
 
-        {/* Decorative blobs */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/40
-          rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl
-          pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-800/40
-          rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl
+        {/* Ambient brand glow + dot-grid texture, not a blurred blob */}
+        <div className="absolute -top-24 -right-24 w-[28rem] h-[28rem]
+          bg-brand-600/30 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute inset-0 bg-grid-dots opacity-40
           pointer-events-none" />
 
         {/* Logo */}
         <div className="relative flex items-center gap-3 z-10">
-          <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center
-            justify-center backdrop-blur-sm border border-white/20">
+          <div className="w-9 h-9 bg-brand-500 rounded-xl flex items-center
+            justify-center shadow-lg shadow-brand-500/30">
             <span className="text-white font-black text-sm">TB</span>
           </div>
-          <span className="text-white font-bold text-lg tracking-tight">
+          <span className="text-white font-display font-bold text-lg tracking-tight">
             TalentBridge
           </span>
         </div>
 
         {/* Hero text */}
         <div className="relative z-10">
-          <h1 className="text-4xl font-black text-white leading-[1.1]
+          <p className="text-brand-400 text-xs font-bold uppercase
+            tracking-[0.14em] mb-4">
+            Applicant Tracking, Simplified
+          </p>
+          <h1 className="text-[2.75rem] font-extrabold text-white leading-[1.08]
             tracking-tight mb-5">
             The smarter way<br />to hire great people.
           </h1>
-          <p className="text-indigo-200 text-base leading-relaxed mb-10
+          <p className="text-slate-400 text-base leading-relaxed mb-10
             max-w-sm">
             Post jobs, review applicants, and move candidates through
             your pipeline — all in one place.
           </p>
 
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { v: 'Open Jobs',  l: 'Active positions'  },
-              { v: '6 Stages',   l: 'Hiring pipeline'   },
-              { v: '2 Roles',    l: 'Candidate & recruiter' },
-              { v: 'Real-time',  l: 'Status updates'    },
-            ].map(({ v, l }) => (
-              <div key={l}
-                className="bg-white/10 backdrop-blur-sm rounded-xl p-4
-                  border border-white/10">
-                <p className="text-white font-bold text-lg tracking-tight">
-                  {v}
-                </p>
-                <p className="text-indigo-300 text-xs mt-0.5">{l}</p>
-              </div>
-            ))}
+          {/* Signature: the real hiring pipeline as a connected ladder,
+              not a decorative stat grid — it shows what the product does. */}
+          <div className="relative pl-1">
+            <div className="absolute left-[15px] top-2 bottom-2 w-px
+              bg-gradient-to-b from-brand-500/70 via-white/15 to-transparent" />
+            <div className="space-y-3.5">
+              {[
+                { label: 'Applied',       state: 'done' },
+                { label: 'Under Review',  state: 'done' },
+                { label: 'Shortlisted',   state: 'done' },
+                { label: 'Interview',     state: 'active' },
+                { label: 'Offer',         state: 'pending' },
+                { label: 'Hired',         state: 'pending' },
+              ].map(({ label, state }) => (
+                <div key={label} className="relative flex items-center gap-4">
+                  <div className={[
+                    'relative z-10 w-[31px] h-[31px] rounded-full flex-shrink-0',
+                    'flex items-center justify-center border',
+                    state === 'active'
+                      ? 'bg-brand-500 border-brand-400 shadow-lg shadow-brand-500/40'
+                      : state === 'done'
+                        ? 'bg-slate-900 border-brand-500/60'
+                        : 'bg-slate-900 border-white/10',
+                  ].join(' ')}>
+                    {state === 'done' && (
+                      <svg className="w-3.5 h-3.5 text-brand-400" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round"
+                          strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                    {state === 'active' && (
+                      <div className="w-2 h-2 rounded-full bg-white" />
+                    )}
+                  </div>
+                  <span className={[
+                    'text-sm font-semibold',
+                    state === 'pending' ? 'text-slate-500' : 'text-white',
+                  ].join(' ')}>
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        <p className="relative z-10 text-indigo-400 text-xs">
+        <p className="relative z-10 text-slate-600 text-xs">
           © {new Date().getFullYear()} TalentBridge ATS
         </p>
       </div>
@@ -113,15 +143,15 @@ export default function LoginPage() {
 
           {/* Mobile logo */}
           <Link to="/" className="flex items-center gap-2 mb-10 lg:hidden">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center
-              justify-center shadow-sm shadow-indigo-300">
+            <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center
+              justify-center shadow-sm">
               <span className="text-white font-black text-xs">TB</span>
             </div>
-            <span className="font-bold text-slate-900">TalentBridge</span>
+            <span className="font-display font-bold text-slate-900">TalentBridge</span>
           </Link>
 
           <div className="mb-8">
-            <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-1">
+            <h2 className="text-2xl text-slate-900 tracking-tight mb-1">
               Welcome back
             </h2>
             <p className="text-sm text-slate-500">
@@ -167,36 +197,10 @@ export default function LoginPage() {
           <p className="text-sm text-center text-slate-500 mt-6">
             New to TalentBridge?{' '}
             <Link to="/register"
-              className="text-indigo-600 font-semibold hover:text-indigo-700">
+              className="text-brand-600 font-semibold hover:text-brand-700">
               Create an account
             </Link>
           </p>
-
-          {/* Demo box */}
-          <div className="mt-8 rounded-xl border border-slate-200
-            bg-white overflow-hidden shadow-sm">
-            <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-200">
-              <p className="text-xs font-bold text-slate-500 uppercase
-                tracking-wider">
-                Demo credentials
-              </p>
-            </div>
-            <div className="px-4 py-3 space-y-2">
-              {[
-                { l: 'Email',    v: 'recruiter@talentbridge.com' },
-                { l: 'Password', v: 'Recruiter@123'              },
-              ].map(({ l, v }) => (
-                <div key={l}
-                  className="flex items-center justify-between gap-3">
-                  <span className="text-xs text-slate-400 font-medium
-                    flex-shrink-0">{l}</span>
-                  <span className="text-xs font-mono font-semibold
-                    text-slate-700 truncate">{v}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
         </div>
       </div>
     </div>

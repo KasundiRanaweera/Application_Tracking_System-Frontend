@@ -109,7 +109,7 @@ export default function EditJobPage() {
         <button
           onClick={() => navigate('/recruiter/jobs')}
           className="inline-flex items-center gap-1.5 text-sm text-[#64748b]
-            hover:text-indigo-600 mb-4 transition-colors font-medium group"
+            hover:text-brand-600 mb-4 transition-colors font-medium group"
         >
           <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,7 +160,7 @@ export default function EditJobPage() {
                   rows={5}
                   className={`w-full px-3.5 py-2.5 border rounded-lg text-sm
                     resize-y focus:outline-none focus:ring-2
-                    focus:ring-indigo-500 focus:border-transparent
+                    focus:ring-brand-500 focus:border-transparent
                     text-[#0f172a]
                     ${errors.description
                       ? 'border-red-400' : 'border-[#e2e8f0]'}`}
@@ -183,7 +183,7 @@ export default function EditJobPage() {
                     onChange={handleChange}
                     className="w-full px-3.5 py-2.5 border border-[#e2e8f0]
                       rounded-lg text-sm bg-white text-[#0f172a]
-                      focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      focus:outline-none focus:ring-2 focus:ring-brand-500"
                   >
                     {EMP_TYPES.map(t => (
                       <option key={t} value={t}>{EMP_LABELS[t]}</option>
@@ -214,7 +214,7 @@ export default function EditJobPage() {
               placeholder="e.g. React, TypeScript, Node.js"
               className="w-full px-3.5 py-2.5 border border-[#e2e8f0]
                 rounded-lg text-sm focus:outline-none focus:ring-2
-                focus:ring-indigo-500 text-[#0f172a]"
+                focus:ring-brand-500 text-[#0f172a]"
             />
             {form.requiredSkills && (
               <div className="flex flex-wrap gap-2 mt-3">
@@ -222,8 +222,8 @@ export default function EditJobPage() {
                   .split(',').map(s => s.trim()).filter(Boolean)
                   .map(s => (
                     <span key={s}
-                      className="px-3 py-1 bg-indigo-50 border
-                        border-indigo-200 text-indigo-700 text-xs
+                      className="px-3 py-1 bg-brand-50 border
+                        border-brand-200 text-brand-700 text-xs
                         font-semibold rounded-full">
                       {s}
                     </span>
@@ -255,8 +255,8 @@ export default function EditJobPage() {
                       className={`py-2 px-3 rounded-lg border text-xs
                         font-semibold transition-all
                         ${form.workMode === m
-                          ? 'bg-indigo-600 text-white border-indigo-600'
-                          : 'border-[#e2e8f0] text-[#64748b] hover:border-indigo-300'}`}
+                          ? 'bg-brand-600 text-white border-brand-600'
+                          : 'border-[#e2e8f0] text-[#64748b] hover:border-brand-300'}`}
                     >
                       {WORK_LABELS[m]}
                     </button>
@@ -290,7 +290,7 @@ export default function EditJobPage() {
                   placeholder="Min"
                   className="w-full pl-9 pr-3 py-2.5 border border-[#e2e8f0]
                     rounded-lg text-sm focus:outline-none focus:ring-2
-                    focus:ring-indigo-500 text-[#0f172a]"
+                    focus:ring-brand-500 text-[#0f172a]"
                 />
               </div>
               <span className="text-[#64748b] text-sm">—</span>
@@ -305,7 +305,7 @@ export default function EditJobPage() {
                   placeholder="Max"
                   className="w-full pl-9 pr-3 py-2.5 border border-[#e2e8f0]
                     rounded-lg text-sm focus:outline-none focus:ring-2
-                    focus:ring-indigo-500 text-[#0f172a]"
+                    focus:ring-brand-500 text-[#0f172a]"
                 />
               </div>
             </div>
@@ -318,7 +318,7 @@ export default function EditJobPage() {
               size="lg"
               loading={loading}
               onClick={handleSubmit}
-              className="shadow-md shadow-indigo-200"
+              className="shadow-md shadow-brand-200"
             >
               Save Changes
             </Button>

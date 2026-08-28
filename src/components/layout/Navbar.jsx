@@ -13,14 +13,14 @@ function NavLink({ to, children }) {
         'relative px-3 py-1.5 text-sm font-semibold rounded-md',
         'transition-colors duration-150',
         active
-          ? 'text-indigo-600 bg-indigo-50'
+          ? 'text-brand-600 bg-brand-50'
           : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100',
       ].join(' ')}
     >
       {children}
       {active && (
         <span className="absolute bottom-0 left-1/2 -translate-x-1/2
-          translate-y-[14px] w-4 h-0.5 bg-indigo-600 rounded-full" />
+          translate-y-[14px] w-4 h-0.5 bg-brand-600 rounded-full" />
       )}
     </Link>
   )
@@ -47,13 +47,13 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center
-              justify-center shadow-sm shadow-indigo-300">
+            <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center
+              justify-center shadow-sm">
               <span className="text-white font-black text-xs tracking-tight">
                 TB
               </span>
             </div>
-            <span className="font-bold text-slate-900 text-[15px]
+            <span className="font-display font-bold text-slate-900 text-[15px]
               tracking-tight hidden sm:block">
               TalentBridge
             </span>
@@ -89,7 +89,7 @@ export default function Navbar() {
                   'text-xs font-bold text-white flex-shrink-0',
                   'shadow-sm',
                   isRec
-                    ? 'bg-gradient-to-br from-indigo-500 to-indigo-700'
+                    ? 'bg-gradient-to-br from-brand-500 to-brand-700'
                     : 'bg-gradient-to-br from-blue-500 to-blue-700',
                 ].join(' ')}>
                   {user.name?.charAt(0).toUpperCase()}
@@ -177,7 +177,7 @@ export default function Navbar() {
               <div className={[
                 'w-7 h-7 rounded-full flex items-center justify-center',
                 'text-[11px] font-bold text-white',
-                isRec ? 'bg-indigo-600' : 'bg-blue-500',
+                isRec ? 'bg-brand-600' : 'bg-blue-500',
               ].join(' ')}>
                 {user.name?.charAt(0).toUpperCase()}
               </div>

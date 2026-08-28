@@ -17,7 +17,7 @@ export default function Input({
     'w-full text-sm text-slate-900 bg-white placeholder-slate-400',
     'border rounded-lg',
     'transition-all duration-150',
-    'focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500',
+    'focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500',
     'disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed',
     prefix ? 'pl-9 pr-3 py-2.5' : 'px-3.5 py-2.5',
     suffix ? 'pr-9'             : '',

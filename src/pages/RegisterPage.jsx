@@ -60,35 +60,38 @@ export default function RegisterPage() {
 
       {/* Left panel */}
       <div className="hidden lg:flex lg:w-[46%] flex-col justify-between
-        bg-indigo-600 p-12 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/40
-          rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-800/40
-          rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl pointer-events-none" />
+        bg-slate-950 p-12 relative overflow-hidden">
+        <div className="absolute -bottom-24 -left-24 w-[28rem] h-[28rem]
+          bg-brand-600/30 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute inset-0 bg-grid-dots opacity-40 pointer-events-none" />
 
         <div className="relative flex items-center gap-3 z-10">
-          <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center
-            justify-center border border-white/20">
+          <div className="w-9 h-9 bg-brand-500 rounded-xl flex items-center
+            justify-center shadow-lg shadow-brand-500/30">
             <span className="text-white font-black text-sm">TB</span>
           </div>
-          <span className="text-white font-bold text-lg tracking-tight">TalentBridge</span>
+          <span className="text-white font-display font-bold text-lg tracking-tight">TalentBridge</span>
         </div>
 
         <div className="relative z-10">
-          <h1 className="text-4xl font-black text-white leading-[1.1]
+          <p className="text-brand-400 text-xs font-bold uppercase
+            tracking-[0.14em] mb-4">
+            Join as a Candidate
+          </p>
+          <h1 className="text-[2.75rem] font-extrabold text-white leading-[1.08]
             tracking-tight mb-5">
             Find your next<br />opportunity.
           </h1>
-          <p className="text-indigo-200 text-base leading-relaxed mb-10 max-w-sm">
+          <p className="text-slate-400 text-base leading-relaxed mb-10 max-w-sm">
             Create a free candidate account and start applying to open positions today.
           </p>
 
           <div className="space-y-4">
             {['Create your account', 'Browse open positions', 'Apply & track progress'].map((step, i) => (
               <div key={step} className="flex items-center gap-4">
-                <div className="w-8 h-8 rounded-full bg-white/20
-                  flex items-center justify-center text-white text-sm
-                  font-bold flex-shrink-0 border border-white/20">
+                <div className="w-8 h-8 rounded-full bg-slate-900
+                  flex items-center justify-center text-brand-400 text-sm
+                  font-bold flex-shrink-0 border border-brand-500/40">
                   {i + 1}
                 </div>
                 <span className="text-white text-sm font-medium">{step}</span>
@@ -97,7 +100,7 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <p className="relative z-10 text-indigo-400 text-xs">
+        <p className="relative z-10 text-slate-600 text-xs">
           © {new Date().getFullYear()} TalentBridge ATS
         </p>
       </div>
@@ -108,15 +111,15 @@ export default function RegisterPage() {
         <div className="w-full max-w-[360px] mx-auto">
 
           <Link to="/" className="flex items-center gap-2 mb-10 lg:hidden">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center
-              justify-center shadow-sm shadow-indigo-300">
+            <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center
+              justify-center shadow-sm">
               <span className="text-white font-black text-xs">TB</span>
             </div>
-            <span className="font-bold text-slate-900">TalentBridge</span>
+            <span className="font-display font-bold text-slate-900">TalentBridge</span>
           </Link>
 
           <div className="mb-7">
-            <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-1">
+            <h2 className="text-2xl text-slate-900 tracking-tight mb-1">
               Create your account
             </h2>
             <p className="text-sm text-slate-500">
@@ -165,7 +168,7 @@ export default function RegisterPage() {
           <p className="text-sm text-center text-slate-500 mt-6">
             Already have an account?{' '}
             <Link to="/login"
-              className="text-indigo-600 font-semibold hover:text-indigo-700">
+              className="text-brand-600 font-semibold hover:text-brand-700">
               Sign in
             </Link>
           </p>

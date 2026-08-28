@@ -128,8 +128,8 @@ export default function MyApplicationsPage() {
               label: 'Active',
               value: active,
               icon: '⚡',
-              color: 'text-indigo-600',
-              bg:    'bg-indigo-50',
+              color: 'text-brand-600',
+              bg:    'bg-brand-50',
             },
             {
               label: 'Hired',
@@ -175,7 +175,7 @@ export default function MyApplicationsPage() {
               flex-shrink-0 px-4 py-2 rounded-lg text-sm font-semibold
               transition-all duration-150 whitespace-nowrap
               ${statusFilter === value
-                ? 'bg-indigo-600 text-white shadow-sm'
+                ? 'bg-brand-600 text-white shadow-sm'
                 : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f7f9fb]'}
             `}
           >
@@ -331,16 +331,16 @@ export default function MyApplicationsPage() {
                                   <div className={`
                                     w-3 h-3 rounded-full border-2 transition-all
                                     ${isDone
-                                      ? 'bg-indigo-600 border-indigo-600'
+                                      ? 'bg-brand-600 border-brand-600'
                                       : isCurrent
-                                        ? 'bg-white border-indigo-600 shadow-sm shadow-indigo-200 ring-2 ring-indigo-100'
+                                        ? 'bg-white border-brand-600 shadow-sm shadow-brand-200 ring-2 ring-brand-100'
                                         : 'bg-white border-[#e2e8f0]'}
                                   `}/>
                                   <span className={`
                                     text-xs hidden sm:block font-medium
                                     leading-none
                                     ${isCurrent
-                                      ? 'text-indigo-600'
+                                      ? 'text-brand-600'
                                       : isDone
                                         ? 'text-[#64748b]'
                                         : 'text-[#e2e8f0]'}
@@ -358,7 +358,7 @@ export default function MyApplicationsPage() {
                                   <div className={`
                                     flex-1 h-0.5 mx-1 rounded-full
                                     ${idx < currentIdx
-                                      ? 'bg-indigo-600'
+                                      ? 'bg-brand-600'
                                       : 'bg-[#e2e8f0]'}
                                   `}/>
                                 )}

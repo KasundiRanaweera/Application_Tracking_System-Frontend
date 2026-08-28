@@ -161,7 +161,7 @@ export default function ApplicantReviewPage() {
       <button
         onClick={() => navigate(-1)}
         className="inline-flex items-center gap-1.5 text-sm text-[#64748b]
-          hover:text-indigo-600 mb-6 transition-colors font-medium group"
+          hover:text-brand-600 mb-6 transition-colors font-medium group"
       >
         <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
           fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -178,8 +178,8 @@ export default function ApplicantReviewPage() {
 
           {/* Candidate info */}
           <div className="flex items-start gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-indigo-100 flex
-              items-center justify-center text-indigo-600 font-bold
+            <div className="w-14 h-14 rounded-2xl bg-brand-100 flex
+              items-center justify-center text-brand-600 font-bold
               text-xl flex-shrink-0">
               {application.candidateName?.charAt(0).toUpperCase() || '?'}
             </div>
@@ -241,9 +241,9 @@ export default function ApplicantReviewPage() {
                           justify-center text-xs font-bold border-2
                           transition-all
                           ${isDone
-                            ? 'bg-indigo-600 border-indigo-600 text-white'
+                            ? 'bg-brand-600 border-brand-600 text-white'
                             : isCurrent
-                              ? 'bg-white border-indigo-600 text-indigo-600 ring-4 ring-indigo-50'
+                              ? 'bg-white border-brand-600 text-brand-600 ring-4 ring-brand-50'
                               : 'bg-white border-[#e2e8f0] text-[#94a3b8]'}
                         `}>
                           {isDone
@@ -253,7 +253,7 @@ export default function ApplicantReviewPage() {
                         <span className={`text-xs font-medium text-center
                           leading-tight hidden sm:block w-16
                           ${isCurrent
-                            ? 'text-indigo-600'
+                            ? 'text-brand-600'
                             : isDone
                               ? 'text-[#64748b]'
                               : 'text-[#94a3b8]'}
@@ -266,7 +266,7 @@ export default function ApplicantReviewPage() {
                       {!isLast && (
                         <div className={`flex-1 h-0.5 mx-1
                           ${idx < currentIdx
-                            ? 'bg-indigo-600'
+                            ? 'bg-brand-600'
                             : 'bg-[#e2e8f0]'}
                         `}/>
                       )}
@@ -314,7 +314,7 @@ export default function ApplicantReviewPage() {
                 placeholder="Add an internal note about this candidate..."
                 className={`w-full px-3.5 py-3 border rounded-xl text-sm
                   resize-none focus:outline-none focus:ring-2
-                  focus:ring-indigo-500 focus:border-transparent
+                  focus:ring-brand-500 focus:border-transparent
                   placeholder-[#94a3b8] text-[#0f172a]
                   ${noteError ? 'border-red-400' : 'border-[#e2e8f0]'}`}
               />
@@ -350,8 +350,8 @@ export default function ApplicantReviewPage() {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-indigo-100
-                          flex items-center justify-center text-indigo-600
+                        <div className="w-6 h-6 rounded-full bg-brand-100
+                          flex items-center justify-center text-brand-600
                           text-xs font-bold">
                           {note.recruiterName?.charAt(0).toUpperCase()}
                         </div>
@@ -467,7 +467,7 @@ export default function ApplicantReviewPage() {
                   .map((status) => (
                     <div key={status}>
                       {confirmStatus === status ? (
-                        <div className="bg-indigo-50 border border-indigo-200
+                        <div className="bg-brand-50 border border-brand-200
                           rounded-xl p-3 text-center">
                           <p className="text-xs text-[#0f172a] mb-3">
                             Move to{' '}
@@ -494,7 +494,7 @@ export default function ApplicantReviewPage() {
                         <Button
                           fullWidth
                           onClick={() => setConfirmStatus(status)}
-                          className="shadow-sm shadow-indigo-100"
+                          className="shadow-sm shadow-brand-100"
                         >
                           → Move to {STATUS_LABELS[status]}
                         </Button>
@@ -597,7 +597,7 @@ export default function ApplicantReviewPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 text-sm
-                        text-indigo-600 font-semibold hover:text-indigo-700"
+                        text-brand-600 font-semibold hover:text-brand-700"
                     >
                       📄 View Resume →
                     </a>

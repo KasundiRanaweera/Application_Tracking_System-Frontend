@@ -21,11 +21,11 @@ export default function Button({
 
   const variants = {
     primary: [
-      'bg-indigo-600 text-white border-indigo-600',
-      'hover:bg-indigo-700 hover:border-indigo-700',
+      'bg-slate-900 text-white border-slate-900',
+      'hover:bg-slate-800 hover:border-slate-800',
       'active:scale-[0.98]',
-      'focus-visible:ring-indigo-500',
-      'shadow-sm hover:shadow-md hover:shadow-indigo-200',
+      'focus-visible:ring-brand-500',
+      'shadow-sm hover:shadow-lg hover:shadow-slate-900/15',
     ].join(' '),
 
     secondary: [
@@ -52,10 +52,10 @@ export default function Button({
     ].join(' '),
 
     outline: [
-      'bg-white text-indigo-600 border-indigo-300',
-      'hover:bg-indigo-50 hover:border-indigo-400',
+      'bg-white text-brand-600 border-brand-300',
+      'hover:bg-brand-50 hover:border-brand-400',
       'active:scale-[0.98]',
-      'focus-visible:ring-indigo-400',
+      'focus-visible:ring-brand-400',
     ].join(' '),
 
     success: [

@@ -21,7 +21,7 @@ export default function Card({
         paddings[padding] ?? paddings.default,
         hover ? [
           'cursor-pointer',
-          'hover:border-indigo-300 hover:shadow-md',
+          'hover:border-brand-300 hover:shadow-md',
           'hover:-translate-y-0.5',
           'transition-all duration-200',
         ].join(' ') : '',

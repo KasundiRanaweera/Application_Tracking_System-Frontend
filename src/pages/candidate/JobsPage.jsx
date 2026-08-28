@@ -139,8 +139,8 @@ export default function JobsPage() {
               <span className="text-sm font-bold text-slate-800">Filters</span>
               {hasFilters && (
                 <button onClick={clearFilters}
-                  className="text-xs font-semibold text-indigo-600
-                    hover:text-indigo-700 transition-colors">
+                  className="text-xs font-semibold text-brand-600
+                    hover:text-brand-700 transition-colors">
                   Clear all
                 </button>
               )}
@@ -157,8 +157,8 @@ export default function JobsPage() {
                         'w-4 h-4 rounded border-2 flex items-center justify-center',
                         'transition-all cursor-pointer flex-shrink-0',
                         workMode === m
-                          ? 'bg-indigo-600 border-indigo-600'
-                          : 'border-slate-300 hover:border-indigo-400',
+                          ? 'bg-brand-600 border-brand-600'
+                          : 'border-slate-300 hover:border-brand-400',
                       ].join(' ')}
                     >
                       {workMode === m && (
@@ -174,7 +174,7 @@ export default function JobsPage() {
                     <span className={[
                       'text-sm transition-colors select-none',
                       workMode === m
-                        ? 'text-indigo-700 font-semibold'
+                        ? 'text-brand-700 font-semibold'
                         : 'text-slate-600 group-hover:text-slate-900',
                     ].join(' ')}>
                       {WORK_ICONS[m]} {WORK_MODE_LABELS[m]}
@@ -197,8 +197,8 @@ export default function JobsPage() {
                         'w-4 h-4 rounded border-2 flex items-center justify-center',
                         'transition-all cursor-pointer flex-shrink-0',
                         empType === t
-                          ? 'bg-indigo-600 border-indigo-600'
-                          : 'border-slate-300 hover:border-indigo-400',
+                          ? 'bg-brand-600 border-brand-600'
+                          : 'border-slate-300 hover:border-brand-400',
                       ].join(' ')}
                     >
                       {empType === t && (
@@ -212,7 +212,7 @@ export default function JobsPage() {
                     <span className={[
                       'text-sm transition-colors select-none',
                       empType === t
-                        ? 'text-indigo-700 font-semibold'
+                        ? 'text-brand-700 font-semibold'
                         : 'text-slate-600 group-hover:text-slate-900',
                     ].join(' ')}>
                       {EMPLOYMENT_TYPE_LABELS[t]}
@@ -241,8 +241,8 @@ export default function JobsPage() {
                   placeholder="City or country..."
                   className="w-full pl-8 pr-3 py-2 text-sm border
                     border-slate-200 rounded-lg bg-slate-50
-                    focus:outline-none focus:ring-2 focus:ring-indigo-500/30
-                    focus:border-indigo-500 placeholder-slate-400
+                    focus:outline-none focus:ring-2 focus:ring-brand-500/30
+                    focus:border-brand-500 placeholder-slate-400
                     hover:border-slate-300"
                 />
               </div>
@@ -279,7 +279,7 @@ export default function JobsPage() {
                   onChange={e => setSort(e.target.value)}
                   className="text-sm border border-slate-200 rounded-lg
                     py-2 pl-3 pr-7 bg-white focus:outline-none
-                    focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500
+                    focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500
                     text-slate-700 cursor-pointer hover:border-slate-300"
                 >
                   <option value="createdAt,desc">Newest first</option>
@@ -307,8 +307,8 @@ export default function JobsPage() {
                   placeholder="Search by job title or keyword…"
                   className="w-full pl-10 pr-4 py-2.5 text-sm border
                     border-slate-200 rounded-lg bg-white
-                    focus:outline-none focus:ring-2 focus:ring-indigo-500/30
-                    focus:border-indigo-500 placeholder-slate-400
+                    focus:outline-none focus:ring-2 focus:ring-brand-500/30
+                    focus:border-brand-500 placeholder-slate-400
                     hover:border-slate-300"
                 />
               </div>
@@ -324,11 +324,11 @@ export default function JobsPage() {
                 {activeFilters.map(f => (
                   <span key={f.key}
                     className="inline-flex items-center gap-1.5 px-2.5 py-1
-                      bg-indigo-50 text-indigo-700 text-xs font-semibold
-                      rounded-full border border-indigo-200">
+                      bg-brand-50 text-brand-700 text-xs font-semibold
+                      rounded-full border border-brand-200">
                     {f.label}
                     <button onClick={f.clear}
-                      className="hover:text-indigo-900 font-bold leading-none">
+                      className="hover:text-brand-900 font-bold leading-none">
                       ×
                     </button>
                   </span>
@@ -375,15 +375,15 @@ export default function JobsPage() {
                     onClick={() => navigate(`/jobs/${job.id}`)}
                     className="bg-white border border-slate-200 rounded-xl
                       p-4 flex gap-4 items-center cursor-pointer
-                      hover:border-indigo-300 hover:shadow-md
-                      hover:shadow-indigo-50 transition-all duration-200
+                      hover:border-brand-300 hover:shadow-md
+                      hover:shadow-brand-50 transition-all duration-200
                       group"
                   >
                     {/* Icon */}
                     <div className="hidden sm:flex w-12 h-12 rounded-xl
                       bg-slate-50 border border-slate-200 items-center
                       justify-center text-2xl flex-shrink-0
-                      group-hover:bg-indigo-50 group-hover:border-indigo-200
+                      group-hover:bg-brand-50 group-hover:border-brand-200
                       transition-colors">
                       {getJobIcon(job.title)}
                     </div>
@@ -393,7 +393,7 @@ export default function JobsPage() {
                       <div className="flex items-start justify-between
                         gap-3 mb-1.5">
                         <h3 className="font-bold text-slate-900 text-[15px]
-                          leading-tight group-hover:text-indigo-600
+                          leading-tight group-hover:text-brand-600
                           transition-colors truncate">
                           {job.title}
                         </h3>
@@ -445,10 +445,10 @@ export default function JobsPage() {
 
                     {/* CTA */}
                     <div className="hidden sm:block flex-shrink-0">
-                      <span className="text-xs font-semibold text-indigo-600
-                        border border-indigo-200 px-3.5 py-1.5 rounded-lg
-                        group-hover:bg-indigo-600 group-hover:text-white
-                        group-hover:border-indigo-600 transition-all
+                      <span className="text-xs font-semibold text-brand-600
+                        border border-brand-200 px-3.5 py-1.5 rounded-lg
+                        group-hover:bg-brand-600 group-hover:text-white
+                        group-hover:border-brand-600 transition-all
                         whitespace-nowrap">
                         View →
                       </span>

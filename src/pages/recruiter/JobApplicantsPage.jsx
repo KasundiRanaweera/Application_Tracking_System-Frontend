@@ -121,7 +121,7 @@ export default function JobApplicantsPage() {
         <button
           onClick={() => navigate('/recruiter/jobs')}
           className="inline-flex items-center gap-1.5 text-sm text-[#64748b]
-            hover:text-indigo-600 mb-3 transition-colors font-medium group"
+            hover:text-brand-600 mb-3 transition-colors font-medium group"
         >
           <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -149,7 +149,7 @@ export default function JobApplicantsPage() {
                   🌐 {job.workMode}
                 </span>
               )}
-              <span className="text-indigo-600 font-semibold">
+              <span className="text-brand-600 font-semibold">
                 {totalElements} applicant{totalElements !== 1 ? 's' : ''}
               </span>
             </div>
@@ -162,7 +162,7 @@ export default function JobApplicantsPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
             { label: 'Total',     value: counts.all,       color: 'text-[#0f172a]', bg: 'bg-[#f7f9fb]' },
-            { label: 'Interview', value: counts.interview,  color: 'text-indigo-600', bg: 'bg-indigo-50' },
+            { label: 'Interview', value: counts.interview,  color: 'text-brand-600', bg: 'bg-brand-50' },
             { label: 'Offer',     value: counts.offer,      color: 'text-amber-600', bg: 'bg-amber-50'  },
             { label: 'Hired',     value: counts.hired,      color: 'text-emerald-600', bg: 'bg-emerald-50'},
           ].map(({ label, value, color, bg }) => (
@@ -192,7 +192,7 @@ export default function JobApplicantsPage() {
               flex-shrink-0 px-3 py-2 rounded-lg text-xs font-semibold
               transition-all whitespace-nowrap
               ${statusFilter === value
-                ? 'bg-indigo-600 text-white'
+                ? 'bg-brand-600 text-white'
                 : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f7f9fb]'}
             `}
           >
@@ -208,7 +208,7 @@ export default function JobApplicantsPage() {
           onChange={(e) => setSort(e.target.value)}
           className="text-sm border border-[#e2e8f0] rounded-lg py-2 pl-3
             pr-8 bg-white focus:outline-none focus:ring-2
-            focus:ring-indigo-500 text-[#0f172a] cursor-pointer"
+            focus:ring-brand-500 text-[#0f172a] cursor-pointer"
         >
           <option value="appliedAt,desc">Newest first</option>
           <option value="appliedAt,asc">Oldest first</option>
@@ -267,14 +267,14 @@ export default function JobApplicantsPage() {
                 >
                   {/* Candidate */}
                   <div className="sm:col-span-4 flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-indigo-100
-                      flex items-center justify-center text-indigo-600
+                    <div className="w-9 h-9 rounded-full bg-brand-100
+                      flex items-center justify-center text-brand-600
                       font-bold text-sm flex-shrink-0">
                       {app.candidateName?.charAt(0).toUpperCase() || '?'}
                     </div>
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-[#0f172a]
-                        truncate group-hover:text-indigo-600 transition-colors">
+                        truncate group-hover:text-brand-600 transition-colors">
                         {app.candidateName}
                       </p>
                       <p className="text-xs text-[#64748b] truncate">

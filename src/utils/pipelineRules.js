@@ -27,7 +27,7 @@ export const STATUS_COLORS = {
   APPLIED:      'bg-blue-50 text-blue-700 ring-1 ring-blue-200',
   UNDER_REVIEW: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
   SHORTLISTED:  'bg-purple-50 text-purple-700 ring-1 ring-purple-200',
-  INTERVIEW:    'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200',
+  INTERVIEW:    'bg-brand-50 text-brand-700 ring-1 ring-brand-200',
   OFFER:        'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
   HIRED:        'bg-green-50 text-green-700 ring-1 ring-green-200',
   REJECTED:     'bg-red-50 text-red-600 ring-1 ring-red-200',

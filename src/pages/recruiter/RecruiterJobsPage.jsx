@@ -152,7 +152,7 @@ export default function RecruiterJobsPage() {
               placeholder="Search jobs by title..."
               className="w-full pl-10 pr-4 py-2.5 text-sm border
                 border-[#e2e8f0] rounded-lg focus:outline-none
-                focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -167,7 +167,7 @@ export default function RecruiterJobsPage() {
                 flex-shrink-0 px-4 py-2 rounded-lg text-sm font-semibold
                 transition-all
                 ${statusFilter === value
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-brand-600 text-white'
                   : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f7f9fb]'}
               `}
             >
@@ -334,7 +334,7 @@ export default function RecruiterJobsPage() {
                           onClick={() =>
                             handleStatusChange(job.id, nextStatus(job.status))
                           }
-                          className="text-indigo-600 hover:bg-indigo-50"
+                          className="text-brand-600 hover:bg-brand-50"
                         >
                           {nextStatusLabel(job.status)}
                         </Button>
@@ -369,7 +369,7 @@ export default function RecruiterJobsPage() {
                             variant="ghost"
                             size="xs"
                             onClick={() => setConfirmClose(job.id)}
-                            className="text-indigo-600 hover:bg-indigo-50"
+                            className="text-brand-600 hover:bg-brand-50"
                           >
                             → Close
                           </Button>

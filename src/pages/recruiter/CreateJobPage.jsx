@@ -77,7 +77,7 @@ export default function CreateJobPage() {
         <button
           onClick={() => navigate('/recruiter/jobs')}
           className="inline-flex items-center gap-1.5 text-sm text-[#64748b]
-            hover:text-indigo-600 mb-4 transition-colors font-medium group"
+            hover:text-brand-600 mb-4 transition-colors font-medium group"
         >
           <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,7 +108,7 @@ export default function CreateJobPage() {
           <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
             <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
               border-b border-[#e2e8f0] flex items-center gap-2">
-              <span className="text-indigo-500">ℹ</span>
+              <span className="text-brand-500">ℹ</span>
               Basic Information
             </h2>
             <div className="space-y-4">
@@ -135,7 +135,7 @@ export default function CreateJobPage() {
                   placeholder="Describe the role, responsibilities, and team..."
                   className={`w-full px-3.5 py-2.5 border rounded-lg text-sm
                     resize-y focus:outline-none focus:ring-2
-                    focus:ring-indigo-500 focus:border-transparent
+                    focus:ring-brand-500 focus:border-transparent
                     placeholder-[#94a3b8] text-[#0f172a]
                     ${errors.description
                       ? 'border-red-400'
@@ -159,7 +159,7 @@ export default function CreateJobPage() {
                     onChange={handleChange}
                     className="w-full px-3.5 py-2.5 border border-[#e2e8f0]
                       rounded-lg text-sm bg-white text-[#0f172a]
-                      focus:outline-none focus:ring-2 focus:ring-indigo-500
+                      focus:outline-none focus:ring-2 focus:ring-brand-500
                       focus:border-transparent"
                   >
                     {EMP_TYPES.map(t => (
@@ -182,7 +182,7 @@ export default function CreateJobPage() {
           <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
             <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
               border-b border-[#e2e8f0] flex items-center gap-2">
-              <span className="text-indigo-500">✓</span>
+              <span className="text-brand-500">✓</span>
               Requirements & Skills
             </h2>
             <div>
@@ -201,7 +201,7 @@ export default function CreateJobPage() {
                 placeholder="e.g. React, TypeScript, Node.js"
                 className="w-full px-3.5 py-2.5 border border-[#e2e8f0]
                   rounded-lg text-sm focus:outline-none focus:ring-2
-                  focus:ring-indigo-500 focus:border-transparent
+                  focus:ring-brand-500 focus:border-transparent
                   placeholder-[#94a3b8] text-[#0f172a]"
               />
               {/* Skill preview tags */}
@@ -209,8 +209,8 @@ export default function CreateJobPage() {
                 <div className="flex flex-wrap gap-2 mt-3">
                   {form.requiredSkills.split(',').map(s => s.trim()).filter(Boolean).map(s => (
                     <span key={s}
-                      className="px-3 py-1 bg-indigo-50 border
-                        border-indigo-200 text-indigo-700 text-xs
+                      className="px-3 py-1 bg-brand-50 border
+                        border-brand-200 text-brand-700 text-xs
                         font-semibold rounded-full">
                       {s}
                     </span>
@@ -228,7 +228,7 @@ export default function CreateJobPage() {
           <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
             <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
               border-b border-[#e2e8f0] flex items-center gap-2">
-              <span className="text-indigo-500">📍</span>
+              <span className="text-brand-500">📍</span>
               Logistics
             </h2>
             <div className="space-y-4">
@@ -246,8 +246,8 @@ export default function CreateJobPage() {
                       className={`py-2 px-3 rounded-lg border text-xs
                         font-semibold transition-all
                         ${form.workMode === m
-                          ? 'bg-indigo-600 text-white border-indigo-600'
-                          : 'border-[#e2e8f0] text-[#64748b] hover:border-indigo-300 hover:text-indigo-600'
+                          ? 'bg-brand-600 text-white border-brand-600'
+                          : 'border-[#e2e8f0] text-[#64748b] hover:border-brand-300 hover:text-brand-600'
                         }`}
                     >
                       {WORK_LABELS[m]}
@@ -269,7 +269,7 @@ export default function CreateJobPage() {
           <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
             <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
               border-b border-[#e2e8f0] flex items-center gap-2">
-              <span className="text-indigo-500">💰</span>
+              <span className="text-brand-500">💰</span>
               Compensation
             </h2>
             <div className="space-y-3">
@@ -288,7 +288,7 @@ export default function CreateJobPage() {
                     placeholder="Min"
                     className="w-full pl-9 pr-3 py-2.5 border border-[#e2e8f0]
                       rounded-lg text-sm focus:outline-none focus:ring-2
-                      focus:ring-indigo-500 focus:border-transparent
+                      focus:ring-brand-500 focus:border-transparent
                       text-[#0f172a]"
                   />
                 </div>
@@ -304,7 +304,7 @@ export default function CreateJobPage() {
                     placeholder="Max"
                     className="w-full pl-9 pr-3 py-2.5 border border-[#e2e8f0]
                       rounded-lg text-sm focus:outline-none focus:ring-2
-                      focus:ring-indigo-500 focus:border-transparent
+                      focus:ring-brand-500 focus:border-transparent
                       text-[#0f172a]"
                   />
                 </div>
@@ -320,7 +320,7 @@ export default function CreateJobPage() {
               size="lg"
               loading={loading}
               onClick={() => handleSubmit(true)}
-              className="shadow-md shadow-indigo-200"
+              className="shadow-md shadow-brand-200"
             >
               Save as Draft
             </Button>

@@ -68,7 +68,7 @@ export default function RecruiterDashboardPage() {
         <Button
           onClick={() => navigate('/recruiter/jobs/create')}
           size="lg"
-          className="shadow-md shadow-indigo-200 flex-shrink-0"
+          className="shadow-md shadow-brand-200 flex-shrink-0"
         >
           + Post New Job
         </Button>
@@ -143,9 +143,9 @@ export default function RecruiterDashboardPage() {
             {PIPELINE_STAGES.map((stage, idx) => {
               const widths = [100, 75, 55, 35, 18, 8]
               const colors = [
-                'bg-indigo-500',
-                'bg-indigo-400',
-                'bg-indigo-300',
+                'bg-brand-500',
+                'bg-brand-400',
+                'bg-brand-300',
                 'bg-amber-400',
                 'bg-emerald-400',
                 'bg-emerald-600',
@@ -203,18 +203,18 @@ export default function RecruiterDashboardPage() {
                 className={`w-full flex items-center gap-3 p-3 rounded-xl
                   border text-left transition-all
                   ${primary
-                    ? 'border-indigo-200 bg-indigo-50 hover:bg-indigo-100'
+                    ? 'border-brand-200 bg-brand-50 hover:bg-brand-100'
                     : 'border-[#e2e8f0] bg-[#f7f9fb] hover:bg-[#f2f4f6]'}
                 `}
               >
                 <div className={`w-10 h-10 rounded-lg flex items-center
                   justify-center text-lg flex-shrink-0
-                  ${primary ? 'bg-indigo-100' : 'bg-white border border-[#e2e8f0]'}`}>
+                  ${primary ? 'bg-brand-100' : 'bg-white border border-[#e2e8f0]'}`}>
                   {icon}
                 </div>
                 <div>
                   <p className={`text-sm font-semibold
-                    ${primary ? 'text-indigo-700' : 'text-[#0f172a]'}`}>
+                    ${primary ? 'text-brand-700' : 'text-[#0f172a]'}`}>
                     {label}
                   </p>
                   <p className="text-xs text-[#64748b]">{desc}</p>
@@ -234,8 +234,8 @@ export default function RecruiterDashboardPage() {
           </h2>
           <button
             onClick={() => navigate('/recruiter/jobs')}
-            className="text-sm text-indigo-600 font-semibold
-              hover:text-indigo-700"
+            className="text-sm text-brand-600 font-semibold
+              hover:text-brand-700"
           >
             View all →
           </button>
@@ -272,7 +272,7 @@ export default function RecruiterDashboardPage() {
                   </div>
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-[#0f172a]
-                      truncate group-hover:text-indigo-600 transition-colors">
+                      truncate group-hover:text-brand-600 transition-colors">
                       {job.title}
                     </p>
                     <p className="text-xs text-[#64748b] mt-0.5">

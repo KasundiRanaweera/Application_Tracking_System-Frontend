@@ -45,7 +45,7 @@ export function WorkModeBadge({ mode }) {
 export function Tag({ children, color = 'default' }) {
   const colors = {
     default: 'bg-slate-100 text-slate-600',
-    indigo:  'bg-indigo-50 text-indigo-700',
+    indigo:  'bg-brand-50 text-brand-700',
     emerald: 'bg-emerald-50 text-emerald-700',
     amber:   'bg-amber-50 text-amber-700',
     red:     'bg-red-50 text-red-600',

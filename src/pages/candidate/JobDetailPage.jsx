@@ -100,7 +100,7 @@ export default function JobDetailPage() {
       <button
         onClick={() => navigate('/jobs')}
         className="inline-flex items-center gap-1.5 text-sm text-[#64748b]
-          hover:text-indigo-600 mb-6 transition-colors group font-medium"
+          hover:text-brand-600 mb-6 transition-colors group font-medium"
       >
         <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
           fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,7 +113,7 @@ export default function JobDetailPage() {
       {/* Hero header */}
       <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 lg:p-8 mb-6
         relative overflow-hidden">
-        <div className="absolute -top-16 -right-16 w-48 h-48 bg-indigo-600/5
+        <div className="absolute -top-16 -right-16 w-48 h-48 bg-brand-600/5
           rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-col lg:flex-row justify-between
@@ -200,7 +200,7 @@ export default function JobDetailPage() {
                 <Button
                   size="lg"
                   onClick={() => setShowApplyForm(true)}
-                  className="shadow-lg shadow-indigo-200"
+                  className="shadow-lg shadow-brand-200"
                 >
                   Apply Now →
                 </Button>
@@ -248,8 +248,8 @@ export default function JobDetailPage() {
 
           {/* Apply form */}
           {showApplyForm && !alreadyApplied && !applySuccess && (
-            <div className="bg-white border border-indigo-200 rounded-xl p-6
-              shadow-sm shadow-indigo-100">
+            <div className="bg-white border border-brand-200 rounded-xl p-6
+              shadow-sm shadow-brand-100">
               <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
                 border-b border-[#e2e8f0]">
                 Your Application
@@ -267,7 +267,7 @@ export default function JobDetailPage() {
                     placeholder="Tell us why you're a great fit for this role..."
                     className="w-full px-3.5 py-3 border border-[#e2e8f0] rounded-xl
                       text-sm resize-none focus:outline-none focus:ring-2
-                      focus:ring-indigo-500 focus:border-transparent text-[#191c1e]
+                      focus:ring-brand-500 focus:border-transparent text-[#191c1e]
                       placeholder-[#94a3b8]"
                   />
                 </div>
@@ -282,7 +282,7 @@ export default function JobDetailPage() {
                     onChange={(e) => setResumeUrl(e.target.value)}
                     placeholder="https://drive.google.com/your-cv-link"
                     className="w-full px-3.5 py-2.5 border border-[#e2e8f0] rounded-xl
-                      text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500
+                      text-sm focus:outline-none focus:ring-2 focus:ring-brand-500
                       focus:border-transparent text-[#191c1e] placeholder-[#94a3b8]"
                   />
                 </div>
@@ -385,7 +385,7 @@ export default function JobDetailPage() {
                     setShowApplyForm(true)
                     window.scrollTo({ top: 0, behavior: 'smooth' })
                   }}
-                  className="shadow-md shadow-indigo-200"
+                  className="shadow-md shadow-brand-200"
                 >
                   Apply for this position
                 </Button>

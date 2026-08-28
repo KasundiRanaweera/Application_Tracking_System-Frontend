@@ -13,9 +13,9 @@ export default function EmptyState({
           shadow-sm border border-slate-200/60">
           {icon}
         </div>
-        <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-indigo-100
+        <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-brand-100
           rounded-full flex items-center justify-center">
-          <div className="w-2 h-2 bg-indigo-400 rounded-full" />
+          <div className="w-2 h-2 bg-brand-400 rounded-full" />
         </div>
       </div>
       <h3 className="text-base font-bold text-slate-800 mb-2 tracking-tight">
