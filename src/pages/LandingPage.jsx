@@ -13,7 +13,7 @@ const FEATURES = [
   {
     audience: 'For candidates',
     title: 'Find roles that fit',
-    body: 'Browse open positions, apply in a few clicks, and track every application from submitted to hired — all in one place.',
+    body: 'Browse open positions, apply in a few clicks, and track every application from submitted to hired. All in one place.',
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -31,7 +31,7 @@ const FEATURES = [
   {
     audience: 'For everyone',
     title: 'Always up to date',
-    body: 'Status changes reflect instantly — no spreadsheets, no waiting for an email to know where things stand.',
+    body: 'Status changes reflect instantly. No spreadsheets, no waiting for an email to know where things stand.',
     icon: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
         d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -86,7 +86,7 @@ export default function LandingPage() {
             Hire smarter.<br />Get hired faster.
           </h1>
           <p className="text-slate-500 text-lg leading-relaxed mb-9 max-w-md">
-            TalentBridge brings candidates and recruiters onto one platform —
+            TalentBridge brings candidates and recruiters onto one platform -
             post jobs, apply in minutes, and move through every hiring stage
             without losing track of anything.
           </p>
@@ -107,11 +107,6 @@ export default function LandingPage() {
               Log in
             </Link>
           </div>
-
-          <p className="text-slate-400 text-sm mt-6">
-            Open to both job seekers and recruiters — access is tailored to
-            your account after you sign in.
-          </p>
         </div>
 
         {/* Visual: same pipeline-ladder motif used on auth pages, for a

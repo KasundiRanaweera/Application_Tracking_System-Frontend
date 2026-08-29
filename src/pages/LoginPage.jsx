@@ -76,12 +76,12 @@ export default function LoginPage() {
           </p>
           <h1 className="text-[2.75rem] font-extrabold text-white leading-[1.08]
             tracking-tight mb-5">
-            The smarter way<br />to hire great people.
+            The smarter way<br />to hire and get hired.
           </h1>
           <p className="text-slate-400 text-base leading-relaxed mb-10
             max-w-sm">
-            Post jobs, review applicants, and move candidates through
-            your pipeline — all in one place.
+            One account for both sides of hiring. Apply to roles as a
+            candidate, or manage your pipeline as a recruiter.
           </p>
 
           {/* Signature: the real hiring pipeline as a connected ladder,
