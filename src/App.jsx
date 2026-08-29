@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './auth/AuthContext'
 import { PrivateRoute, RecruiterRoute, CandidateRoute } from './routes/ProtectedRoute'
 
+import LandingPage             from './pages/LandingPage'
 import LoginPage              from './pages/LoginPage'
 import RegisterPage           from './pages/RegisterPage'
 import UnauthorizedPage       from './pages/UnauthorizedPage'
@@ -17,7 +18,10 @@ import ApplicantReviewPage from './pages/recruiter/ApplicantReviewPage'
 
 function HomeRedirect() {
   const { user } = useAuth()
-  if (!user) return <Navigate to="/login" replace />
+  // Logged-out visitors see the public landing page instead of being
+  // bounced straight to /login. Logged-in users still redirect straight
+  // into their dashboard — that part of the flow is unchanged.
+  if (!user) return <LandingPage />
   if (user.role === 'RECRUITER') return <Navigate to="/recruiter/dashboard" replace />
   return <Navigate to="/jobs" replace />
 }
