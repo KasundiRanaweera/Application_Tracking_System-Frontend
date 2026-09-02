@@ -35,8 +35,9 @@ export default function LoginPage() {
     try {
       const res = await loginApi(form)
       const { token, userId, name, email, role } = res.data
-      login({ userId, name, email, role }, token)
-      navigate(role === 'RECRUITER' ? '/recruiter/dashboard' : '/jobs')
+      const normalizedRole = String(role ?? '').trim().toUpperCase().replace(/^ROLE_/, '')
+      login({ userId, name, email, role: normalizedRole }, token)
+      navigate(normalizedRole === 'RECRUITER' ? '/recruiter/dashboard' : '/jobs')
     } catch (err) {
       setError(err.response?.data?.error || 'Invalid email or password.')
     } finally {

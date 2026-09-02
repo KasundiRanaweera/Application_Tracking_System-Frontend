@@ -15,12 +15,26 @@ const getInitialAuthState = () => {
   }
 
   try {
+    const parsedUser = JSON.parse(storedUser)
+    const normalizedRole = String(parsedUser?.role ?? '')
+      .trim()
+      .toUpperCase()
+      .replace(/^ROLE_/, '')
+
+    if (!['USER', 'RECRUITER'].includes(normalizedRole)) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      return { user: null, token: null, loading: false }
+    }
+
     return {
-      user: JSON.parse(storedUser),
+      user: { ...parsedUser, role: normalizedRole },
       token: storedToken,
       loading: false,
     }
   } catch {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
     return { user: null, token: null, loading: false }
   }
 }
