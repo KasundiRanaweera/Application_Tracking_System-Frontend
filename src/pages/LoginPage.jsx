@@ -35,7 +35,9 @@ export default function LoginPage() {
     try {
       const res = await loginApi(form)
       const { token, userId, name, email, role } = res.data
-      const normalizedRole = String(role ?? '').trim().toUpperCase().replace(/^ROLE_/, '')
+      const rawRole = String(role ?? '').trim().toUpperCase().replace(/^ROLE_/, '')
+      const normalizedRole = rawRole === 'CANDIDATE' ? 'USER' : rawRole
+
       login({ userId, name, email, role: normalizedRole }, token)
       navigate(normalizedRole === 'RECRUITER' ? '/recruiter/dashboard' : '/jobs')
     } catch (err) {

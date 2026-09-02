@@ -21,14 +21,16 @@ const getInitialAuthState = () => {
       .toUpperCase()
       .replace(/^ROLE_/, '')
 
-    if (!['USER', 'RECRUITER'].includes(normalizedRole)) {
+    const finalRole = normalizedRole === 'CANDIDATE' ? 'USER' : normalizedRole
+
+    if (!['USER', 'RECRUITER'].includes(finalRole)) {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       return { user: null, token: null, loading: false }
     }
 
     return {
-      user: { ...parsedUser, role: normalizedRole },
+      user: { ...parsedUser, role: finalRole },
       token: storedToken,
       loading: false,
     }
@@ -59,6 +61,7 @@ export function AuthProvider({ children }) {
     setLoading(false)
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    sessionStorage.clear()
   }
 
   const isRecruiter = () => user?.role === 'RECRUITER'
