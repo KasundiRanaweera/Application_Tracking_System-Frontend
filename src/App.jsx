@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './auth/AuthContext'
+import ThemeToggle from './components/ui/ThemeToggle'
 import { PrivateRoute, RecruiterRoute, CandidateRoute } from './routes/ProtectedRoute'
 
 import LandingPage             from './pages/LandingPage'
@@ -28,7 +29,9 @@ function HomeRedirect() {
 
 export default function App() {
   return (
-    <Routes>
+    <>
+      <ThemeToggle />
+      <Routes>
       {/* Public */}
       <Route path="/login"        element={<LoginPage />} />
       <Route path="/register"     element={<RegisterPage />} />
@@ -48,6 +51,7 @@ export default function App() {
       <Route path="/recruiter/jobs/:id/applicants" element={<RecruiterRoute><JobApplicantsPage /></RecruiterRoute>} />
       <Route path="/recruiter/applications/:id" element={<RecruiterRoute><ApplicantReviewPage /></RecruiterRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+      </Routes>
+    </>
   )
 }
