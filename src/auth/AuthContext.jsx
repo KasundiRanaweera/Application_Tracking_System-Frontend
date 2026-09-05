@@ -2,6 +2,15 @@ import { createContext, useContext, useState } from 'react'
 
 const AuthContext = createContext(null)
 
+const normalizeRole = (role) => {
+  const normalizedRole = String(role ?? '')
+    .trim()
+    .toUpperCase()
+    .replace(/^ROLE_/, '')
+
+  return normalizedRole === 'CANDIDATE' ? 'USER' : normalizedRole
+}
+
 const getInitialAuthState = () => {
   if (typeof window === 'undefined') {
     return { user: null, token: null, loading: false }
@@ -16,12 +25,7 @@ const getInitialAuthState = () => {
 
   try {
     const parsedUser = JSON.parse(storedUser)
-    const normalizedRole = String(parsedUser?.role ?? '')
-      .trim()
-      .toUpperCase()
-      .replace(/^ROLE_/, '')
-
-    const finalRole = normalizedRole === 'CANDIDATE' ? 'USER' : normalizedRole
+    const finalRole = normalizeRole(parsedUser?.role)
 
     if (!['USER', 'RECRUITER'].includes(finalRole)) {
       localStorage.removeItem('token')
@@ -48,11 +52,16 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(initialAuthState.loading)
 
   const login = (userData, jwtToken) => {
-    setUser(userData)
+    const normalizedUser = {
+      ...userData,
+      role: normalizeRole(userData?.role),
+    }
+
+    setUser(normalizedUser)
     setToken(jwtToken)
     setLoading(false)
     localStorage.setItem('token', jwtToken)
-    localStorage.setItem('user', JSON.stringify(userData))
+    localStorage.setItem('user', JSON.stringify(normalizedUser))
   }
 
   const logout = () => {
