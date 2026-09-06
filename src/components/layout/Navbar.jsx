@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/AuthContext'
+import Button from '../ui/Button'
 import ThemeToggle from '../ui/ThemeToggle'
 
 function NavLink({ to, children }) {
@@ -31,16 +32,30 @@ export default function Navbar() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   const isRec = user?.role === 'RECRUITER'
   const isCan = user?.role === 'USER'
 
   const handleLogout = () => {
-    if (!window.confirm('Are you sure you want to sign out?')) return
+    setShowLogoutModal(true)
+  }
 
+  const confirmLogout = () => {
     logout()
     navigate('/login')
   }
+
+  useEffect(() => {
+    if (!showLogoutModal) return undefined
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setShowLogoutModal(false)
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [showLogoutModal])
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm
@@ -195,6 +210,52 @@ export default function Navbar() {
               className="text-xs font-semibold text-red-500 hover:text-red-700">
               Sign out
             </button>
+          </div>
+        </div>
+      )}
+
+      {showLogoutModal && (
+        <div
+          className="fixed inset-0 z-[70] flex items-center justify-center
+            bg-slate-950/50 px-4 backdrop-blur-sm"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setShowLogoutModal(false)
+          }}
+        >
+          <div
+            className="w-full max-w-sm rounded-2xl border border-slate-200
+              bg-white p-6 shadow-2xl animate-fade-up"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="sign-out-title"
+          >
+            <div className="mb-5 flex h-11 w-11 items-center justify-center
+              rounded-xl bg-red-50 text-red-600">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round"
+                  strokeWidth={1.8}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />
+              </svg>
+            </div>
+            <h2 id="sign-out-title" className="text-lg font-bold text-slate-900">
+              Sign out?
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-slate-500">
+              You will need to sign in again to access your account.
+            </p>
+            <div className="mt-6 flex justify-end gap-3">
+              <Button
+                variant="secondary"
+                onClick={() => setShowLogoutModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button variant="danger" onClick={confirmLogout}>
+                Sign out
+              </Button>
+            </div>
           </div>
         </div>
       )}
