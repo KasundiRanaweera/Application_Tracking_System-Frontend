@@ -91,7 +91,9 @@ export default function EditJobPage() {
         requiredSkills: form.requiredSkills || null,
         closingDate:    form.closingDate || null,
       })
-      navigate('/recruiter/jobs')
+      navigate('/recruiter/jobs', {
+        state: { successMessage: 'Job updated successfully.' },
+      })
     } catch (err) {
       setServerError(
         err.response?.data?.error || 'Failed to update job.'

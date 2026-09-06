@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout/Layout'
 import Button from '../../components/ui/Button'
+import Alert from '../../components/ui/Alert'
 import Spinner from '../../components/ui/Spinner'
 import EmptyState from '../../components/ui/EmptyState'
 import { JobStatusBadge } from '../../components/ui/Badge'
@@ -21,6 +22,7 @@ const STATUS_FILTERS = [
 
 export default function RecruiterJobsPage() {
   const navigate = useNavigate()
+  const location = useLocation()
 
   const [jobs, setJobs]             = useState([])
   const [loading, setLoading]       = useState(true)
@@ -34,6 +36,14 @@ export default function RecruiterJobsPage() {
   const [confirmClose, setConfirmClose] = useState(null)
   const [deletingId, setDeletingId] = useState(null)
   const [statusChanging, setStatusChanging] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(
+    location.state?.successMessage || ''
+  )
+
+  useEffect(() => {
+    if (!location.state?.successMessage) return
+    navigate(location.pathname, { replace: true, state: {} })
+  }, [location.pathname, location.state, navigate])
 
   // Wrapped setters so changing either filter also resets the page —
   // this replaces resetting page via a separate useEffect, which React's
@@ -76,6 +86,7 @@ export default function RecruiterJobsPage() {
     try {
       await deleteJob(id)
       setConfirmDelete(null)
+      setSuccessMessage('Job deleted successfully.')
       fetchJobs()
     } catch (err) {
       alert(err.response?.data?.error || 'Failed to delete job.')
@@ -88,6 +99,11 @@ export default function RecruiterJobsPage() {
     setStatusChanging(id)
     try {
       await changeJobStatus(id, newStatus)
+      setSuccessMessage(
+        newStatus === 'OPEN'
+          ? 'Job published successfully.'
+          : 'Job closed successfully.'
+      )
       fetchJobs()
     } catch (err) {
       alert(err.response?.data?.error || 'Failed to change status.')
@@ -155,6 +171,12 @@ export default function RecruiterJobsPage() {
                 focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
           </div>
+
+          {successMessage && (
+            <div className="mb-5">
+              <Alert type="success" message={successMessage} />
+            </div>
+          )}
         </div>
 
         {/* Status filter tabs */}

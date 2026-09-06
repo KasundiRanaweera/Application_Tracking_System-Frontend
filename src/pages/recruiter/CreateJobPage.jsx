@@ -60,7 +60,11 @@ export default function CreateJobPage() {
     setLoading(true)
     try {
       await createJob(buildPayload(asDraft))
-      navigate('/recruiter/jobs')
+      navigate('/recruiter/jobs', {
+        state: { successMessage: asDraft
+          ? 'Job saved as draft successfully.'
+          : 'Job published successfully.' },
+      })
     } catch (err) {
       setServerError(
         err.response?.data?.error || 'Failed to create job. Please try again.'

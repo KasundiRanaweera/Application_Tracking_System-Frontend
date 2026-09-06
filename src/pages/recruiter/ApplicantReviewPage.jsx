@@ -40,6 +40,7 @@ export default function ApplicantReviewPage() {
   // Status state
   const [statusLoading, setStatusLoading]   = useState(false)
   const [statusError, setStatusError]       = useState('')
+  const [statusSuccess, setStatusSuccess]   = useState('')
   const [confirmStatus, setConfirmStatus]   = useState(null)
   const [resumeLoading, setResumeLoading]   = useState(false)
 
@@ -106,10 +107,12 @@ export default function ApplicantReviewPage() {
   const handleStatusChange = async (newStatus) => {
     setStatusLoading(true)
     setStatusError('')
+    setStatusSuccess('')
     setConfirmStatus(null)
     try {
       const res = await changeApplicationStatus(id, newStatus)
       setApplication(res.data)
+      setStatusSuccess(`Application moved to ${STATUS_LABELS[newStatus]}.`)
     } catch (err) {
       setStatusError(err.response?.data?.error || 'Failed to change status.')
     } finally {
@@ -463,6 +466,11 @@ export default function ApplicantReviewPage() {
             {statusError && (
               <div className="mb-4">
                 <Alert type="error" message={statusError} />
+              </div>
+            )}
+            {statusSuccess && (
+              <div className="mb-4">
+                <Alert type="success" message={statusSuccess} />
               </div>
             )}
 
