@@ -5,7 +5,7 @@ import Button from '../../components/ui/Button'
 import Spinner from '../../components/ui/Spinner'
 import EmptyState from '../../components/ui/EmptyState'
 import { StatusBadge } from '../../components/ui/Badge'
-import { getOpenJobById } from '../../api/jobsApi'
+import { getRecruiterJobs } from '../../api/jobsApi'
 import { getJobApplications } from '../../api/applicationsApi'
 import { STATUS_LABELS } from '../../utils/pipelineRules'
 
@@ -47,8 +47,12 @@ export default function JobApplicantsPage() {
   // Load job info once — setJob runs inside the .then() callback, not
   // synchronously in the effect body, so this one is fine as-is.
   useEffect(() => {
-    getOpenJobById(id)
-      .then(res => setJob(res.data))
+    getRecruiterJobs({ size: 100 })
+      .then(res => {
+        const recruiterJob = (res.data.content || [])
+          .find(item => item.id === Number(id))
+        setJob(recruiterJob || null)
+      })
       .catch(() => {})
   }, [id])
 
