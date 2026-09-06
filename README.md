@@ -1,6 +1,8 @@
 # TalentBridge ATS — Frontend
 
-TalentBridge is an Applicant Tracking System (ATS) that connects **candidates** looking for jobs with **recruiters** managing a hiring pipeline. This repository contains the React frontend — a single-page app served as static files and backed by a separate Spring Boot API.
+TalentBridge is an Applicant Tracking System (ATS) that connects **candidates** looking for jobs with **recruiters** managing a hiring pipeline. This repository contains the React frontend - a single-page app served as static files and backed by a separate Spring Boot API.
+
+The backend is maintained separately in the `Application_Tracking_System` repository.
 
 **Live app:** [https://application-tracking-system-fronten.vercel.app](https://application-tracking-system-fronten.vercel.app)
 **Backend API:** [https://applicationtrackingsystem-backend-production.up.railway.app](https://applicationtrackingsystem-backend-production.up.railway.app)
@@ -32,15 +34,17 @@ TalentBridge is an Applicant Tracking System (ATS) that connects **candidates** 
 ### Candidate
 - Browse and search open job listings
 - View full job details
-- Apply to a job with an optional cover note and resume link
+- Apply to a job with an optional cover note and CV upload (PDF, DOC, or DOCX up to 5 MB)
+- Provide an external resume URL instead of uploading a file
 - Track submitted applications and their pipeline status (Applied → Under Review → Shortlisted → Interview → Offer → Hired/Rejected/Withdrawn)
 - Withdraw an application
 
 ### Recruiter
 - Dashboard with an overview of jobs and pipeline activity
-- Create, edit, and manage job postings
+- Create draft jobs, edit drafts, publish jobs, close open jobs, and delete drafts
+- Search and filter owned jobs by Draft, Open, or Closed status
 - View applicants for a specific job
-- Review an applicant's full profile: cover note, resume link, rating, and notes
+- Review an applicant's full profile: cover note, uploaded CV or resume link, rating, and notes
 - Move an applicant through the hiring pipeline
 - Add internal notes and a rating to an applicant
 
@@ -126,6 +130,8 @@ Vite only reads variables prefixed with `VITE_`, and it bakes them into the buil
 3. Under **Settings → Environment Variables**, add `VITE_API_BASE_URL` pointing at the deployed backend.
 4. Deploy. Every push to the connected branch triggers a new deployment automatically.
 
+The frontend and backend are maintained and pushed as separate Git repositories. Deploy the frontend to Vercel and deploy the backend separately to Railway.
+
 **Note:** if you change `VITE_API_BASE_URL` after the project already has a deployment, you must trigger a **redeploy** — Vercel does not rebuild automatically just because a variable changed.
 
 ---
@@ -136,7 +142,9 @@ This frontend expects a REST API exposing (non-exhaustive):
 
 - `POST /api/auth/login`, `POST /api/auth/register`
 - `GET /api/jobs`, `GET /api/jobs/{id}`, `POST/PUT/DELETE /api/jobs/**` *(recruiter only)*
+- `GET /api/jobs/manage/all` *(recruiter only; supports search, status filtering, sorting, and pagination)*
 - `POST /api/applications`, `GET /api/applications/me`, `DELETE /api/applications/{id}`
+- `POST /api/applications/resume` and `GET /api/applications/resume/{filename}` for authenticated CV upload and viewing
 - `GET /api/applications/job/{jobId}`, `PATCH /api/applications/{id}/status`, `PATCH /api/applications/{id}/rating`, `POST /api/applications/{id}/notes` *(recruiter only)*
 
 Authentication is JWT-based: the token returned on login is stored in `localStorage` and attached to every request as an `Authorization: Bearer <token>` header. A `401` response clears the session and redirects to `/login`; a `403` redirects to `/unauthorized`.
