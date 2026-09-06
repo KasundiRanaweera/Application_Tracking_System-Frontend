@@ -36,6 +36,8 @@ export default function Navbar() {
   const isCan = user?.role === 'USER'
 
   const handleLogout = () => {
+    if (!window.confirm('Are you sure you want to sign out?')) return
+
     logout()
     navigate('/login')
   }
