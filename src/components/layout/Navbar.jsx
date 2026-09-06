@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/AuthContext'
+import ThemeToggle from '../ui/ThemeToggle'
 
 function NavLink({ to, children }) {
   const { pathname } = useLocation()
@@ -46,18 +47,21 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-14">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center
-              justify-center shadow-sm">
-              <span className="text-white font-black text-xs tracking-tight">
-                TB
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <ThemeToggle />
+            <Link to="/" className="flex items-center gap-2.5">
+              <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center
+                justify-center shadow-sm">
+                <span className="text-white font-black text-xs tracking-tight">
+                  TB
+                </span>
+              </div>
+              <span className="font-display font-bold text-slate-900 text-[15px]
+                tracking-tight hidden sm:block">
+                TalentBridge
               </span>
-            </div>
-            <span className="font-display font-bold text-slate-900 text-[15px]
-              tracking-tight hidden sm:block">
-              TalentBridge
-            </span>
-          </Link>
+            </Link>
+          </div>
 
           {/* Desktop nav */}
           {user && (

@@ -10,7 +10,7 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-      className="theme-toggle fixed top-16 right-4 z-[60] w-10 h-10 rounded-full
+      className="theme-toggle w-9 h-9 rounded-full flex-shrink-0
         border border-slate-200 bg-white text-slate-700 shadow-md
         hover:bg-slate-50 hover:text-slate-900"
     >

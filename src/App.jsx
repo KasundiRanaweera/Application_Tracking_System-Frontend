@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './auth/AuthContext'
-import ThemeToggle from './components/ui/ThemeToggle'
 import { PrivateRoute, RecruiterRoute, CandidateRoute } from './routes/ProtectedRoute'
 
 import LandingPage             from './pages/LandingPage'
@@ -30,7 +29,6 @@ function HomeRedirect() {
 export default function App() {
   return (
     <>
-      <ThemeToggle />
       <Routes>
       {/* Public */}
       <Route path="/login"        element={<LoginPage />} />
