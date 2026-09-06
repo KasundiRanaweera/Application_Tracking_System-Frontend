@@ -10,6 +10,7 @@ import {
   rateApplication,
   addNote,
   changeApplicationStatus,
+  downloadResume,
 } from '../../api/applicationsApi'
 import {
   getLegalNextStatuses,
@@ -40,6 +41,7 @@ export default function ApplicantReviewPage() {
   const [statusLoading, setStatusLoading]   = useState(false)
   const [statusError, setStatusError]       = useState('')
   const [confirmStatus, setConfirmStatus]   = useState(null)
+  const [resumeLoading, setResumeLoading]   = useState(false)
 
   const fetchApplication = useCallback(async () => {
     setLoading(true)
@@ -112,6 +114,24 @@ export default function ApplicantReviewPage() {
       setStatusError(err.response?.data?.error || 'Failed to change status.')
     } finally {
       setStatusLoading(false)
+    }
+  }
+
+  const handleResumeDownload = async () => {
+    setResumeLoading(true)
+    try {
+      const response = await downloadResume(application.resumeUrl)
+      const url = URL.createObjectURL(response.data)
+      const link = document.createElement('a')
+      link.href = url
+      link.target = '_blank'
+      link.rel = 'noopener noreferrer'
+      link.click()
+      URL.revokeObjectURL(url)
+    } catch {
+      setStatusError('Failed to open the resume.')
+    } finally {
+      setResumeLoading(false)
     }
   }
 
@@ -592,15 +612,16 @@ export default function ApplicantReviewPage() {
                     Resume
                   </dt>
                   <dd>
-                    <a
-                      href={application.resumeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={handleResumeDownload}
+                      disabled={resumeLoading}
                       className="inline-flex items-center gap-1.5 text-sm
-                        text-brand-600 font-semibold hover:text-brand-700"
+                        text-brand-600 font-semibold hover:text-brand-700
+                        disabled:opacity-60"
                     >
-                      📄 View Resume →
-                    </a>
+                      {resumeLoading ? 'Opening resume...' : '📄 View Resume →'}
+                    </button>
                   </dd>
                 </div>
               )}

@@ -5,7 +5,7 @@ import Button from '../../components/ui/Button'
 import Spinner from '../../components/ui/Spinner'
 import Alert from '../../components/ui/Alert'
 import { getOpenJobById } from '../../api/jobsApi'
-import { applyToJob, getMyApplications } from '../../api/applicationsApi'
+import { applyToJob, getMyApplications, uploadResume } from '../../api/applicationsApi'
 import {
   EMPLOYMENT_TYPE_LABELS,
   WORK_MODE_LABELS,
@@ -24,6 +24,7 @@ export default function JobDetailPage() {
   const [alreadyApplied, setAlreadyApplied] = useState(false)
   const [coverNote, setCoverNote]         = useState('')
   const [resumeUrl, setResumeUrl]         = useState('')
+  const [resumeFile, setResumeFile]       = useState(null)
   const [showApplyForm, setShowApplyForm] = useState(false)
 
   useEffect(() => {
@@ -51,10 +52,16 @@ export default function JobDetailPage() {
     setApplying(true)
     setApplyError('')
     try {
+      let submittedResumeUrl = resumeUrl.trim() || null
+      if (resumeFile) {
+        const uploadResponse = await uploadResume(resumeFile)
+        submittedResumeUrl = uploadResponse.data.url
+      }
+
       await applyToJob({
         jobId: Number(id),
         coverNote,
-        resumeUrl: resumeUrl.trim() || null,
+        resumeUrl: submittedResumeUrl,
       })
       setApplySuccess(true)
       setAlreadyApplied(true)
@@ -272,11 +279,45 @@ export default function JobDetailPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-[#0f172a] mb-1.5">
-                    Resume URL
-                    <span className="text-[#64748b] font-normal ml-1">(optional)</span>
+                  <label htmlFor="resumeFile" className="block text-sm font-semibold text-[#0f172a] mb-1.5">
+                    Upload CV
+                    <span className="text-[#64748b] font-normal ml-1">(PDF, DOC, or DOCX; max 5 MB)</span>
                   </label>
                   <input
+                    id="resumeFile"
+                    type="file"
+                    accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] || null
+                      if (!file) {
+                        setResumeFile(null)
+                        return
+                      }
+                      if (file.size > 5 * 1024 * 1024) {
+                        setApplyError('CV file must be 5 MB or smaller.')
+                        e.target.value = ''
+                        setResumeFile(null)
+                        return
+                      }
+                      setApplyError('')
+                      setResumeFile(file)
+                    }}
+                    className="w-full px-3.5 py-2.5 border border-[#e2e8f0] rounded-xl
+                      text-sm focus:outline-none focus:ring-2 focus:ring-brand-500
+                      focus:border-transparent text-[#191c1e] file:mr-3 file:rounded-lg
+                      file:border-0 file:bg-brand-50 file:px-3 file:py-1.5
+                      file:text-xs file:font-semibold file:text-brand-700"
+                  />
+                  {resumeFile && (
+                    <p className="text-xs text-emerald-600 mt-1.5">
+                      Selected: {resumeFile.name}
+                    </p>
+                  )}
+                  <label htmlFor="resumeUrl" className="block text-xs font-semibold text-[#64748b] mt-3 mb-1.5">
+                    Or provide a resume URL
+                  </label>
+                  <input
+                    id="resumeUrl"
                     type="url"
                     value={resumeUrl}
                     onChange={(e) => setResumeUrl(e.target.value)}

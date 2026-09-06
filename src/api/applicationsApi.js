@@ -1,5 +1,12 @@
 import axiosClient from './axiosClient'
 export const applyToJob              = (data) => axiosClient.post('/api/applications', data)
+export const uploadResume            = (file) => {
+	const formData = new FormData()
+	formData.append('file', file)
+	return axiosClient.post('/api/applications/resume', formData)
+}
+export const downloadResume          = (url) =>
+	axiosClient.get(url, { responseType: 'blob' })
 export const getMyApplications       = (p)    => axiosClient.get('/api/applications/me', { params: p })
 export const getMyApplicationById    = (id)   => axiosClient.get(`/api/applications/me/${id}`)
 export const withdrawApplication     = (id)   => axiosClient.delete(`/api/applications/${id}`)
