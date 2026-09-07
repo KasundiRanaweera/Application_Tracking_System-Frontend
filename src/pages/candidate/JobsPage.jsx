@@ -368,19 +368,21 @@ export default function JobsPage() {
           {/* Job list */}
           {!loading && !error && jobs.length > 0 && (
             <>
-              <div className="space-y-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3
+                gap-4">
                 {jobs.map(job => (
                   <div
                     key={job.id}
                     onClick={() => navigate(`/jobs/${job.id}`)}
                     className="bg-white border border-slate-200 rounded-xl
-                      p-4 flex gap-4 items-center cursor-pointer
+                      aspect-square p-5 flex flex-col items-start
+                      cursor-pointer overflow-hidden
                       hover:border-brand-300 hover:shadow-md
                       hover:shadow-brand-50 transition-all duration-200
                       group"
                   >
                     {/* Icon */}
-                    <div className="hidden sm:flex w-12 h-12 rounded-xl
+                    <div className="flex w-12 h-12 rounded-xl
                       bg-slate-50 border border-slate-200 items-center
                       justify-center text-2xl flex-shrink-0
                       group-hover:bg-brand-50 group-hover:border-brand-200
@@ -389,12 +391,12 @@ export default function JobsPage() {
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 w-full mt-4">
                       <div className="flex items-start justify-between
                         gap-3 mb-1.5">
                         <h3 className="font-bold text-slate-900 text-[15px]
-                          leading-tight group-hover:text-brand-600
-                          transition-colors truncate">
+                          leading-tight group-hover:text-brand-600 transition-colors
+                          line-clamp-2">
                           {job.title}
                         </h3>
                         <span className="text-xs text-slate-400 flex-shrink-0
@@ -444,12 +446,12 @@ export default function JobsPage() {
                     </div>
 
                     {/* CTA */}
-                    <div className="hidden sm:block flex-shrink-0">
+                    <div className="w-full flex-shrink-0 mt-auto pt-4">
                       <span className="text-xs font-semibold text-brand-600
                         border border-brand-200 px-3.5 py-1.5 rounded-lg
                         group-hover:bg-brand-600 group-hover:text-white
                         group-hover:border-brand-600 transition-all
-                        whitespace-nowrap">
+                        whitespace-nowrap inline-flex">
                         View →
                       </span>
                     </div>
