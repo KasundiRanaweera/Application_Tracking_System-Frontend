@@ -90,12 +90,38 @@ html.dark .text-slate-500, html.dark .text-slate-400 { color: var(--text-muted) 
 html.dark [class*="text-\\[\\#0f172a\\]"] { color: var(--text-primary) !important; }
 html.dark [class*="text-\\[\\#464555\\]"] { color: var(--text-secondary) !important; }
 html.dark [class*="text-\\[\\#64748b\\]"] { color: var(--text-muted) !important; }
+html.dark [class*="text-\\[\\#191c1e\\]"] { color: var(--text-primary) !important; }
+html.dark [class*="text-\\[\\#94a3b8\\]"] { color: var(--text-muted) !important; }
 html.dark [class*="bg-\\[\\#f7f9fb\\]"] { background-color: var(--surface-muted) !important; }
 html.dark [class*="bg-\\[\\#f2f4f6\\]"] { background-color: var(--surface-muted) !important; }
+html.dark [class*="bg-\\[\\#e2e8f0\\]"] { background-color: #475569 !important; }
 html.dark [class*="border-slate-200"], html.dark [class*="border-slate-100"] { border-color: var(--border) !important; }
 html.dark [class*="border-\[\#e2e8f0\]"] { border-color: var(--border) !important; }
 html.dark select, html.dark input, html.dark textarea { background-color: var(--surface) !important; color: var(--text-primary) !important; border-color: var(--border) !important; }
 html.dark input::placeholder, html.dark textarea::placeholder { color: var(--text-muted) !important; }
+
+/* Keep semantic badges and alerts readable against dark surfaces. */
+html.dark .bg-blue-50, html.dark .bg-brand-50 { background-color: #172554 !important; }
+html.dark .bg-amber-50 { background-color: #451a03 !important; }
+html.dark .bg-purple-50 { background-color: #2e1065 !important; }
+html.dark .bg-emerald-50 { background-color: #022c22 !important; }
+html.dark .bg-green-50 { background-color: #052e16 !important; }
+html.dark .bg-red-50 { background-color: #450a0a !important; }
+html.dark .bg-gray-50, html.dark .bg-gray-100 { background-color: var(--surface-muted) !important; }
+html.dark .text-blue-600, html.dark .text-blue-700,
+html.dark .text-brand-600, html.dark .text-brand-700 { color: #a5b4fc !important; }
+html.dark .text-amber-600, html.dark .text-amber-700 { color: #fcd34d !important; }
+html.dark .text-purple-600, html.dark .text-purple-700 { color: #d8b4fe !important; }
+html.dark .text-emerald-600, html.dark .text-emerald-700,
+html.dark .text-green-600, html.dark .text-green-700 { color: #6ee7b7 !important; }
+html.dark .text-red-500, html.dark .text-red-600, html.dark .text-red-700 { color: #fca5a5 !important; }
+html.dark .text-gray-500, html.dark .text-gray-600, html.dark .text-gray-700 { color: #cbd5e1 !important; }
+html.dark [class*="border-blue-"], html.dark [class*="border-brand-"] { border-color: #3730a3 !important; }
+html.dark [class*="border-amber-"] { border-color: #92400e !important; }
+html.dark [class*="border-purple-"] { border-color: #6b21a8 !important; }
+html.dark [class*="border-emerald-"], html.dark [class*="border-green-"] { border-color: #047857 !important; }
+html.dark [class*="border-red-"] { border-color: #991b1b !important; }
+html.dark [class*="border-gray-"] { border-color: var(--border) !important; }
 html.dark ::-webkit-scrollbar-track { background: #111827; }
 html.dark ::-webkit-scrollbar-thumb { background: #475569; }
 
