@@ -131,15 +131,28 @@ export default function RecruiterDashboardPage() {
 
         {/* Pipeline visual */}
         <div className="lg:col-span-2 bg-white border border-[#e2e8f0]
-          rounded-xl p-6">
-          <h2 className="text-base font-bold text-[#0f172a] mb-1">
-            Pipeline Overview
-          </h2>
-          <p className="text-xs text-[#64748b] mb-6">
-            Candidate distribution across active stages
-          </p>
+          rounded-xl p-6 overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-36 h-36 bg-brand-50
+            rounded-full blur-3xl opacity-70 pointer-events-none" />
+          <div className="relative flex items-start justify-between gap-4 mb-7">
+            <div>
+              <h2 className="text-base font-bold text-[#0f172a] mb-1">
+                Pipeline Overview
+              </h2>
+              <p className="text-xs text-[#64748b]">
+                Candidate journey from application to hire
+              </p>
+            </div>
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5
+              py-1 rounded-full bg-brand-50 text-brand-700 text-[11px]
+              font-bold uppercase tracking-wider">
+              6 stages
+            </span>
+          </div>
 
-          <div className="space-y-4">
+          <div className="relative space-y-3">
+            <div className="absolute left-[18px] top-5 bottom-5 w-px
+              bg-slate-200" />
             {PIPELINE_STAGES.map((stage, idx) => {
               const widths = [100, 75, 55, 35, 18, 8]
               const colors = [
@@ -151,23 +164,32 @@ export default function RecruiterDashboardPage() {
                 'bg-emerald-600',
               ]
               return (
-                <div key={stage} className="flex items-center gap-4">
-                  <div className="w-24 text-right flex-shrink-0">
-                    <span className="text-xs font-semibold text-[#464555]">
-                      {STATUS_LABELS[stage]}
-                    </span>
+                <div key={stage} className="relative flex items-center gap-3">
+                  <div className={`relative z-10 w-9 h-9 rounded-full
+                    flex items-center justify-center flex-shrink-0 border-2
+                    text-xs font-bold ${idx === 0
+                      ? 'bg-brand-600 border-brand-600 text-white'
+                      : idx === PIPELINE_STAGES.length - 1
+                        ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
+                        : 'bg-white border-slate-200 text-slate-500'}`}>
+                    {idx + 1}
                   </div>
-                  <div className="flex-1 h-7 bg-[#f2f4f6] rounded-r-lg
-                    overflow-hidden relative">
-                    <div
-                      className={`absolute inset-y-0 left-0 ${colors[idx]}
-                        rounded-r-lg transition-all duration-700 flex
-                        items-center`}
-                      style={{ width: `${widths[idx]}%` }}
-                    >
-                      <span className="ml-3 text-xs font-bold text-white">
-                        {stage === 'HIRED' ? '🎉' : ''}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-3 mb-1.5">
+                      <span className="text-xs font-bold text-[#464555]">
+                        {STATUS_LABELS[stage]}
                       </span>
+                      <span className="text-[10px] font-semibold text-[#94a3b8]
+                        uppercase tracking-wider">
+                        Stage {idx + 1}
+                      </span>
+                    </div>
+                    <div className="h-2 bg-[#f2f4f6] rounded-full overflow-hidden">
+                      <div
+                        className={`h-full ${colors[idx]} rounded-full
+                          transition-all duration-700`}
+                        style={{ width: `${widths[idx]}%` }}
+                      />
                     </div>
                   </div>
                 </div>
