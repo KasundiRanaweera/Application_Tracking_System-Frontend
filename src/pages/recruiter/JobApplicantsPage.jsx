@@ -165,17 +165,20 @@ export default function JobApplicantsPage() {
       {!loading && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
-            { label: 'Total',     value: counts.all,       color: 'text-[#0f172a]', bg: 'bg-[#f7f9fb]' },
-            { label: 'Interview', value: counts.interview,  color: 'text-brand-600', bg: 'bg-brand-50' },
-            { label: 'Offer',     value: counts.offer,      color: 'text-amber-600', bg: 'bg-amber-50'  },
-            { label: 'Hired',     value: counts.hired,      color: 'text-emerald-600', bg: 'bg-emerald-50'},
-          ].map(({ label, value, color, bg }) => (
+            { label: 'Total',     value: counts.all,       icon: '👥', color: 'text-[#0f172a]', bg: 'bg-[#f7f9fb]' },
+            { label: 'Interview', value: counts.interview, icon: '🗣️', color: 'text-brand-600', bg: 'bg-brand-50' },
+            { label: 'Offer',     value: counts.offer,     icon: '📨', color: 'text-amber-600', bg: 'bg-amber-50'  },
+            { label: 'Hired',     value: counts.hired,     icon: '🎉', color: 'text-emerald-600', bg: 'bg-emerald-50'},
+          ].map(({ label, value, icon, color, bg }) => (
             <div
               key={label}
               className="bg-white border border-[#e2e8f0] rounded-xl
                 p-4 flex items-center gap-3"
             >
-              <div className={`w-9 h-9 ${bg} rounded-lg flex-shrink-0`}/>
+              <div className={`w-9 h-9 ${bg} rounded-lg flex-shrink-0
+                flex items-center justify-center text-lg`}>
+                {icon}
+              </div>
               <div>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
                 <p className="text-xs text-[#64748b]">{label}</p>
