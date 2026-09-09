@@ -2,7 +2,7 @@
 
 TalentBridge is an Applicant Tracking System (ATS) that connects **candidates** looking for jobs with **recruiters** managing a hiring pipeline. This repository contains the React frontend - a single-page app served as static files and backed by a separate Spring Boot API.
 
-The backend is maintained separately in the `Application_Tracking_System` repository.
+The backend API is maintained separately in the `talentbridge-ats` repository. The frontend and backend are intentionally kept in separate Git repositories, with the frontend deployed to Vercel and the backend deployed independently on Railway.
 
 **Live app:** [https://application-tracking-system-fronten.vercel.app](https://application-tracking-system-fronten.vercel.app)
 **Backend API:** [https://applicationtrackingsystem-backend-production.up.railway.app](https://applicationtrackingsystem-backend-production.up.railway.app)
@@ -38,6 +38,7 @@ The backend is maintained separately in the `Application_Tracking_System` reposi
 - Provide an external resume URL instead of uploading a file
 - Track submitted applications and their pipeline status (Applied → Under Review → Shortlisted → Interview → Offer → Hired/Rejected/Withdrawn)
 - Withdraw an application
+- View their own submitted applications through the applications page and navigate to the uploaded CV safely when presented by the backend
 
 ### Recruiter
 - Dashboard with an overview of jobs and pipeline activity
@@ -45,6 +46,7 @@ The backend is maintained separately in the `Application_Tracking_System` reposi
 - Search and filter owned jobs by Draft, Open, or Closed status
 - View applicants for a specific job
 - Review an applicant's full profile: cover note, uploaded CV or resume link, rating, and notes
+- Open a recruiter-visible CV link in a new tab and download it from the browser
 - Move an applicant through the hiring pipeline
 - Add internal notes and a rating to an applicant
 
