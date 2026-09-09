@@ -5,6 +5,7 @@ import { registerCandidate } from '../api/authApi'
 import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
 import Alert from '../components/ui/Alert'
+import ThemeToggle from '../components/ui/ThemeToggle'
 
 export default function RegisterPage() {
   const { login } = useAuth()
@@ -56,7 +57,10 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="relative min-h-screen flex bg-slate-50">
+      <div className="absolute top-4 right-4 z-20">
+        <ThemeToggle />
+      </div>
 
       {/* Left panel */}
       <div className="hidden lg:flex lg:w-[46%] flex-col justify-between
