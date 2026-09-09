@@ -121,17 +121,21 @@ export default function ApplicantReviewPage() {
   }
 
   const handleResumeDownload = async () => {
+    const resumeTab = window.open('', '_blank', 'noopener,noreferrer')
+    if (!resumeTab) {
+      setStatusError('Please allow pop-ups to open the resume.')
+      return
+    }
+
+    resumeTab.document.title = 'Opening resume...'
+    resumeTab.document.body.innerHTML = '<p style="font-family: sans-serif; padding: 2rem;">Opening resume...</p>'
     setResumeLoading(true)
     try {
       const response = await downloadResume(application.resumeUrl)
       const url = URL.createObjectURL(response.data)
-      const link = document.createElement('a')
-      link.href = url
-      link.target = '_blank'
-      link.rel = 'noopener noreferrer'
-      link.click()
-      URL.revokeObjectURL(url)
+      resumeTab.location.href = url
     } catch {
+      resumeTab.close()
       setStatusError('Failed to open the resume.')
     } finally {
       setResumeLoading(false)
