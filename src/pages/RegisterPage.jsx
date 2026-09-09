@@ -157,12 +157,15 @@ export default function RegisterPage() {
               error={errors.password}
               hint="Minimum 8 characters"
               required
+              showPasswordToggle
             />
             <Input
               id="confirmPassword" label="Confirm password" type="password"
               value={form.confirmPassword} onChange={handleChange}
               placeholder="Repeat your password"
-              error={errors.confirmPassword} required
+              error={errors.confirmPassword}
+              required
+              showPasswordToggle
             />
             <Button type="submit" loading={loading} fullWidth size="lg">
               Create account →
