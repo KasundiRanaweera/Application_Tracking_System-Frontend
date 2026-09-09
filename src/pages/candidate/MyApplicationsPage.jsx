@@ -105,10 +105,10 @@ export default function MyApplicationsPage() {
 
       {/* Page header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-[#0f172a]">
+        <h1 className="text-2xl font-bold text-slate-900">
           My Applications
         </h1>
-        <p className="text-sm text-[#64748b] mt-1">
+        <p className="text-sm text-slate-500 mt-1">
           Track every application you have submitted
         </p>
       </div>
@@ -121,8 +121,8 @@ export default function MyApplicationsPage() {
               label: 'Total Applied',
               value: totalElements,
               icon: '📋',
-              color: 'text-[#0f172a]',
-              bg:    'bg-[#f7f9fb]',
+              color: 'text-slate-900',
+              bg:    'bg-slate-50',
             },
             {
               label: 'Active',
@@ -148,7 +148,7 @@ export default function MyApplicationsPage() {
           ].map(({ label, value, icon, color, bg }) => (
             <div
               key={label}
-              className="bg-white border border-[#e2e8f0] rounded-xl p-4
+              className="bg-white border border-slate-200 rounded-xl p-4
                 flex items-center gap-3"
             >
               <div className={`w-10 h-10 rounded-xl flex items-center
@@ -157,7 +157,7 @@ export default function MyApplicationsPage() {
               </div>
               <div>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-[#64748b]">{label}</p>
+                <p className="text-xs text-slate-500">{label}</p>
               </div>
             </div>
           ))}
@@ -165,7 +165,7 @@ export default function MyApplicationsPage() {
       )}
 
       {/* Status filter tabs */}
-      <div className="bg-white border border-[#e2e8f0] rounded-xl p-1.5
+      <div className="bg-white border border-slate-200 rounded-xl p-1.5
         mb-5 flex gap-1 overflow-x-auto">
         {STATUS_FILTERS.map(({ value, label }) => (
           <button
@@ -176,7 +176,7 @@ export default function MyApplicationsPage() {
               transition-all duration-150 whitespace-nowrap
               ${statusFilter === value
                 ? 'bg-brand-600 text-white shadow-sm'
-                : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f7f9fb]'}
+                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'}
             `}
           >
             {label}

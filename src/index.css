@@ -86,12 +86,13 @@ html.dark .bg-slate-50 { background-color: var(--surface-alt) !important; }
 html.dark .bg-slate-100 { background-color: var(--surface-muted) !important; }
 html.dark .text-slate-900, html.dark .text-slate-800 { color: var(--text-primary) !important; }
 html.dark .text-slate-700, html.dark .text-slate-600 { color: var(--text-secondary) !important; }
-html.dark .text-slate-500, html.dark .text-slate-400 { color: var(--text-muted) !important; }
+html.dark .text-slate-500, html.dark .text-slate-400, html.dark .text-slate-300, html.dark .text-slate-200 { color: var(--text-muted) !important; }
 html.dark [class*="text-[#0f172a]"] { color: var(--text-primary) !important; }
 html.dark [class*="text-[#464555]"] { color: var(--text-secondary) !important; }
 html.dark [class*="text-[#64748b]"] { color: var(--text-muted) !important; }
 html.dark [class*="text-[#191c1e]"] { color: var(--text-primary) !important; }
 html.dark [class*="text-[#94a3b8]"] { color: var(--text-muted) !important; }
+html.dark [class*="text-[#e2e8f0]"] { color: var(--text-muted) !important; }
 html.dark [class*="bg-[#f7f9fb]"] { background-color: var(--surface-muted) !important; }
 html.dark [class*="bg-[#f2f4f6]"] { background-color: var(--surface-muted) !important; }
 html.dark [class*="bg-[#e2e8f0]"] { background-color: #475569 !important; }
