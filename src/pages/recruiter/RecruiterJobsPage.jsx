@@ -3,8 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout/Layout'
 import Button from '../../components/ui/Button'
 import Alert from '../../components/ui/Alert'
-import Spinner from '../../components/ui/Spinner'
+import { RowListSkeleton } from '../../components/ui/Skeleton'
 import EmptyState from '../../components/ui/EmptyState'
+import Icon from '../../components/ui/Icon'
 import { JobStatusBadge } from '../../components/ui/Badge'
 import {
   getRecruiterJobs,
@@ -200,7 +201,7 @@ export default function RecruiterJobsPage() {
       </div>
 
       {/* States */}
-      {loading && <Spinner />}
+      {loading && <RowListSkeleton />}
 
       {!loading && error && (
         <div className="bg-red-50 border border-red-100 rounded-xl p-6
@@ -214,7 +215,7 @@ export default function RecruiterJobsPage() {
 
       {!loading && !error && jobs.length === 0 && (
         <EmptyState
-          icon="💼"
+          icon="briefcase"
           title="No jobs found"
           description={
             statusFilter
@@ -284,8 +285,8 @@ export default function RecruiterJobsPage() {
                     {/* Title */}
                     <div className="sm:col-span-5 flex items-center gap-3">
                       <div className="w-9 h-9 bg-[#f2f4f6] rounded-lg
-                        flex items-center justify-center text-sm flex-shrink-0">
-                        💼
+                        flex items-center justify-center flex-shrink-0">
+                        <Icon name="briefcase" className="w-4 h-4 text-slate-500" strokeWidth={2} />
                       </div>
                       <div className="min-w-0">
                         <p className="font-semibold text-[#0f172a] text-sm

@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout/Layout'
 import Button from '../../components/ui/Button'
-import Spinner from '../../components/ui/Spinner'
+import { RowStackSkeleton } from '../../components/ui/Skeleton'
+import Icon from '../../components/ui/Icon'
 import { getRecruiterJobs } from '../../api/jobsApi'
 import { PIPELINE_STAGES, STATUS_LABELS } from '../../utils/pipelineRules'
 
@@ -80,36 +81,41 @@ export default function RecruiterDashboardPage() {
           {
             label: 'Total Jobs',
             value: stats.total,
-            icon:  '💼',
+            icon:  'briefcase',
             bg:    'bg-[#f7f9fb]',
+            iconColor: 'text-[#64748b]',
             color: 'text-[#0f172a]',
           },
           {
             label: 'Open',
             value: stats.open,
-            icon:  '✅',
+            icon:  'checkCircle',
             bg:    'bg-emerald-50',
+            iconColor: 'text-emerald-600',
             color: 'text-emerald-700',
           },
           {
             label: 'Draft',
             value: stats.draft,
-            icon:  '📝',
+            icon:  'clipboardList',
             bg:    'bg-[#f2f4f6]',
+            iconColor: 'text-[#64748b]',
             color: 'text-[#64748b]',
           },
           {
             label: 'Closed',
             value: stats.closed,
-            icon:  '🔒',
+            icon:  'lock',
             bg:    'bg-red-50',
+            iconColor: 'text-red-500',
             color: 'text-red-600',
           },
-        ].map(({ label, value, icon, bg, color }) => (
+        ].map(({ label, value, icon, bg, iconColor, color }) => (
           <div
             key={label}
             className="bg-white border border-[#e2e8f0] rounded-xl p-5
-              hover:shadow-sm transition-shadow"
+              hover:shadow-sm transition-all duration-200 hover:-translate-y-0.5
+              animate-fade-up"
           >
             <div className="flex items-center justify-between mb-3">
               <span className="text-xs font-bold text-[#64748b]
@@ -117,8 +123,8 @@ export default function RecruiterDashboardPage() {
                 {label}
               </span>
               <div className={`w-9 h-9 ${bg} rounded-lg flex items-center
-                justify-center text-lg`}>
-                {icon}
+                justify-center flex-shrink-0`}>
+                <Icon name={icon} className={`w-4.5 h-4.5 ${iconColor}`} strokeWidth={2} />
               </div>
             </div>
             <p className={`text-3xl font-bold ${color}`}>{loading ? '—' : value}</p>
@@ -208,14 +214,14 @@ export default function RecruiterDashboardPage() {
               {
                 label: 'Post a new job',
                 desc:  'Create a new job posting',
-                icon:  '➕',
+                icon:  'plus',
                 action: () => navigate('/recruiter/jobs/create'),
                 primary: true,
               },
               {
                 label: 'Manage jobs',
                 desc:  'View and edit all your jobs',
-                icon:  '💼',
+                icon:  'briefcase',
                 action: () => navigate('/recruiter/jobs'),
               },
             ].map(({ label, desc, icon, action, primary }) => (
@@ -223,16 +229,16 @@ export default function RecruiterDashboardPage() {
                 key={label}
                 onClick={action}
                 className={`w-full flex items-center gap-3 p-3 rounded-xl
-                  border text-left transition-all
+                  border text-left transition-all cursor-pointer
                   ${primary
                     ? 'border-brand-200 bg-brand-50 hover:bg-brand-100'
                     : 'border-[#e2e8f0] bg-[#f7f9fb] hover:bg-[#f2f4f6]'}
                 `}
               >
                 <div className={`w-10 h-10 rounded-lg flex items-center
-                  justify-center text-lg flex-shrink-0
+                  justify-center flex-shrink-0
                   ${primary ? 'bg-brand-100' : 'bg-white border border-[#e2e8f0]'}`}>
-                  {icon}
+                  <Icon name={icon} className={`w-4.5 h-4.5 ${primary ? 'text-brand-600' : 'text-slate-600'}`} strokeWidth={2} />
                 </div>
                 <div>
                   <p className={`text-sm font-semibold
@@ -263,7 +269,7 @@ export default function RecruiterDashboardPage() {
           </button>
         </div>
 
-        {loading && <Spinner />}
+        {loading && <RowStackSkeleton />}
 
         {!loading && jobs.length === 0 && (
           <div className="text-center py-12">
@@ -289,8 +295,8 @@ export default function RecruiterDashboardPage() {
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-9 h-9 bg-[#f2f4f6] rounded-lg
-                    flex items-center justify-center text-base flex-shrink-0">
-                    💼
+                    flex items-center justify-center flex-shrink-0">
+                    <Icon name="briefcase" className="w-4 h-4 text-slate-500" strokeWidth={2} />
                   </div>
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-[#0f172a]
