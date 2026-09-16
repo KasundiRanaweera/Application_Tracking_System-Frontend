@@ -4,6 +4,7 @@ import Layout from '../../components/layout/Layout'
 import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
 import Alert from '../../components/ui/Alert'
+import Icon from '../../components/ui/Icon'
 import { createJob } from '../../api/jobsApi'
 
 const WORK_MODES    = ['REMOTE', 'HYBRID', 'ONSITE']
@@ -186,7 +187,7 @@ export default function CreateJobPage() {
           <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
             <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
               border-b border-[#e2e8f0] flex items-center gap-2">
-              <span className="text-brand-500">✓</span>
+              <Icon name="checkCircle" className="w-4 h-4 text-brand-500" strokeWidth={2} />
               Requirements & Skills
             </h2>
             <div>
@@ -232,7 +233,7 @@ export default function CreateJobPage() {
           <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
             <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
               border-b border-[#e2e8f0] flex items-center gap-2">
-              <span className="text-brand-500">📍</span>
+              <Icon name="mapPin" className="w-4 h-4 text-brand-500" strokeWidth={2} />
               Logistics
             </h2>
             <div className="space-y-4">
@@ -273,7 +274,7 @@ export default function CreateJobPage() {
           <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
             <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
               border-b border-[#e2e8f0] flex items-center gap-2">
-              <span className="text-brand-500">💰</span>
+              <Icon name="dollar" className="w-4 h-4 text-brand-500" strokeWidth={2} />
               Compensation
             </h2>
             <div className="space-y-3">

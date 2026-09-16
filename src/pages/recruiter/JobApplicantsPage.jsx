@@ -2,8 +2,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Layout from '../../components/layout/Layout'
 import Button from '../../components/ui/Button'
-import Spinner from '../../components/ui/Spinner'
+import { RowListSkeleton } from '../../components/ui/Skeleton'
 import EmptyState from '../../components/ui/EmptyState'
+import Icon from '../../components/ui/Icon'
 import { StatusBadge } from '../../components/ui/Badge'
 import { getRecruiterJobs } from '../../api/jobsApi'
 import { getJobApplications } from '../../api/applicationsApi'
@@ -144,13 +145,15 @@ export default function JobApplicantsPage() {
             <div className="flex flex-wrap items-center gap-3 mt-1
               text-sm text-[#64748b]">
               {job?.location && (
-                <span className="flex items-center gap-1">
-                  📍 {job.location}
+                <span className="flex items-center gap-1.5">
+                  <Icon name="mapPin" className="w-3.5 h-3.5 text-slate-400" strokeWidth={2} />
+                  {job.location}
                 </span>
               )}
               {job?.workMode && (
-                <span className="flex items-center gap-1">
-                  🌐 {job.workMode}
+                <span className="flex items-center gap-1.5">
+                  <Icon name="globe" className="w-3.5 h-3.5 text-slate-400" strokeWidth={2} />
+                  {job.workMode}
                 </span>
               )}
               <span className="text-brand-600 font-semibold">
@@ -165,19 +168,19 @@ export default function JobApplicantsPage() {
       {!loading && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
-            { label: 'Total',     value: counts.all,       icon: '👥', color: 'text-[#0f172a]', bg: 'bg-[#f7f9fb]' },
-            { label: 'Interview', value: counts.interview, icon: '🗣️', color: 'text-brand-600', bg: 'bg-brand-50' },
-            { label: 'Offer',     value: counts.offer,     icon: '📨', color: 'text-amber-600', bg: 'bg-amber-50'  },
-            { label: 'Hired',     value: counts.hired,     icon: '🎉', color: 'text-emerald-600', bg: 'bg-emerald-50'},
-          ].map(({ label, value, icon, color, bg }) => (
+            { label: 'Total',     value: counts.all,       icon: 'users',      color: 'text-[#0f172a]',    bg: 'bg-[#f7f9fb]',  iconColor: 'text-slate-500' },
+            { label: 'Interview', value: counts.interview, icon: 'chatBubble', color: 'text-brand-600',   bg: 'bg-brand-50',   iconColor: 'text-brand-600' },
+            { label: 'Offer',     value: counts.offer,     icon: 'mail',       color: 'text-amber-600',   bg: 'bg-amber-50',   iconColor: 'text-amber-600' },
+            { label: 'Hired',     value: counts.hired,     icon: 'checkCircle',color: 'text-emerald-600', bg: 'bg-emerald-50', iconColor: 'text-emerald-600' },
+          ].map(({ label, value, icon, color, bg, iconColor }) => (
             <div
               key={label}
               className="bg-white border border-[#e2e8f0] rounded-xl
-                p-4 flex items-center gap-3"
+                p-4 flex items-center gap-3 animate-fade-up"
             >
               <div className={`w-9 h-9 ${bg} rounded-lg flex-shrink-0
-                flex items-center justify-center text-lg`}>
-                {icon}
+                flex items-center justify-center`}>
+                <Icon name={icon} className={`w-4.5 h-4.5 ${iconColor}`} strokeWidth={2} />
               </div>
               <div>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
@@ -224,7 +227,7 @@ export default function JobApplicantsPage() {
       </div>
 
       {/* States */}
-      {loading && <Spinner />}
+      {loading && <RowListSkeleton />}
 
       {!loading && error && (
         <div className="bg-red-50 border border-red-100 rounded-xl p-6
@@ -238,7 +241,7 @@ export default function JobApplicantsPage() {
 
       {!loading && !error && applications.length === 0 && (
         <EmptyState
-          icon="👥"
+          icon="users"
           title="No applicants found"
           description={
             statusFilter

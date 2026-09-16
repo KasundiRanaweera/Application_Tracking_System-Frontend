@@ -2,8 +2,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout/Layout'
 import Button from '../../components/ui/Button'
-import Spinner from '../../components/ui/Spinner'
+import { ApplicationListSkeleton } from '../../components/ui/Skeleton'
 import EmptyState from '../../components/ui/EmptyState'
+import Icon from '../../components/ui/Icon'
 import { StatusBadge } from '../../components/ui/Badge'
 import { getMyApplications, withdrawApplication } from '../../api/applicationsApi'
 import { PIPELINE_STAGES, STATUS_LABELS } from '../../utils/pipelineRules'
@@ -120,28 +121,28 @@ export default function MyApplicationsPage() {
             {
               label: 'Total Applied',
               value: totalElements,
-              icon: '📋',
+              icon: 'clipboardList',
               color: 'text-slate-900',
               bg:    'bg-slate-50',
             },
             {
               label: 'Active',
               value: active,
-              icon: '⚡',
+              icon: 'bolt',
               color: 'text-brand-600',
               bg:    'bg-brand-50',
             },
             {
               label: 'Hired',
               value: hired,
-              icon: '🎉',
+              icon: 'sparkles',
               color: 'text-emerald-600',
               bg:    'bg-emerald-50',
             },
             {
               label: 'Rejected',
               value: rejected,
-              icon: '❌',
+              icon: 'xCircle',
               color: 'text-red-500',
               bg:    'bg-red-50',
             },
@@ -152,8 +153,8 @@ export default function MyApplicationsPage() {
                 flex items-center gap-3"
             >
               <div className={`w-10 h-10 rounded-xl flex items-center
-                justify-center text-lg flex-shrink-0 ${bg}`}>
-                {icon}
+                justify-center flex-shrink-0 ${bg} ${color}`}>
+                <Icon name={icon} className="w-5 h-5" strokeWidth={1.8} />
               </div>
               <div>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
@@ -185,7 +186,7 @@ export default function MyApplicationsPage() {
       </div>
 
       {/* Loading */}
-      {loading && <Spinner />}
+      {loading && <ApplicationListSkeleton />}
 
       {/* Error */}
       {!loading && error && (
@@ -201,7 +202,7 @@ export default function MyApplicationsPage() {
       {/* Empty state */}
       {!loading && !error && applications.length === 0 && (
         <EmptyState
-          icon="📋"
+          icon="clipboardList"
           title={
             statusFilter
               ? 'No applications with this status'
@@ -237,9 +238,9 @@ export default function MyApplicationsPage() {
                   rounded-xl z-10 flex flex-col items-center justify-center
                   p-8 text-center border border-[#e2e8f0]">
                   <div className="w-14 h-14 bg-red-50 rounded-2xl flex
-                    items-center justify-center text-2xl mb-4 border
+                    items-center justify-center mb-4 border
                     border-red-100">
-                    ⚠️
+                    <Icon name="warning" className="w-6 h-6 text-red-500" strokeWidth={1.8} />
                   </div>
                   <h3 className="font-bold text-[#0f172a] text-base mb-1">
                     Withdraw application?
@@ -277,8 +278,8 @@ export default function MyApplicationsPage() {
                   {/* Icon */}
                   <div className="w-12 h-12 bg-[#f7f9fb] border
                     border-[#e2e8f0] rounded-xl flex items-center
-                    justify-center text-xl flex-shrink-0">
-                    💼
+                    justify-center flex-shrink-0">
+                    <Icon name="briefcase" className="w-5 h-5 text-slate-500" strokeWidth={1.8} />
                   </div>
 
                   {/* Main info */}
@@ -296,8 +297,9 @@ export default function MyApplicationsPage() {
                     {/* Meta */}
                     <div className="flex flex-wrap items-center gap-3
                       text-xs text-[#64748b] mb-4">
-                      <span className="flex items-center gap-1">
-                        🏢 {app.companyName || 'TalentBridge'}
+                      <span className="flex items-center gap-1.5">
+                        <Icon name="building" className="w-3.5 h-3.5 text-slate-400" strokeWidth={2} />
+                        {app.companyName || 'TalentBridge'}
                       </span>
                       <span>·</span>
                       <span>Applied {formatDate(app.appliedAt)}</span>
@@ -374,7 +376,8 @@ export default function MyApplicationsPage() {
                       <div className="flex items-center gap-2 bg-emerald-50
                         border border-emerald-200 rounded-lg px-3 py-2
                         mb-4 text-sm text-emerald-700 font-medium">
-                        🎉 Congratulations! You got the job.
+                        <Icon name="sparkles" className="w-4 h-4 text-emerald-500 flex-shrink-0" strokeWidth={1.8} />
+                        Congratulations! You got the job.
                       </div>
                     )}
                     {app.status === 'REJECTED' && (

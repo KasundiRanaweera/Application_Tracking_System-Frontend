@@ -4,6 +4,7 @@ import Layout from '../../components/layout/Layout'
 import Button from '../../components/ui/Button'
 import Spinner from '../../components/ui/Spinner'
 import Alert from '../../components/ui/Alert'
+import Icon from '../../components/ui/Icon'
 import { StatusBadge } from '../../components/ui/Badge'
 import {
   getApplicationDetail,
@@ -167,7 +168,10 @@ export default function ApplicantReviewPage() {
   if (error || !application) return (
     <Layout>
       <div className="text-center py-20">
-        <div className="text-5xl mb-4">😕</div>
+        <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-100
+          flex items-center justify-center">
+          <Icon name="frown" className="w-7 h-7 text-slate-400" strokeWidth={1.6} />
+        </div>
         <h2 className="text-xl font-bold text-[#0f172a] mb-2">
           {error || 'Application not found'}
         </h2>
@@ -274,7 +278,7 @@ export default function ApplicantReviewPage() {
                               : 'bg-white border-[#e2e8f0] text-[#94a3b8]'}
                         `}>
                           {isDone
-                            ? '✓'
+                            ? <Icon name="check" className="w-3.5 h-3.5" strokeWidth={2.5} />
                             : idx + 1}
                         </div>
                         <span className={`text-xs font-medium text-center
@@ -349,11 +353,13 @@ export default function ApplicantReviewPage() {
                 <p className="text-xs text-red-500 mt-1">{noteError}</p>
               )}
               <div className="flex items-center justify-between mt-2">
-                <span className={`text-xs transition-opacity duration-300
+                <span className={`inline-flex items-center gap-1 text-xs
+                  transition-opacity duration-300
                   ${noteSuccess
                     ? 'text-emerald-600 opacity-100'
                     : 'opacity-0'}`}>
-                  ✓ Note added
+                  <Icon name="check" className="w-3.5 h-3.5" strokeWidth={2.5} />
+                  Note added
                 </span>
                 <Button
                   size="sm"
@@ -453,9 +459,11 @@ export default function ApplicantReviewPage() {
               </p>
 
               {/* Success */}
-              <div className={`text-xs text-emerald-600 transition-opacity
+              <div className={`inline-flex items-center gap-1 text-xs
+                text-emerald-600 transition-opacity
                 duration-300 ${ratingSuccess ? 'opacity-100' : 'opacity-0'}`}>
-                ✓ Rating saved
+                <Icon name="check" className="w-3.5 h-3.5" strokeWidth={2.5} />
+                Rating saved
               </div>
             </div>
           </div>
@@ -480,6 +488,7 @@ export default function ApplicantReviewPage() {
 
             {terminal ? (
               <div className={`
+                flex items-center justify-center gap-2
                 rounded-xl p-4 text-sm font-medium text-center
                 ${application.status === 'HIRED'
                   ? 'bg-emerald-50 border border-emerald-200 text-emerald-700'
@@ -487,9 +496,24 @@ export default function ApplicantReviewPage() {
                     ? 'bg-red-50 border border-red-200 text-red-600'
                     : 'bg-[#f2f4f6] border border-[#e2e8f0] text-[#64748b]'}
               `}>
-                {application.status === 'HIRED' && '🎉 This candidate has been hired'}
-                {application.status === 'REJECTED' && '❌ This application was rejected'}
-                {application.status === 'WITHDRAWN' && '↩ Candidate withdrew this application'}
+                {application.status === 'HIRED' && (
+                  <>
+                    <Icon name="sparkles" className="w-4 h-4 flex-shrink-0" strokeWidth={1.8} />
+                    This candidate has been hired
+                  </>
+                )}
+                {application.status === 'REJECTED' && (
+                  <>
+                    <Icon name="xCircle" className="w-4 h-4 flex-shrink-0" strokeWidth={1.8} />
+                    This application was rejected
+                  </>
+                )}
+                {application.status === 'WITHDRAWN' && (
+                  <>
+                    <Icon name="xMark" className="w-4 h-4 flex-shrink-0" strokeWidth={2} />
+                    Candidate withdrew this application
+                  </>
+                )}
               </div>
             ) : (
               <div className="space-y-3">
@@ -567,9 +591,10 @@ export default function ApplicantReviewPage() {
                         fullWidth
                         onClick={() => setConfirmStatus('REJECTED')}
                         className="text-red-500 hover:text-red-700
-                          hover:bg-red-50 mt-2"
+                          hover:bg-red-50 mt-2 gap-1.5"
                       >
-                        ✕ Reject Application
+                        <Icon name="xMark" className="w-3.5 h-3.5" strokeWidth={2} />
+                        Reject Application
                       </Button>
                     )}
                   </div>
@@ -630,9 +655,17 @@ export default function ApplicantReviewPage() {
                       disabled={resumeLoading}
                       className="inline-flex items-center gap-1.5 text-sm
                         text-brand-600 font-semibold hover:text-brand-700
-                        disabled:opacity-60"
+                        disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
                     >
-                      {resumeLoading ? 'Opening resume...' : '📄 View Resume →'}
+                      {resumeLoading ? (
+                        'Opening resume...'
+                      ) : (
+                        <>
+                          <Icon name="document" className="w-4 h-4" strokeWidth={1.8} />
+                          View Resume
+                          <span aria-hidden="true">→</span>
+                        </>
+                      )}
                     </button>
                   </dd>
                 </div>
