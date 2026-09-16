@@ -78,7 +78,7 @@ export default function LandingPage() {
       <section className="max-w-7xl mx-auto px-6 pt-16 pb-20 lg:pt-24 lg:pb-28
         grid lg:grid-cols-2 gap-14 items-center">
 
-        <div>
+        <div className="animate-fade-up">
           <p className="text-brand-600 text-xs font-bold uppercase
             tracking-[0.14em] mb-4">
             Applicant Tracking, Simplified
@@ -114,7 +114,8 @@ export default function LandingPage() {
         {/* Visual: same pipeline-ladder motif used on auth pages, for a
             consistent brand thread from marketing page into the app. */}
         <div className="relative rounded-2xl bg-slate-950 p-10 overflow-hidden
-          shadow-xl shadow-slate-900/10">
+          shadow-xl shadow-slate-900/10 animate-fade-up"
+          style={{ animationDelay: '100ms', animationFillMode: 'backwards' }}>
           <div className="absolute -top-20 -right-20 w-72 h-72 bg-brand-600/30
             rounded-full blur-[90px] pointer-events-none" />
           <div className="absolute inset-0 bg-grid-dots opacity-40 pointer-events-none" />
@@ -167,10 +168,12 @@ export default function LandingPage() {
       <section className="border-t border-slate-100 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid sm:grid-cols-3 gap-6">
-            {FEATURES.map(({ audience, title, body, icon }) => (
+            {FEATURES.map(({ audience, title, body, icon }, i) => (
               <div key={title}
                 className="bg-white rounded-xl border border-slate-200 p-6
-                  shadow-sm">
+                  shadow-sm hover:shadow-md hover:-translate-y-0.5
+                  transition-all duration-200 animate-fade-up"
+                style={{ animationDelay: `${i * 80}ms`, animationFillMode: 'backwards' }}>
                 <div className="w-10 h-10 rounded-lg bg-brand-50 text-brand-600
                   flex items-center justify-center mb-4">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor"
