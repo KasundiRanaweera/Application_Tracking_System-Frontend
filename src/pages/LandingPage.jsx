@@ -42,7 +42,11 @@ const FEATURES = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="relative min-h-screen bg-white text-slate-900">
+      <div className="absolute top-4 left-4 z-20">
+        <ThemeToggle />
+      </div>
+
       {/* Public nav */}
       <header className="border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -58,7 +62,6 @@ export default function LandingPage() {
           </Link>
 
           <div className="flex items-center gap-3">
-            <ThemeToggle />
             <Link to="/login"
               className="text-sm font-semibold text-slate-600 hover:text-slate-900
                 px-3 py-2 rounded-lg transition-colors">

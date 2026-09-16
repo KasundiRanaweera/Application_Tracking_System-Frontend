@@ -58,13 +58,13 @@ export default function RegisterPage() {
 
   return (
     <div className="relative min-h-screen flex bg-slate-50">
-      <div className="absolute top-4 right-4 z-20">
+      <div className="absolute top-4 left-4 z-20">
         <ThemeToggle />
       </div>
 
       {/* Left panel */}
       <div className="hidden lg:flex lg:w-[46%] flex-col justify-between
-        bg-slate-950 p-12 relative overflow-hidden">
+        bg-slate-950 p-12 pt-20 relative overflow-hidden">
         <div className="absolute -bottom-24 -left-24 w-[28rem] h-[28rem]
           bg-brand-600/30 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute inset-0 bg-grid-dots opacity-40 pointer-events-none" />

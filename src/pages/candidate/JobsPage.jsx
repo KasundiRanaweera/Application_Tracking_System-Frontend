@@ -4,6 +4,7 @@ import Layout from '../../components/layout/Layout'
 import Button from '../../components/ui/Button'
 import Spinner from '../../components/ui/Spinner'
 import EmptyState from '../../components/ui/EmptyState'
+import Icon from '../../components/ui/Icon'
 import { getOpenJobs } from '../../api/jobsApi'
 import {
   WORK_MODE_LABELS,
@@ -13,7 +14,7 @@ import {
 const WORK_MODES = ['REMOTE', 'HYBRID', 'ONSITE']
 const EMP_TYPES  = ['FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERNSHIP']
 
-const WORK_ICONS = { REMOTE: '🌐', HYBRID: '🏢', ONSITE: '📍' }
+const WORK_ICONS = { REMOTE: 'globe', HYBRID: 'building', ONSITE: 'mapPin' }
 
 function FilterSection({ title, children }) {
   return (
@@ -111,12 +112,12 @@ export default function JobsPage() {
 
   const getJobIcon = (title = '') => {
     const t = title.toLowerCase()
-    if (t.includes('engineer') || t.includes('developer') || t.includes('software')) return '💻'
-    if (t.includes('design'))  return '🎨'
-    if (t.includes('data') || t.includes('analyst')) return '📊'
-    if (t.includes('product')) return '📱'
-    if (t.includes('market'))  return '📣'
-    return '💼'
+    if (t.includes('engineer') || t.includes('developer') || t.includes('software')) return 'laptop'
+    if (t.includes('design'))  return 'palette'
+    if (t.includes('data') || t.includes('analyst')) return 'chartBar'
+    if (t.includes('product')) return 'phone'
+    if (t.includes('market'))  return 'megaphone'
+    return 'briefcase'
   }
 
   const hasFilters = search || workMode || empType || locationFilter
@@ -124,7 +125,7 @@ export default function JobsPage() {
   const activeFilters = [
     workMode       && { key: 'workMode',       label: WORK_MODE_LABELS[workMode],         clear: () => setWorkMode('') },
     empType        && { key: 'empType',         label: EMPLOYMENT_TYPE_LABELS[empType],    clear: () => setEmpType('') },
-    locationFilter && { key: 'locationFilter',  label: `📍 ${locationFilter}`,             clear: () => setLocationFilter('') },
+    locationFilter && { key: 'locationFilter',  label: locationFilter,                      clear: () => setLocationFilter('') },
   ].filter(Boolean)
 
   return (
@@ -177,7 +178,8 @@ export default function JobsPage() {
                         ? 'text-brand-700 font-semibold'
                         : 'text-slate-600 group-hover:text-slate-900',
                     ].join(' ')}>
-                      {WORK_ICONS[m]} {WORK_MODE_LABELS[m]}
+                      <Icon name={WORK_ICONS[m]} className="w-3.5 h-3.5" strokeWidth={1.8} />
+                      {WORK_MODE_LABELS[m]}
                     </span>
                   </label>
                 ))}
@@ -384,10 +386,10 @@ export default function JobsPage() {
                     {/* Icon */}
                     <div className="flex w-12 h-12 rounded-xl
                       bg-slate-50 border border-slate-200 items-center
-                      justify-center text-2xl flex-shrink-0
+                      justify-center text-slate-500 flex-shrink-0
                       group-hover:bg-brand-50 group-hover:border-brand-200
                       transition-colors">
-                      {getJobIcon(job.title)}
+                      <Icon name={getJobIcon(job.title)} className="w-6 h-6" strokeWidth={1.7} />
                     </div>
 
                     {/* Content */}
@@ -408,13 +410,7 @@ export default function JobsPage() {
                       {job.location && (
                         <p className="text-xs text-slate-400 mb-2.5
                           flex items-center gap-1">
-                          <svg className="w-3 h-3" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0
-                                01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                          </svg>
+                          <Icon name="mapPin" className="w-3 h-3" strokeWidth={2} />
                           {job.location}
                         </p>
                       )}
@@ -424,7 +420,7 @@ export default function JobsPage() {
                           <span className="inline-flex items-center gap-1
                             px-2 py-0.5 bg-slate-100 rounded text-xs
                             font-medium text-slate-600">
-                            {WORK_ICONS[job.workMode]}
+                            <Icon name={WORK_ICONS[job.workMode]} className="w-3 h-3" strokeWidth={1.8} />
                             {WORK_MODE_LABELS[job.workMode]}
                           </span>
                         )}

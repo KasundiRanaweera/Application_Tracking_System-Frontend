@@ -50,13 +50,13 @@ export default function LoginPage() {
 
   return (
     <div className="relative min-h-screen flex bg-slate-50">
-      <div className="absolute top-4 right-4 z-20">
+      <div className="absolute top-4 left-4 z-20">
         <ThemeToggle />
       </div>
 
       {/* Left — ink hero panel */}
       <div className="hidden lg:flex lg:w-[46%] flex-col justify-between
-        bg-slate-950 p-12 relative overflow-hidden">
+        bg-slate-950 p-12 pt-20 relative overflow-hidden">
 
         {/* Ambient brand glow + dot-grid texture, not a blurred blob */}
         <div className="absolute -top-24 -right-24 w-[28rem] h-[28rem]
