@@ -12,7 +12,9 @@ export default function ThemeToggle() {
       title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       className="theme-toggle w-9 h-9 rounded-full flex-shrink-0
         border border-slate-200 bg-white text-slate-700 shadow-md
-        hover:bg-slate-50 hover:text-slate-900"
+        hover:bg-slate-50 hover:text-slate-900
+        dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100
+        dark:hover:bg-slate-700 dark:hover:text-white"
     >
       {isDark ? (
         <svg aria-hidden="true" className="mx-auto w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">

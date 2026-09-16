@@ -42,13 +42,13 @@ const FEATURES = [
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen bg-white text-slate-900">
+    <div className="relative min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <div className="absolute top-4 left-4 z-20">
         <ThemeToggle />
       </div>
 
       {/* Public nav */}
-      <header className="border-b border-slate-200">
+      <header className="border-b border-slate-200 dark:border-slate-700 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center
@@ -168,7 +168,7 @@ export default function LandingPage() {
       </section>
 
       {/* Feature strip */}
-      <section className="border-t border-slate-100 bg-slate-50">
+      <section className="border-t border-slate-100 bg-slate-50 dark:border-slate-700 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid sm:grid-cols-3 gap-6">
             {FEATURES.map(({ audience, title, body, icon }, i) => (
@@ -188,6 +188,7 @@ export default function LandingPage() {
                   tracking-wider mb-1.5">
                   {audience}
                 </p>
+                <h3 className="text-slate-900 dark:text-white text-base mb-2">{title}</h3>
                 <h3 className="text-slate-900 text-base mb-2">{title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{body}</p>
               </div>

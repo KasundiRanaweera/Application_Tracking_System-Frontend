@@ -377,48 +377,46 @@ export default function JobsPage() {
                     key={job.id}
                     onClick={() => navigate(`/jobs/${job.id}`)}
                     className="bg-white border border-slate-200 rounded-xl
-                      aspect-square p-5 flex flex-col items-start
+                      min-h-[320px] p-5 flex flex-col items-start
                       cursor-pointer overflow-hidden
                       hover:border-brand-300 hover:shadow-md
                       hover:shadow-brand-50 transition-all duration-200
                       group"
                   >
-                    {/* Icon */}
-                    <div className="flex w-12 h-12 rounded-xl
-                      bg-slate-50 border border-slate-200 items-center
-                      justify-center text-slate-500 flex-shrink-0
-                      group-hover:bg-brand-50 group-hover:border-brand-200
-                      transition-colors">
-                      <Icon name={getJobIcon(job.title)} className="w-6 h-6" strokeWidth={1.7} />
+                    <div className="w-full flex items-start justify-between gap-3">
+                      <div className="flex w-12 h-12 rounded-xl
+                        bg-brand-50 border border-brand-100 items-center
+                        justify-center text-brand-600 flex-shrink-0
+                        group-hover:bg-brand-100 group-hover:border-brand-200
+                        transition-colors">
+                        <Icon name={getJobIcon(job.title)} className="w-6 h-6" strokeWidth={1.7} />
+                      </div>
+                      <span className="text-[11px] font-medium text-slate-400
+                        whitespace-nowrap pt-1">
+                        {formatDate(job.createdAt)}
+                      </span>
                     </div>
 
                     {/* Content */}
                     <div className="flex-1 min-w-0 w-full mt-4">
-                      <div className="flex items-start justify-between
-                        gap-3 mb-1.5">
-                        <h3 className="font-bold text-slate-900 text-[15px]
-                          leading-tight group-hover:text-brand-600 transition-colors
-                          line-clamp-2">
-                          {job.title}
-                        </h3>
-                        <span className="text-xs text-slate-400 flex-shrink-0
-                          mt-0.5">
-                          {formatDate(job.createdAt)}
-                        </span>
-                      </div>
+                      <h3 className="font-bold text-slate-900 text-[15px]
+                        leading-tight group-hover:text-brand-600 transition-colors
+                        line-clamp-2">
+                        {job.title}
+                      </h3>
 
                       {job.location && (
-                        <p className="text-xs text-slate-400 mb-2.5
+                        <p className="text-xs text-slate-500 mt-2.5 mb-4
                           flex items-center gap-1">
-                          <Icon name="mapPin" className="w-3 h-3" strokeWidth={2} />
+                          <Icon name="mapPin" className="w-3.5 h-3.5 text-brand-500" strokeWidth={2} />
                           {job.location}
                         </p>
                       )}
 
-                      <div className="flex flex-wrap items-center gap-1.5">
+                      <div className="flex flex-wrap items-center gap-2">
                         {job.workMode && (
                           <span className="inline-flex items-center gap-1
-                            px-2 py-0.5 bg-slate-100 rounded text-xs
+                            px-2.5 py-1 bg-slate-100 rounded-md text-xs
                             font-medium text-slate-600">
                             <Icon name={WORK_ICONS[job.workMode]} className="w-3 h-3" strokeWidth={1.8} />
                             {WORK_MODE_LABELS[job.workMode]}
@@ -426,15 +424,16 @@ export default function JobsPage() {
                         )}
                         {job.employmentType && (
                           <span className="inline-flex items-center px-2
-                            py-0.5 bg-slate-100 rounded text-xs font-medium
+                            py-1 bg-slate-100 rounded-md text-xs font-medium
                             text-slate-600">
                             {EMPLOYMENT_TYPE_LABELS[job.employmentType]}
                           </span>
                         )}
                         {formatSalary(job.salaryMin, job.salaryMax) && (
-                          <span className="inline-flex items-center px-2
-                            py-0.5 bg-emerald-50 rounded text-xs font-semibold
+                          <span className="inline-flex items-center gap-1.5 px-2.5
+                            py-1 bg-emerald-50 rounded-md text-xs font-semibold
                             text-emerald-700">
+                            <Icon name="dollar" className="w-3 h-3" strokeWidth={2} />
                             {formatSalary(job.salaryMin, job.salaryMax)}
                           </span>
                         )}
@@ -442,13 +441,14 @@ export default function JobsPage() {
                     </div>
 
                     {/* CTA */}
-                    <div className="w-full flex-shrink-0 mt-auto pt-4">
-                      <span className="text-xs font-semibold text-brand-600
-                        border border-brand-200 px-3.5 py-1.5 rounded-lg
-                        group-hover:bg-brand-600 group-hover:text-white
-                        group-hover:border-brand-600 transition-all
-                        whitespace-nowrap inline-flex">
-                        View →
+                    <div className="w-full flex-shrink-0 mt-6 pt-4
+                      border-t border-slate-100">
+                      <span className="w-full flex items-center justify-between
+                        text-xs font-semibold text-brand-600
+                        group-hover:text-brand-700 transition-colors">
+                        View position
+                        <Icon name="arrowRight" className="w-4 h-4
+                          group-hover:translate-x-0.5 transition-transform" strokeWidth={2} />
                       </span>
                     </div>
                   </div>
