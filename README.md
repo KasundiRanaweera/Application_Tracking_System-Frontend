@@ -8,7 +8,7 @@ The backend API is maintained separately in the `talentbridge-ats` repository. T
 **Backend API:** [https://applicationtrackingsystem-backend-production.up.railway.app](https://applicationtrackingsystem-backend-production.up.railway.app)
 **API docs (Swagger):** `/swagger-ui.html` on the backend URL above
 
-
+---
 
 ## Tech Stack
 
