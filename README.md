@@ -2,11 +2,11 @@
 
 TalentBridge is an Applicant Tracking System (ATS) that connects **candidates** looking for jobs with **recruiters** managing a hiring pipeline. This repository contains the React frontend - a single-page app served as static files and backed by a separate Spring Boot API.
 
-The backend API is maintained separately in the `talentbridge-ats` repository. The frontend and backend are intentionally kept in separate Git repositories, with the frontend deployed to Vercel and the backend deployed independently on Railway.
+The backend API is maintained separately in the `talentbridge-ats` repository. The frontend and backend are intentionally kept in separate Git repositories, with the frontend deployed to Vercel and the backend deployed independently on Render.
 
 **Live app:** [https://application-tracking-system-fronten.vercel.app](https://application-tracking-system-fronten.vercel.app)
-**Backend API:** [https://applicationtrackingsystem-backend-production.up.railway.app](https://applicationtrackingsystem-backend-production.up.railway.app)
-**API docs (Swagger):** `/swagger-ui.html` on the backend URL above
+**Backend API:** [https://application-tracking-system-backend.onrender.com](https://application-tracking-system-backend.onrender.com)
+**API docs (Swagger):** [https://application-tracking-system-backend.onrender.com/swagger-ui.html](https://application-tracking-system-backend.onrender.com/swagger-ui.html)
 
 ---
 
@@ -76,7 +76,7 @@ src/
 
 ### Prerequisites
 - Node.js 18+
-- A running instance of the [TalentBridge backend](https://applicationtrackingsystem-backend-production.up.railway.app) (local or deployed)
+- A running instance of the TalentBridge backend (local or deployed)
 
 ### Setup
 
@@ -88,11 +88,15 @@ npm install
 
 Create a `.env` file in the project root:
 
-```
+```env
 VITE_API_BASE_URL=http://localhost:8080
 ```
 
-(Point this at your local backend, or at the deployed Railway URL if you don't want to run the backend locally.)
+For the deployed app, point it at the Render backend instead:
+
+```env
+VITE_API_BASE_URL=https://application-tracking-system-backend.onrender.com
+```
 
 Start the dev server:
 
@@ -119,7 +123,7 @@ The app runs at `http://localhost:5173`.
 
 | Variable | Description | Example |
 |---|---|---|
-| `VITE_API_BASE_URL` | Base URL of the backend API. No trailing slash. | `https://applicationtrackingsystem-backend-production.up.railway.app` |
+| `VITE_API_BASE_URL` | Base URL of the backend API. No trailing slash. | `https://application-tracking-system-backend.onrender.com` |
 
 Vite only reads variables prefixed with `VITE_`, and it bakes them into the build at **build time** — so this must be set correctly before running `npm run build`, not just at runtime.
 
@@ -129,10 +133,10 @@ Vite only reads variables prefixed with `VITE_`, and it bakes them into the buil
 
 1. Push this repo to GitHub.
 2. In Vercel, import the repo (Vite is auto-detected).
-3. Under **Settings → Environment Variables**, add `VITE_API_BASE_URL` pointing at the deployed backend.
+3. Under **Settings → Environment Variables**, add `VITE_API_BASE_URL` pointing at the deployed backend URL.
 4. Deploy. Every push to the connected branch triggers a new deployment automatically.
 
-The frontend and backend are maintained and pushed as separate Git repositories. Deploy the frontend to Vercel and deploy the backend separately to Railway.
+The frontend and backend are maintained and pushed as separate Git repositories. Deploy the frontend to Vercel and deploy the backend separately to Render.
 
 **Note:** if you change `VITE_API_BASE_URL` after the project already has a deployment, you must trigger a **redeploy** — Vercel does not rebuild automatically just because a variable changed.
 

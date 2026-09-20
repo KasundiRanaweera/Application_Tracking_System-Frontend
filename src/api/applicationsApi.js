@@ -3,7 +3,9 @@ export const applyToJob              = (data) => axiosClient.post('/api/applicat
 export const uploadResume            = (file) => {
 	const formData = new FormData()
 	formData.append('file', file)
-	return axiosClient.post('/api/applications/resume', formData)
+	return axiosClient.post('/api/applications/resume', formData, {
+		headers: { 'Content-Type': 'multipart/form-data' },
+	})
 }
 export const downloadResume          = (url) =>
 	axiosClient.get(url, { responseType: 'blob' })
