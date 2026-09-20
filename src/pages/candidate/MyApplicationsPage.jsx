@@ -202,7 +202,7 @@ export default function MyApplicationsPage() {
       {/* Empty state */}
       {!loading && !error && applications.length === 0 && (
         <EmptyState
-          icon="briefcase"
+          icon="search"
           title={
             statusFilter
               ? 'No applications with this status'
