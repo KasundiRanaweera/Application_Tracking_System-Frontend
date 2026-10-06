@@ -7,7 +7,7 @@ import Button from '../components/ui/Button'
 import Alert from '../components/ui/Alert'
 import Icon from '../components/ui/Icon'
 import AuthShell from '../components/layout/AuthShell'
-import PipelineLadder from '../components/marketing/PipelineLadder'
+import { ApplicationsPreview } from '../components/landing/AuthPreview'
 
 export default function LoginPage() {
   const { login } = useAuth()
@@ -52,17 +52,18 @@ export default function LoginPage() {
 
   return (
     <AuthShell
-      eyebrow="Applicant Tracking, Simplified"
-      title={<>Welcome back.<br />Your next step awaits.</>}
+      eyebrow="Pick up where you left off"
+      title="Welcome back."
+      highlight="Your next step awaits."
       description="Sign in to browse open positions, apply in minutes and follow every application from Applied to Hired."
-      visual={<PipelineLadder />}
+      visual={<ApplicationsPreview />}
     >
       <div className="mb-8">
         <h2 className="text-[1.65rem] text-fg tracking-tight mb-1.5">
-          Welcome back
+          Sign in to your account
         </h2>
         <p className="text-sm text-fg-subtle">
-          Sign in to your account to continue
+          Enter your email and password to continue
         </p>
       </div>
 

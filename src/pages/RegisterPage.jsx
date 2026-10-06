@@ -7,6 +7,7 @@ import Button from '../components/ui/Button'
 import Alert from '../components/ui/Alert'
 import Icon from '../components/ui/Icon'
 import AuthShell from '../components/layout/AuthShell'
+import { StepsPreview } from '../components/landing/AuthPreview'
 
 export default function RegisterPage() {
   const { login } = useAuth()
@@ -57,27 +58,13 @@ export default function RegisterPage() {
     }
   }
 
-  const steps = ['Create your account', 'Browse open positions', 'Apply & track progress']
-
   return (
     <AuthShell
-      eyebrow="Join as a Candidate"
-      title={<>Find your next<br />opportunity.</>}
+      eyebrow="Join as a candidate"
+      title="Find your next"
+      highlight="opportunity."
       description="Create a free candidate account and start applying to open positions today."
-      glow="bottom"
-      visual={
-        <ol className="space-y-4">
-          {steps.map((step, i) => (
-            <li key={step} className="flex items-center gap-4">
-              <span className="w-8 h-8 rounded-full bg-slate-900 ring-1 ring-brand-500/40
-                flex items-center justify-center text-brand-300 text-sm font-bold flex-shrink-0">
-                {i + 1}
-              </span>
-              <span className="text-white text-sm font-medium">{step}</span>
-            </li>
-          ))}
-        </ol>
-      }
+      visual={<StepsPreview />}
     >
       <div className="mb-7">
         <h2 className="text-[1.65rem] text-fg tracking-tight mb-1.5">
