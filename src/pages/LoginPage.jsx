@@ -53,8 +53,8 @@ export default function LoginPage() {
   return (
     <AuthShell
       eyebrow="Applicant Tracking, Simplified"
-      title={<>The smarter way<br />to hire and get hired.</>}
-      description="One account for both sides of hiring. Apply to roles as a candidate, or manage your pipeline as a recruiter."
+      title={<>Welcome back.<br />Your next step awaits.</>}
+      description="Sign in to browse open positions, apply in minutes and follow every application from Applied to Hired."
       visual={<PipelineLadder />}
     >
       <div className="mb-8">
