@@ -188,7 +188,6 @@ export default function LandingPage() {
                   tracking-wider mb-1.5">
                   {audience}
                 </p>
-                <h3 className="text-fg dark:text-white text-base mb-2">{title}</h3>
                 <h3 className="text-fg text-base mb-2">{title}</h3>
                 <p className="text-fg-subtle text-sm leading-relaxed">{body}</p>
               </div>
