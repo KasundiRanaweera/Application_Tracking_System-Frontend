@@ -25,7 +25,7 @@ export default function AuthShell({ eyebrow, title, highlight, description, visu
       </header>
 
       <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-4 lg:pt-8
-        grid lg:grid-cols-[1fr_minmax(0,440px)] gap-12 xl:gap-20 items-center">
+        grid lg:grid-cols-[1fr_minmax(0,440px)] gap-10 xl:gap-14 items-center">
 
         {/* Form card */}
         <div className="w-full max-w-[440px] mx-auto lg:mr-0 lg:order-2 animate-rise-in">
@@ -37,7 +37,7 @@ export default function AuthShell({ eyebrow, title, highlight, description, visu
 
         {/* Showcase */}
         <aside className="hidden lg:block min-w-0 lg:order-1">
-          <div className="max-w-xl animate-rise-in [animation-delay:120ms]">
+          <div className="max-w-2xl animate-rise-in [animation-delay:120ms]">
             <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 backdrop-blur
               pl-1.5 pr-3 py-1 text-xs font-medium text-fg-muted shadow-xs mb-6">
               <span className="rounded-full bg-brand-600 text-white px-2 py-0.5 text-[11px] font-semibold">Careers</span>
@@ -55,7 +55,7 @@ export default function AuthShell({ eyebrow, title, highlight, description, visu
           </div>
 
           {visual && (
-            <div className="mt-10 max-w-xl animate-rise-in [animation-delay:240ms]">
+            <div className="mt-10 animate-rise-in [animation-delay:240ms]">
               {visual}
             </div>
           )}
