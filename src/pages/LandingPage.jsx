@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import Icon from '../components/ui/Icon'
-import { LogoMark } from '../components/ui/Logo'
 import LandingNav from '../components/landing/LandingNav'
 import HeroMockup from '../components/landing/HeroMockup'
+import LandingFooter from '../components/landing/LandingFooter'
 
 const HERO_POINTS = [
   'Free to join',
@@ -227,32 +227,7 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="border-t border-line bg-surface">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row gap-6
-          md:items-center justify-between">
-          <div>
-            <div className="flex items-center gap-2.5">
-              <LogoMark />
-              <span className="font-display font-bold text-fg">TalentBridge</span>
-            </div>
-            <p className="text-[13px] text-fg-subtle mt-2 max-w-xs">
-              Find your next role and track every application in one place.
-            </p>
-          </div>
-          <nav className="flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-fg-subtle" aria-label="Footer">
-            <a href="#how-it-works" className="hover:text-fg">How it works</a>
-            <a href="#pipeline" className="hover:text-fg">Your journey</a>
-            <a href="#features" className="hover:text-fg">Why apply here</a>
-            <Link to="/login" className="hover:text-fg">Sign in</Link>
-            <Link to="/register" className="hover:text-fg">Create account</Link>
-          </nav>
-        </div>
-        <div className="border-t border-line">
-          <p className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 text-xs text-fg-faint">
-            © {new Date().getFullYear()} TalentBridge. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <LandingFooter />
     </div>
   )
 }
