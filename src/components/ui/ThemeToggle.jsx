@@ -10,19 +10,17 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-      className="theme-toggle w-9 h-9 rounded-full flex-shrink-0
-        border border-slate-200 bg-white text-slate-700 shadow-md
-        hover:bg-slate-50 hover:text-slate-900
-        dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100
-        dark:hover:bg-slate-700 dark:hover:text-white"
+      className="theme-toggle w-9 h-9 rounded-lg flex-shrink-0 cursor-pointer
+        border border-line bg-surface text-fg-subtle shadow-xs
+        hover:bg-subtle hover:text-fg hover:border-line-strong"
     >
       {isDark ? (
-        <svg aria-hidden="true" className="mx-auto w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <svg aria-hidden="true" className="mx-auto w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
           <circle cx="12" cy="12" r="4" />
           <path strokeLinecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
         </svg>
       ) : (
-        <svg aria-hidden="true" className="mx-auto w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <svg aria-hidden="true" className="mx-auto w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
           <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.6 6.6 0 0 0 21 12.8Z" />
         </svg>
       )}

@@ -31,11 +31,11 @@ export const STATUS_COLORS = {
   OFFER:        'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
   HIRED:        'bg-green-50 text-green-700 ring-1 ring-green-200',
   REJECTED:     'bg-red-50 text-red-600 ring-1 ring-red-200',
-  WITHDRAWN:    'bg-gray-100 text-gray-500 ring-1 ring-gray-200',
+  WITHDRAWN:    'bg-muted text-fg-subtle ring-1 ring-gray-200',
 }
 
 export const JOB_STATUS_COLORS = {
-  DRAFT:  'bg-gray-100 text-gray-600 ring-1 ring-gray-200',
+  DRAFT:  'bg-muted text-fg-muted ring-1 ring-gray-200',
   OPEN:   'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
   CLOSED: 'bg-red-50 text-red-600 ring-1 ring-red-200',
 }

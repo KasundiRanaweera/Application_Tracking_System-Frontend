@@ -16,14 +16,14 @@ export default function Card({
     <div
       onClick={onClick}
       className={[
-        'bg-white rounded-xl border border-slate-200',
-        'shadow-sm',
+        'bg-surface rounded-xl border border-line',
+        'shadow-card',
         paddings[padding] ?? paddings.default,
         hover ? [
           'cursor-pointer',
-          'hover:border-brand-300 hover:shadow-md',
+          'hover:border-line-strong hover:shadow-pop',
           'hover:-translate-y-0.5',
-          'transition-all duration-200',
+          'transition-[border-color,box-shadow,transform] duration-200',
         ].join(' ') : '',
         className,
       ].join(' ')}

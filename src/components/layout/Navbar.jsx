@@ -2,29 +2,67 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/AuthContext'
 import Button from '../ui/Button'
+import Icon from '../ui/Icon'
 import ThemeToggle from '../ui/ThemeToggle'
 
-function NavLink({ to, children }) {
+function useIsActive(to) {
   const { pathname } = useLocation()
-  const active = pathname === to || pathname.startsWith(to + '/')
+  return pathname === to || pathname.startsWith(to + '/')
+}
+
+function NavLink({ to, icon, children }) {
+  const active = useIsActive(to)
 
   return (
     <Link
       to={to}
+      aria-current={active ? 'page' : undefined}
       className={[
-        'relative px-3 py-1.5 text-sm font-semibold rounded-md',
+        'inline-flex items-center gap-2 h-9 px-3 text-sm font-medium rounded-lg',
         'transition-colors duration-150',
         active
-          ? 'text-brand-600 bg-brand-50'
-          : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100',
+          ? 'text-fg bg-muted'
+          : 'text-fg-subtle hover:text-fg hover:bg-subtle',
       ].join(' ')}
     >
+      <Icon name={icon} className={`w-4 h-4 ${active ? 'text-brand-600' : ''}`} />
       {children}
-      {active && (
-        <span className="absolute bottom-0 left-1/2 -translate-x-1/2
-          translate-y-[14px] w-4 h-0.5 bg-brand-600 rounded-full" />
-      )}
     </Link>
+  )
+}
+
+function MobileLink({ to, icon, children, onClick }) {
+  const active = useIsActive(to)
+
+  return (
+    <Link
+      to={to}
+      onClick={onClick}
+      aria-current={active ? 'page' : undefined}
+      className={[
+        'flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg',
+        active ? 'bg-muted text-fg' : 'text-fg-muted hover:bg-subtle hover:text-fg',
+      ].join(' ')}
+    >
+      <Icon name={icon} className={`w-4 h-4 ${active ? 'text-brand-600' : 'text-fg-faint'}`} />
+      {children}
+    </Link>
+  )
+}
+
+function Avatar({ name, isRec, size = 'md' }) {
+  const sizes = { sm: 'w-7 h-7 text-[11px]', md: 'w-8 h-8 text-xs' }
+  return (
+    <div className={[
+      'rounded-full flex items-center justify-center flex-shrink-0',
+      'font-semibold text-white ring-2 ring-surface',
+      sizes[size],
+      isRec
+        ? 'bg-gradient-to-br from-brand-500 to-brand-700'
+        : 'bg-gradient-to-br from-sky-500 to-brand-600',
+    ].join(' ')}>
+      {name?.charAt(0).toUpperCase()}
+    </div>
   )
 }
 
@@ -36,6 +74,17 @@ export default function Navbar() {
 
   const isRec = user?.role === 'RECRUITER'
   const isCan = user?.role === 'USER'
+
+  const links = [
+    ...(isCan ? [
+      { to: '/jobs', icon: 'search', label: 'Browse Jobs' },
+      { to: '/my-applications', icon: 'clipboardList', label: 'My Applications' },
+    ] : []),
+    ...(isRec ? [
+      { to: '/recruiter/dashboard', icon: 'chartBar', label: 'Dashboard' },
+      { to: '/recruiter/jobs', icon: 'briefcase', label: 'My Jobs' },
+    ] : []),
+  ]
 
   const handleLogout = () => {
     setShowLogoutModal(true)
@@ -59,156 +108,116 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm
-        border-b border-slate-200 shadow-sm">
+      <header className="sticky top-0 z-50 bg-surface/80 backdrop-blur-xl
+        backdrop-saturate-150 border-b border-line">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14">
+        <div className="flex items-center justify-between h-16 gap-4">
 
-          {/* Logo */}
-          <div className="flex items-center gap-3 flex-shrink-0">
-            <ThemeToggle />
-            <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center
-                justify-center shadow-sm">
-                <span className="text-white font-black text-xs tracking-tight">
+          {/* Logo + primary nav */}
+          <div className="flex items-center gap-8 min-w-0">
+            <Link to="/" className="flex items-center gap-2.5 flex-shrink-0 rounded-lg">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center
+                bg-gradient-to-br from-brand-500 to-brand-700 shadow-xs
+                ring-1 ring-inset ring-white/15">
+                <span className="text-white font-extrabold text-[11px] tracking-tight">
                   TB
                 </span>
               </div>
-              <span className="font-display font-bold text-slate-900 text-[15px]
+              <span className="font-display font-bold text-fg text-[15px]
                 tracking-tight hidden sm:block">
                 TalentBridge
               </span>
             </Link>
+
+            {user && links.length > 0 && (
+              <nav className="hidden md:flex items-center gap-1" aria-label="Main">
+                {links.map(l => (
+                  <NavLink key={l.to} to={l.to} icon={l.icon}>{l.label}</NavLink>
+                ))}
+              </nav>
+            )}
           </div>
 
-          {/* Desktop nav */}
-          {user && (
-            <nav className="hidden md:flex items-center gap-1">
-              {isCan && (
-                <>
-                  <NavLink to="/jobs">Browse Jobs</NavLink>
-                  <NavLink to="/my-applications">My Applications</NavLink>
-                </>
-              )}
-              {isRec && (
-                <>
-                  <NavLink to="/recruiter/dashboard">Dashboard</NavLink>
-                  <NavLink to="/recruiter/jobs">My Jobs</NavLink>
-                </>
-              )}
-            </nav>
-          )}
-
           {/* Right side */}
-          {user && (
-            <div className="hidden md:flex items-center gap-3">
-              <div className="flex items-center gap-2.5 pl-3
-                border-l border-slate-200">
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
 
-                {/* Avatar + name */}
-                <div className={[
-                  'w-8 h-8 rounded-full flex items-center justify-center',
-                  'text-xs font-bold text-white flex-shrink-0',
-                  'shadow-sm',
-                  isRec
-                    ? 'bg-gradient-to-br from-brand-500 to-brand-700'
-                    : 'bg-gradient-to-br from-blue-500 to-blue-700',
-                ].join(' ')}>
-                  {user.name?.charAt(0).toUpperCase()}
-                </div>
-
-                <div className="hidden lg:block leading-none">
-                  <p className="text-xs font-semibold text-slate-800">
+            {user && (
+              <div className="hidden md:flex items-center gap-3 pl-3 ml-1
+                border-l border-line">
+                <Avatar name={user.name} isRec={isRec} />
+                <div className="hidden lg:block leading-tight min-w-0">
+                  <p className="text-[13px] font-semibold text-fg truncate max-w-[10rem]">
                     {user.name}
                   </p>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
+                  <p className="text-[11px] text-fg-subtle">
                     {isRec ? 'Recruiter' : 'Candidate'}
                   </p>
                 </div>
+                <button
+                  onClick={handleLogout}
+                  title="Sign out"
+                  className="inline-flex items-center gap-1.5 h-9 px-2.5 rounded-lg
+                    text-[13px] font-medium text-fg-subtle
+                    hover:text-red-600 hover:bg-red-50"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />
+                  </svg>
+                  <span className="hidden xl:inline">Sign out</span>
+                  <span className="sr-only xl:hidden">Sign out</span>
+                </button>
               </div>
+            )}
 
+            {/* Mobile burger */}
+            {user && (
               <button
-                onClick={handleLogout}
-                className="text-xs font-semibold text-slate-400
-                  hover:text-red-500 transition-colors px-2 py-1 rounded
-                  hover:bg-red-50"
+                onClick={() => setOpen(v => !v)}
+                className="md:hidden w-9 h-9 flex items-center justify-center
+                  rounded-lg text-fg-subtle hover:text-fg hover:bg-muted"
+                aria-label="Toggle menu"
+                aria-expanded={open}
               >
-                Sign out
+                <svg className="w-5 h-5" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24" aria-hidden="true">
+                  {open
+                    ? <path strokeLinecap="round" strokeLinejoin="round"
+                        strokeWidth={1.8} d="M6 18L18 6M6 6l12 12"/>
+                    : <path strokeLinecap="round" strokeLinejoin="round"
+                        strokeWidth={1.8} d="M4 7h16M4 12h16M4 17h16"/>}
+                </svg>
               </button>
-            </div>
-          )}
-
-          {/* Mobile burger */}
-          {user && (
-            <button
-              onClick={() => setOpen(v => !v)}
-              className="md:hidden p-2 rounded-lg text-slate-500
-                hover:bg-slate-100 transition-colors"
-              aria-label="Toggle menu"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                {open
-                  ? <path strokeLinecap="round" strokeLinejoin="round"
-                      strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
-                  : <path strokeLinecap="round" strokeLinejoin="round"
-                      strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>}
-              </svg>
-            </button>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
       {/* Mobile dropdown */}
       {user && open && (
-        <div className="md:hidden border-t border-slate-200 bg-white
-          shadow-lg animate-fade-up">
-          <div className="px-4 py-3 space-y-1">
-            {isCan && (
-              <>
-                <Link to="/jobs" onClick={() => setOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700
-                    hover:bg-slate-50 rounded-lg">
-                  Browse Jobs
-                </Link>
-                <Link to="/my-applications" onClick={() => setOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700
-                    hover:bg-slate-50 rounded-lg">
-                  My Applications
-                </Link>
-              </>
-            )}
-            {isRec && (
-              <>
-                <Link to="/recruiter/dashboard" onClick={() => setOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700
-                    hover:bg-slate-50 rounded-lg">
-                  Dashboard
-                </Link>
-                <Link to="/recruiter/jobs" onClick={() => setOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700
-                    hover:bg-slate-50 rounded-lg">
-                  My Jobs
-                </Link>
-              </>
-            )}
-          </div>
-          <div className="px-4 py-3 border-t border-slate-100
+        <div className="md:hidden border-t border-line bg-surface
+          shadow-pop animate-fade-up">
+          <nav className="px-4 py-3 space-y-1" aria-label="Main">
+            {links.map(l => (
+              <MobileLink key={l.to} to={l.to} icon={l.icon} onClick={() => setOpen(false)}>
+                {l.label}
+              </MobileLink>
+            ))}
+          </nav>
+          <div className="px-4 py-3 border-t border-line
             flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className={[
-                'w-7 h-7 rounded-full flex items-center justify-center',
-                'text-[11px] font-bold text-white',
-                isRec ? 'bg-brand-600' : 'bg-blue-500',
-              ].join(' ')}>
-                {user.name?.charAt(0).toUpperCase()}
+            <div className="flex items-center gap-2.5 min-w-0">
+              <Avatar name={user.name} isRec={isRec} size="sm" />
+              <div className="leading-tight min-w-0">
+                <p className="text-sm font-semibold text-fg truncate">{user.name}</p>
+                <p className="text-[11px] text-fg-subtle">{isRec ? 'Recruiter' : 'Candidate'}</p>
               </div>
-              <span className="text-sm font-semibold text-slate-700">
-                {user.name}
-              </span>
             </div>
             <button onClick={handleLogout}
-              className="text-xs font-semibold text-red-500 hover:text-red-700">
+              className="text-[13px] font-semibold text-red-600 px-3 py-2
+                rounded-lg hover:bg-red-50">
               Sign out
             </button>
           </div>
@@ -227,14 +236,14 @@ export default function Navbar() {
           }}
         >
           <div
-            className="w-full max-w-sm rounded-2xl border border-slate-200
-              bg-white p-6 shadow-2xl animate-fade-up"
+            className="w-full max-w-sm rounded-2xl border border-line
+              bg-surface p-6 shadow-pop animate-fade-up"
             role="dialog"
             aria-modal="true"
             aria-labelledby="sign-out-title"
           >
             <div className="mb-5 flex h-11 w-11 items-center justify-center
-              rounded-xl bg-red-50 text-red-600">
+              rounded-xl bg-red-50 text-red-600 ring-1 ring-red-100">
               <svg className="h-5 w-5" fill="none" stroke="currentColor"
                 viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round"
@@ -242,10 +251,10 @@ export default function Navbar() {
                   d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />
               </svg>
             </div>
-            <h2 id="sign-out-title" className="text-lg font-bold text-slate-900">
+            <h2 id="sign-out-title" className="text-lg font-bold text-fg">
               Sign out?
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-slate-500">
+            <p className="mt-2 text-sm leading-relaxed text-fg-subtle">
               You will need to sign in again to access your account.
             </p>
             <div className="mt-6 flex justify-end gap-3">

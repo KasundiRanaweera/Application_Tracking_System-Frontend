@@ -1,212 +1,243 @@
 import { Link } from 'react-router-dom'
-import ThemeToggle from '../components/ui/ThemeToggle'
+import Icon from '../components/ui/Icon'
+import LandingNav from '../components/landing/LandingNav'
+import HeroMockup from '../components/landing/HeroMockup'
+import LandingFooter from '../components/landing/LandingFooter'
 
-const PIPELINE = [
-  { label: 'Applied',      state: 'done' },
-  { label: 'Under Review', state: 'done' },
-  { label: 'Shortlisted',  state: 'done' },
-  { label: 'Interview',    state: 'active' },
-  { label: 'Offer',        state: 'pending' },
-  { label: 'Hired',        state: 'pending' },
+const HERO_POINTS = [
+  'Free to join',
+  'Apply with your CV or a resume link',
+  'Track every application',
+]
+
+const STEPS = [
+  { icon: 'users',         title: 'Create your free account', body: 'Sign up in under a minute with your name, email and a password.' },
+  { icon: 'search',        title: 'Find the right role',      body: 'Search open positions and filter by work mode, employment type or location.' },
+  { icon: 'document',      title: 'Apply in minutes',         body: 'Add an optional cover note and upload your CV, or share a link to your resume.' },
+  { icon: 'clipboardList', title: 'Track your progress',      body: 'See exactly where each application stands, from Applied to Hired.' },
+]
+
+const STAGES = [
+  { label: 'Applied',      body: 'We have received your application' },
+  { label: 'Under Review', body: 'Your CV and cover note are being reviewed' },
+  { label: 'Shortlisted',  body: 'You are selected for the next steps' },
+  { label: 'Interview',    body: 'Time to meet the team' },
+  { label: 'Offer',        body: 'An offer is on its way to you' },
+  { label: 'Hired',        body: 'Welcome aboard' },
 ]
 
 const FEATURES = [
-  {
-    audience: 'For candidates',
-    title: 'Find roles that fit',
-    body: 'Browse open positions, apply in a few clicks, and track every application from submitted to hired. All in one place.',
-    icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-    ),
-  },
-  {
-    audience: 'For recruiters',
-    title: 'Run your pipeline',
-    body: 'Post jobs, review applicants side by side, and move candidates through every stage without losing track of anyone.',
-    icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-        d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 100-8 4 4 0 000 8zm6-4a4 4 0 11-8 0 4 4 0 018 0z" />
-    ),
-  },
-  {
-    audience: 'For everyone',
-    title: 'Always up to date',
-    body: 'Status changes reflect instantly. No spreadsheets, no waiting for an email to know where things stand.',
-    icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-        d="M13 10V3L4 14h7v7l9-11h-7z" />
-    ),
-  },
+  { icon: 'search',        title: 'Search and filter roles',  body: 'Find positions by keyword, work mode, employment type or location, sorted the way you like.', wide: true },
+  { icon: 'document',      title: 'CV upload or link',        body: 'Attach a PDF, DOC or DOCX up to 5 MB, or share a link to your resume instead.' },
+  { icon: 'bolt',          title: 'Always up to date',        body: 'See the latest status of every application each time you sign in.' },
+  { icon: 'xCircle',       title: 'Withdraw if plans change', body: 'Changed your mind? Withdraw an application at any point before a final decision.' },
+  { icon: 'lock',          title: 'Private and secure',       body: 'Your account is protected with secure sign-in, and your applications are shared only with the hiring team.' },
 ]
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <div className="absolute top-4 left-4 z-20">
-        <ThemeToggle />
-      </div>
+    <div className="relative min-h-screen bg-canvas text-fg overflow-x-clip">
+      {/* Background: soft brand glow + fading grid */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[900px]
+        bg-[radial-gradient(55%_50%_at_50%_0%,rgb(30_76_224/0.14),transparent_75%)]" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[720px]
+        bg-[linear-gradient(to_right,var(--tb-line)_1px,transparent_1px),linear-gradient(to_bottom,var(--tb-line)_1px,transparent_1px)]
+        bg-[size:56px_56px] opacity-50
+        [mask-image:radial-gradient(60%_55%_at_50%_0%,black,transparent_80%)]" />
 
-      {/* Public nav */}
-      <header className="border-b border-slate-200 dark:border-slate-700 dark:bg-slate-900">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center
-              justify-center shadow-sm">
-              <span className="text-white font-black text-xs">TB</span>
-            </div>
-            <span className="font-display font-bold text-slate-900 text-[15px]
-              tracking-tight">
-              TalentBridge
+      <LandingNav />
+
+      <main className="relative">
+        {/* ── Hero ─────────────────────────────────────────── */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-20 lg:pt-24 text-center">
+          <a href="#how-it-works"
+            className="animate-rise-in inline-flex items-center gap-2 rounded-full border border-line
+              bg-surface/80 backdrop-blur pl-1.5 pr-3 py-1 text-xs font-medium text-fg-muted shadow-xs
+              hover:border-line-strong">
+            <span className="rounded-full bg-brand-600 text-white px-2 py-0.5 text-[11px] font-semibold">Careers</span>
+            <span className="sm:hidden">Explore open positions</span>
+            <span className="hidden sm:inline">Explore open positions and apply today</span>
+            <Icon name="arrowRight" className="w-3.5 h-3.5 text-fg-faint" />
+          </a>
+
+          <h1 className="animate-rise-in [animation-delay:80ms] mt-6 mx-auto max-w-4xl
+            text-[2.4rem] leading-[1.05] sm:text-6xl lg:text-7xl font-extrabold tracking-[-0.04em] text-balance">
+            Find your next role.{' '}
+            <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-sky-500 bg-clip-text text-transparent">
+              Track every step.
             </span>
-          </Link>
-
-          <div className="flex items-center gap-3">
-            <Link to="/login"
-              className="text-sm font-semibold text-slate-600 hover:text-slate-900
-                px-3 py-2 rounded-lg transition-colors">
-              Log in
-            </Link>
-            <Link to="/register"
-              className="text-sm font-semibold text-white bg-slate-900
-                hover:bg-slate-800 px-4 py-2 rounded-lg shadow-sm
-                hover:shadow-md transition-all">
-              Get started
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 pt-16 pb-20 lg:pt-24 lg:pb-28
-        grid lg:grid-cols-2 gap-14 items-center">
-
-        <div className="animate-fade-up">
-          <p className="text-brand-600 text-xs font-bold uppercase
-            tracking-[0.14em] mb-4">
-            Applicant Tracking, Simplified
-          </p>
-          <h1 className="text-[2.75rem] lg:text-5xl font-extrabold text-slate-900
-            leading-[1.08] tracking-tight mb-6">
-            Hire smarter.<br />Get hired faster.
           </h1>
-          <p className="text-slate-500 text-lg leading-relaxed mb-9 max-w-md">
-            TalentBridge brings candidates and recruiters onto one platform -
-            post jobs, apply in minutes, and move through every hiring stage
-            without losing track of anything.
+
+          <p className="animate-rise-in [animation-delay:160ms] mt-6 mx-auto max-w-2xl
+            text-base sm:text-lg text-fg-subtle leading-relaxed text-pretty">
+            Browse open positions, apply in minutes with your CV, and follow your application
+            from Applied to Hired. No more wondering where you stand.
           </p>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="animate-rise-in [animation-delay:240ms] mt-9 flex flex-col sm:flex-row
+            items-stretch sm:items-center justify-center gap-3 max-w-sm sm:max-w-none mx-auto">
             <Link to="/register"
-              className="inline-flex items-center justify-center text-sm
-                font-semibold text-white bg-slate-900 hover:bg-slate-800
-                px-6 py-3 rounded-xl shadow-sm hover:shadow-lg
-                hover:shadow-slate-900/15 active:scale-[0.98] transition-all">
-              Create your account
+              className="group inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl text-[15px]
+                font-semibold bg-ink text-on-ink hover:bg-ink-hover shadow-xs hover:shadow-pop">
+              Get started for free
+              <span className="transition-transform group-hover:translate-x-0.5">
+                <Icon name="arrowRight" className="w-4 h-4" />
+              </span>
             </Link>
             <Link to="/login"
-              className="inline-flex items-center justify-center text-sm
-                font-semibold text-slate-700 bg-white border border-slate-300
-                hover:border-slate-400 hover:bg-slate-50 px-6 py-3 rounded-xl
-                transition-all">
-              Log in
+              className="inline-flex items-center justify-center h-12 px-6 rounded-xl text-[15px]
+                font-semibold text-fg bg-surface border border-line hover:border-line-strong hover:bg-subtle shadow-xs">
+              I already have an account
             </Link>
           </div>
-        </div>
 
-        {/* Visual: same pipeline-ladder motif used on auth pages, for a
-            consistent brand thread from marketing page into the app. */}
-        <div className="relative rounded-2xl bg-slate-950 p-10 overflow-hidden
-          shadow-xl shadow-slate-900/10 animate-fade-up"
-          style={{ animationDelay: '100ms', animationFillMode: 'backwards' }}>
-          <div className="absolute -top-20 -right-20 w-72 h-72 bg-brand-600/30
-            rounded-full blur-[90px] pointer-events-none" />
-          <div className="absolute inset-0 bg-grid-dots opacity-40 pointer-events-none" />
+          <ul className="animate-rise-in [animation-delay:320ms] mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2">
+            {HERO_POINTS.map(point => (
+              <li key={point} className="flex items-center gap-1.5 text-[13px] text-fg-subtle">
+                <Icon name="checkCircle" className="w-4 h-4 text-emerald-600" />
+                {point}
+              </li>
+            ))}
+          </ul>
 
-          <p className="relative z-10 text-slate-400 text-xs font-semibold
-            uppercase tracking-wider mb-6">
-            Your hiring pipeline
-          </p>
+          <div className="animate-rise-in [animation-delay:420ms] mt-14 sm:mt-20 mx-auto max-w-6xl text-left">
+            <HeroMockup />
+          </div>
+        </section>
 
-          <div className="relative z-10 pl-1">
-            <div className="absolute left-[15px] top-2 bottom-2 w-px
-              bg-gradient-to-b from-brand-500/70 via-white/15 to-transparent" />
-            <div className="space-y-3.5">
-              {PIPELINE.map(({ label, state }) => (
-                <div key={label} className="relative flex items-center gap-4">
-                  <div className={[
-                    'relative z-10 w-[31px] h-[31px] rounded-full flex-shrink-0',
-                    'flex items-center justify-center border',
-                    state === 'active'
-                      ? 'bg-brand-500 border-brand-400 shadow-lg shadow-brand-500/40'
-                      : state === 'done'
-                        ? 'bg-slate-900 border-brand-500/60'
-                        : 'bg-slate-900 border-white/10',
-                  ].join(' ')}>
-                    {state === 'done' && (
-                      <svg className="w-3.5 h-3.5 text-brand-400" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round"
-                          strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                      </svg>
-                    )}
-                    {state === 'active' && (
-                      <div className="w-2 h-2 rounded-full bg-white" />
-                    )}
-                  </div>
-                  <span className={[
-                    'text-sm font-semibold',
-                    state === 'pending' ? 'text-slate-500' : 'text-white',
-                  ].join(' ')}>
-                    {label}
+        {/* ── How it works ─────────────────────────────────── */}
+        <section id="how-it-works" className="scroll-mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
+          <SectionHeading
+            eyebrow="How it works"
+            title="From sign-up to offer in four simple steps"
+            body="Everything you need to apply for a role and stay informed, all in one place."
+          />
+
+          <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {STEPS.map((step, i) => (
+              <li key={step.title}
+                className="relative rounded-2xl border border-line bg-surface p-6 shadow-card">
+                <div className="flex items-center justify-between mb-5">
+                  <span className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 ring-1 ring-inset ring-brand-100
+                    flex items-center justify-center">
+                    <Icon name={step.icon} className="w-5 h-5" />
+                  </span>
+                  <span className="font-display text-3xl font-extrabold text-line-strong tabular-nums">
+                    0{i + 1}
                   </span>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+                <h3 className="text-[17px] text-fg mb-1.5">{step.title}</h3>
+                <p className="text-sm text-fg-subtle leading-relaxed">{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
 
-      {/* Feature strip */}
-      <section className="border-t border-slate-100 bg-slate-50 dark:border-slate-700 dark:bg-slate-900">
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          <div className="grid sm:grid-cols-3 gap-6">
-            {FEATURES.map(({ audience, title, body, icon }, i) => (
-              <div key={title}
-                className="bg-white rounded-xl border border-slate-200 p-6
-                  shadow-sm hover:shadow-md hover:-translate-y-0.5
-                  transition-all duration-200 animate-fade-up"
-                style={{ animationDelay: `${i * 80}ms`, animationFillMode: 'backwards' }}>
-                <div className="w-10 h-10 rounded-lg bg-brand-50 text-brand-600
-                  flex items-center justify-center mb-4">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    {icon}
-                  </svg>
-                </div>
-                <p className="text-brand-600 text-xs font-bold uppercase
-                  tracking-wider mb-1.5">
-                  {audience}
-                </p>
-                <h3 className="text-slate-900 dark:text-white text-base mb-2">{title}</h3>
-                <h3 className="text-slate-900 text-base mb-2">{title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{body}</p>
+        {/* ── Pipeline ─────────────────────────────────────── */}
+        <section id="pipeline" className="scroll-mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
+          <SectionHeading
+            eyebrow="Your application journey"
+            title="Six clear stages. No guesswork."
+            body="Every application follows the same path, so you always know what has happened and what comes next."
+          />
+
+          <ol className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            {STAGES.map((s, i) => {
+              const last = i === STAGES.length - 1
+              return (
+                <li key={s.label}
+                  className={[
+                    'relative rounded-xl border p-4 sm:p-5',
+                    last
+                      ? 'bg-emerald-50 border-emerald-200'
+                      : 'bg-surface border-line shadow-card',
+                  ].join(' ')}>
+                  <span className={[
+                    'w-8 h-8 rounded-full text-[12px] font-bold flex items-center justify-center mb-4 tabular-nums',
+                    last ? 'bg-emerald-600 text-white' : 'bg-brand-600 text-white',
+                  ].join(' ')}>
+                    {last ? <Icon name="check" className="w-4 h-4" strokeWidth={2.5} /> : i + 1}
+                  </span>
+                  <p className={`text-[15px] font-bold ${last ? 'text-emerald-700' : 'text-fg'}`}>{s.label}</p>
+                  <p className="text-[13px] text-fg-subtle mt-1 leading-snug">{s.body}</p>
+                </li>
+              )
+            })}
+          </ol>
+        </section>
+
+        {/* ── Features ─────────────────────────────────────── */}
+        <section id="features" className="scroll-mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
+          <SectionHeading
+            eyebrow="Why apply here"
+            title="A simpler way to apply for jobs"
+            body="Clear, fast and transparent, so you can focus on finding the right role."
+          />
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map(f => (
+              <div key={f.title}
+                className={[
+                  'group rounded-2xl border border-line bg-surface p-6 shadow-card',
+                  'hover:border-line-strong hover:shadow-pop transition-[border-color,box-shadow] duration-200',
+                  f.wide ? 'sm:col-span-2' : '',
+                ].join(' ')}>
+                <span className="w-10 h-10 rounded-xl bg-muted text-fg-muted flex items-center justify-center mb-5
+                  group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">
+                  <Icon name={f.icon} className="w-5 h-5" />
+                </span>
+                <h3 className="text-lg text-fg mb-1.5">{f.title}</h3>
+                <p className="text-sm text-fg-subtle leading-relaxed max-w-md">{f.body}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <footer className="border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 py-8 flex items-center
-          justify-between text-xs text-slate-400">
-          <span>© {new Date().getFullYear()} TalentBridge ATS</span>
-          <div className="flex items-center gap-5">
-            <Link to="/login" className="hover:text-slate-600">Log in</Link>
-            <Link to="/register" className="hover:text-slate-600">Sign up</Link>
+        {/* ── Final CTA ────────────────────────────────────── */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+          <div className="relative overflow-hidden rounded-3xl bg-slate-950 px-6 py-14 sm:px-12 sm:py-20 text-center
+            ring-1 ring-white/10">
+            <div aria-hidden="true" className="absolute -top-24 left-1/2 -translate-x-1/2 w-[36rem] h-[20rem]
+              bg-brand-600/40 rounded-full blur-[110px]" />
+            <div aria-hidden="true" className="absolute inset-0 bg-grid-dots opacity-30" />
+
+            <div className="relative">
+              <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-[-0.035em] text-balance max-w-2xl mx-auto">
+                Your next role could be one application away.
+              </h2>
+              <p className="mt-5 text-slate-400 text-base sm:text-lg max-w-xl mx-auto">
+                Create your free account to browse open positions and track your applications.
+              </p>
+              <div className="mt-9 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3
+                max-w-sm sm:max-w-none mx-auto">
+                <Link to="/register"
+                  className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl text-[15px] font-semibold
+                    bg-white text-slate-950 hover:bg-slate-100">
+                  Create free account
+                  <Icon name="arrowRight" className="w-4 h-4" />
+                </Link>
+                <Link to="/login"
+                  className="inline-flex items-center justify-center h-12 px-6 rounded-xl text-[15px] font-semibold
+                    text-white ring-1 ring-inset ring-white/20 hover:bg-white/10">
+                  Sign in
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-      </footer>
+        </section>
+      </main>
+
+      <LandingFooter />
+    </div>
+  )
+}
+
+function SectionHeading({ eyebrow, title, body }) {
+  return (
+    <div className="max-w-2xl mx-auto text-center">
+      <p className="text-xs font-bold uppercase tracking-[0.14em] text-brand-600 mb-3">{eyebrow}</p>
+      <h2 className="text-3xl sm:text-[2.6rem] leading-[1.1] text-fg text-balance">{title}</h2>
+      <p className="mt-4 text-base sm:text-lg text-fg-subtle leading-relaxed text-pretty">{body}</p>
     </div>
   )
 }

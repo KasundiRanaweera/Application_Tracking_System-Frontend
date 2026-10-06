@@ -6,6 +6,9 @@ import Spinner from '../../components/ui/Spinner'
 import Alert from '../../components/ui/Alert'
 import Icon from '../../components/ui/Icon'
 import { StatusBadge } from '../../components/ui/Badge'
+import EmptyState from '../../components/ui/EmptyState'
+import Panel from '../../components/ui/Panel'
+import { BackLink } from '../../components/ui/PageHeader'
 import {
   getApplicationDetail,
   rateApplication,
@@ -163,22 +166,19 @@ export default function ApplicantReviewPage() {
   const isTerminal = (status) =>
     ['HIRED', 'REJECTED', 'WITHDRAWN'].includes(status)
 
-  if (loading) return <Layout><Spinner /></Layout>
+  if (loading) return <Layout><Spinner label="Loading application…" /></Layout>
 
   if (error || !application) return (
     <Layout>
-      <div className="text-center py-20">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-100
-          flex items-center justify-center">
-          <Icon name="frown" className="w-7 h-7 text-slate-400" strokeWidth={1.6} />
-        </div>
-        <h2 className="text-xl font-bold text-[#0f172a] mb-2">
-          {error || 'Application not found'}
-        </h2>
-        <Button variant="outline" onClick={() => navigate(-1)}>
-          Go back
-        </Button>
-      </div>
+      <EmptyState
+        icon="frown"
+        title={error || 'Application not found'}
+        action={
+          <Button variant="secondary" onClick={() => navigate(-1)}>
+            Go back
+          </Button>
+        }
+      />
     </Layout>
   )
 
@@ -188,42 +188,35 @@ export default function ApplicantReviewPage() {
 
   return (
     <Layout>
-      {/* Back */}
-      <button
-        onClick={() => navigate(-1)}
-        className="inline-flex items-center gap-1.5 text-sm text-[#64748b]
-          hover:text-brand-600 mb-6 transition-colors font-medium group"
-      >
-        <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
-          fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-            d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-        </svg>
-        Back to Applicants
-      </button>
+      <div className="mb-5">
+        <BackLink onClick={() => navigate(-1)}>Back to Applicants</BackLink>
+      </div>
 
       {/* Hero header */}
-      <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 mb-6">
-        <div className="flex flex-col sm:flex-row sm:items-start
+      <section className="relative overflow-hidden bg-surface border border-line rounded-xl shadow-card p-6 mb-6">
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r
+          from-brand-600 via-brand-400 to-transparent" />
+        <div className="flex flex-col md:flex-row md:items-center
           justify-between gap-5">
 
           {/* Candidate info */}
-          <div className="flex items-start gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-brand-100 flex
-              items-center justify-center text-brand-600 font-bold
-              text-xl flex-shrink-0">
+          <div className="flex items-center gap-4 min-w-0">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700
+              flex items-center justify-center text-white font-bold
+              text-xl flex-shrink-0 shadow-xs">
               {application.candidateName?.charAt(0).toUpperCase() || '?'}
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-[#0f172a]">
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl font-extrabold text-fg tracking-tight truncate">
                 {application.candidateName}
               </h1>
-              <p className="text-sm text-[#64748b] mt-0.5">
-                {application.candidateEmail}
+              <p className="text-sm text-fg-subtle mt-0.5 flex items-center gap-1.5 min-w-0">
+                <Icon name="mail" className="w-3.5 h-3.5 text-fg-faint flex-shrink-0" />
+                <span className="truncate">{application.candidateEmail}</span>
               </p>
-              <div className="flex flex-wrap items-center gap-2 mt-2">
+              <div className="flex flex-wrap items-center gap-2 mt-2.5">
                 <StatusBadge status={application.status} />
-                <span className="text-xs text-[#64748b]">
+                <span className="text-xs text-fg-subtle">
                   Applied {formatDate(application.appliedAt)}
                 </span>
               </div>
@@ -231,63 +224,63 @@ export default function ApplicantReviewPage() {
           </div>
 
           {/* Job info */}
-          <div className="bg-[#f7f9fb] border border-[#e2e8f0] rounded-xl
-            px-4 py-3 text-sm flex-shrink-0">
-            <p className="text-xs font-bold text-[#64748b] uppercase
-              tracking-wider mb-1">
-              Applied for
-            </p>
-            <p className="font-semibold text-[#0f172a]">
-              {application.jobTitle}
-            </p>
+          <div className="flex items-center gap-3 bg-subtle border border-line rounded-xl
+            px-4 py-3 flex-shrink-0 md:max-w-xs">
+            <div className="w-9 h-9 rounded-lg bg-surface border border-line flex items-center
+              justify-center text-fg-subtle flex-shrink-0">
+              <Icon name="briefcase" className="w-4 h-4" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold text-fg-subtle uppercase tracking-wider">
+                Applied for
+              </p>
+              <p className="text-sm font-semibold text-fg truncate">
+                {application.jobTitle}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Main grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
         {/* Left — candidate details + notes */}
-        <div className="lg:col-span-2 space-y-5">
+        <div className="lg:col-span-2 space-y-6">
 
           {/* Pipeline tracker */}
           {!terminal && (
-            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-              <h2 className="text-base font-bold text-[#0f172a] mb-5 pb-3
-                border-b border-[#e2e8f0]">
-                Pipeline Progress
-              </h2>
-              <div className="flex items-start gap-0">
+            <Panel title="Pipeline Progress" description={`Stage ${currentIdx + 1} of ${PIPELINE_STAGES.length}`}>
+              <ol className="flex items-start">
                 {PIPELINE_STAGES.map((stage, idx) => {
                   const isDone    = idx < currentIdx
                   const isCurrent = idx === currentIdx
                   const isLast    = idx === PIPELINE_STAGES.length - 1
 
                   return (
-                    <div key={stage} className="flex items-center flex-1">
-                      <div className="flex flex-col items-center gap-2
-                        flex-shrink-0">
+                    <li key={stage} className={`flex items-start ${isLast ? '' : 'flex-1'}`}>
+                      <div className="flex flex-col items-center gap-2 flex-shrink-0">
                         <div className={`
                           w-8 h-8 rounded-full flex items-center
-                          justify-center text-xs font-bold border-2
+                          justify-center text-xs font-bold
                           transition-all
                           ${isDone
-                            ? 'bg-brand-600 border-brand-600 text-white'
+                            ? 'bg-brand-600 text-white'
                             : isCurrent
-                              ? 'bg-white border-brand-600 text-brand-600 ring-4 ring-brand-50'
-                              : 'bg-white border-[#e2e8f0] text-[#94a3b8]'}
+                              ? 'bg-surface text-brand-600 ring-2 ring-brand-600 shadow-[0_0_0_6px_var(--color-brand-50)]'
+                              : 'bg-subtle text-fg-faint ring-1 ring-line'}
                         `}>
                           {isDone
                             ? <Icon name="check" className="w-3.5 h-3.5" strokeWidth={2.5} />
                             : idx + 1}
                         </div>
-                        <span className={`text-xs font-medium text-center
+                        <span className={`text-[11px] font-semibold text-center
                           leading-tight hidden sm:block w-16
                           ${isCurrent
                             ? 'text-brand-600'
                             : isDone
-                              ? 'text-[#64748b]'
-                              : 'text-[#94a3b8]'}
+                              ? 'text-fg-muted'
+                              : 'text-fg-faint'}
                         `}>
                           {stage === 'UNDER_REVIEW'
                             ? 'Review'
@@ -295,46 +288,42 @@ export default function ApplicantReviewPage() {
                         </span>
                       </div>
                       {!isLast && (
-                        <div className={`flex-1 h-0.5 mx-1
+                        <div className={`flex-1 h-0.5 mt-4 mx-1 rounded-full
                           ${idx < currentIdx
                             ? 'bg-brand-600'
-                            : 'bg-[#e2e8f0]'}
+                            : 'bg-line'}
                         `}/>
                       )}
-                    </div>
+                    </li>
                   )
                 })}
-              </div>
-            </div>
+              </ol>
+            </Panel>
           )}
 
           {/* Cover note */}
           {application.coverNote && (
-            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-              <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-                border-b border-[#e2e8f0]">
-                Cover Note
-              </h2>
-              <p className="text-sm text-[#464555] leading-relaxed
+            <Panel title="Cover Note">
+              <p className="text-sm text-fg-muted leading-relaxed
                 whitespace-pre-line">
                 {application.coverNote}
               </p>
-            </div>
+            </Panel>
           )}
 
           {/* Internal notes */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0] flex items-center justify-between">
-              Internal Notes
-              <span className="text-xs font-normal text-[#64748b] bg-[#f2f4f6]
+          <Panel
+            title="Internal Notes"
+            actions={
+              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-fg-subtle bg-muted
                 px-2 py-1 rounded-full">
+                <Icon name="lock" className="w-3 h-3" strokeWidth={2} />
                 Only visible to recruiters
               </span>
-            </h2>
-
+            }
+          >
             {/* Add note */}
-            <div className="mb-5">
+            <div className="mb-6">
               <textarea
                 value={noteContent}
                 onChange={(e) => {
@@ -343,17 +332,18 @@ export default function ApplicantReviewPage() {
                 }}
                 rows={3}
                 placeholder="Add an internal note about this candidate..."
-                className={`w-full px-3.5 py-3 border rounded-xl text-sm
-                  resize-none focus:outline-none focus:ring-2
-                  focus:ring-brand-500 focus:border-transparent
-                  placeholder-[#94a3b8] text-[#0f172a]
-                  ${noteError ? 'border-red-400' : 'border-[#e2e8f0]'}`}
+                aria-label="Internal note"
+                className={`w-full px-3.5 py-3 border rounded-xl text-sm bg-surface
+                  resize-none shadow-xs focus:outline-none focus:ring-4
+                  focus:ring-brand-500/15 focus:border-brand-500
+                  placeholder-fg-faint text-fg
+                  ${noteError ? 'border-red-400' : 'border-line hover:border-line-strong'}`}
               />
               {noteError && (
-                <p className="text-xs text-red-500 mt-1">{noteError}</p>
+                <p className="text-xs text-red-500 font-medium mt-1.5">{noteError}</p>
               )}
-              <div className="flex items-center justify-between mt-2">
-                <span className={`inline-flex items-center gap-1 text-xs
+              <div className="flex items-center justify-between mt-2.5">
+                <span className={`inline-flex items-center gap-1 text-xs font-medium
                   transition-opacity duration-300
                   ${noteSuccess
                     ? 'text-emerald-600 opacity-100'
@@ -374,107 +364,46 @@ export default function ApplicantReviewPage() {
 
             {/* Notes list */}
             {application.notes && application.notes.length > 0 ? (
-              <div className="space-y-3">
+              <ol className="relative space-y-4 before:absolute before:left-3 before:top-2 before:bottom-2
+                before:w-px before:bg-line">
                 {[...application.notes].reverse().map((note) => (
-                  <div
-                    key={note.id}
-                    className="bg-[#f7f9fb] border border-[#e2e8f0]
-                      rounded-xl p-4"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-brand-100
-                          flex items-center justify-center text-brand-600
-                          text-xs font-bold">
-                          {note.recruiterName?.charAt(0).toUpperCase()}
-                        </div>
-                        <span className="text-xs font-semibold
-                          text-[#0f172a]">
+                  <li key={note.id} className="relative flex gap-3">
+                    <div className="relative z-10 w-6 h-6 rounded-full bg-brand-50 ring-2 ring-surface
+                      flex items-center justify-center text-brand-700
+                      text-[11px] font-bold flex-shrink-0">
+                      {note.recruiterName?.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex-1 min-w-0 bg-subtle border border-line rounded-xl px-4 py-3">
+                      <div className="flex items-center justify-between gap-3 mb-1">
+                        <span className="text-xs font-semibold text-fg truncate">
                           {note.recruiterName}
                         </span>
+                        <span className="text-[11px] text-fg-faint whitespace-nowrap">
+                          {formatDateTime(note.createdAt)}
+                        </span>
                       </div>
-                      <span className="text-xs text-[#94a3b8]">
-                        {formatDateTime(note.createdAt)}
-                      </span>
+                      <p className="text-sm text-fg-muted leading-relaxed whitespace-pre-line">
+                        {note.content}
+                      </p>
                     </div>
-                    <p className="text-sm text-[#464555] leading-relaxed">
-                      {note.content}
-                    </p>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ol>
             ) : (
-              <p className="text-sm text-[#94a3b8] text-center py-4">
-                No notes yet. Add the first one above.
-              </p>
+              <div className="text-center py-6 rounded-xl border border-dashed border-line">
+                <p className="text-sm text-fg-subtle">
+                  No notes yet. Add the first one above.
+                </p>
+              </div>
             )}
-          </div>
+          </Panel>
         </div>
 
         {/* Right — rating + actions */}
-        <div className="space-y-5">
-
-          {/* Rating card */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0]">
-              Candidate Rating
-            </h2>
-
-            <div className="flex flex-col items-center gap-3">
-              {/* Star picker */}
-              <div className="flex gap-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    disabled={ratingLoading}
-                    onClick={() => handleRate(star)}
-                    onMouseEnter={() => setHoverRating(star)}
-                    onMouseLeave={() => setHoverRating(0)}
-                    className="transition-transform hover:scale-110
-                      disabled:cursor-not-allowed focus:outline-none"
-                  >
-                    <svg
-                      className={`w-9 h-9 transition-colors ${
-                        star <= (hoverRating || application.rating || 0)
-                          ? 'text-amber-400'
-                          : 'text-[#e2e8f0]'
-                      }`}
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18
-                        6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01
-                        L12 2z"/>
-                    </svg>
-                  </button>
-                ))}
-              </div>
-
-              {/* Rating label */}
-              <p className="text-sm font-medium text-[#64748b]">
-                {application.rating
-                  ? `Rated ${application.rating}/5`
-                  : 'Click to rate this candidate'}
-              </p>
-
-              {/* Success */}
-              <div className={`inline-flex items-center gap-1 text-xs
-                text-emerald-600 transition-opacity
-                duration-300 ${ratingSuccess ? 'opacity-100' : 'opacity-0'}`}>
-                <Icon name="check" className="w-3.5 h-3.5" strokeWidth={2.5} />
-                Rating saved
-              </div>
-            </div>
-          </div>
+        <div className="space-y-6 lg:sticky lg:top-24">
 
           {/* Pipeline actions */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0]">
-              Pipeline Actions
-            </h2>
-
+          <Panel title="Pipeline Actions">
             {statusError && (
               <div className="mb-4">
                 <Alert type="error" message={statusError} />
@@ -489,12 +418,12 @@ export default function ApplicantReviewPage() {
             {terminal ? (
               <div className={`
                 flex items-center justify-center gap-2
-                rounded-xl p-4 text-sm font-medium text-center
+                rounded-xl p-4 text-sm font-medium text-center ring-1 ring-inset
                 ${application.status === 'HIRED'
-                  ? 'bg-emerald-50 border border-emerald-200 text-emerald-700'
+                  ? 'bg-emerald-50 ring-emerald-200 text-emerald-700'
                   : application.status === 'REJECTED'
-                    ? 'bg-red-50 border border-red-200 text-red-600'
-                    : 'bg-[#f2f4f6] border border-[#e2e8f0] text-[#64748b]'}
+                    ? 'bg-red-50 ring-red-200 text-red-700'
+                    : 'bg-muted ring-line text-fg-subtle'}
               `}>
                 {application.status === 'HIRED' && (
                   <>
@@ -516,16 +445,16 @@ export default function ApplicantReviewPage() {
                 )}
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {/* Legal forward moves */}
                 {legalMoves
                   .filter(s => s !== 'REJECTED')
                   .map((status) => (
                     <div key={status}>
                       {confirmStatus === status ? (
-                        <div className="bg-brand-50 border border-brand-200
-                          rounded-xl p-3 text-center">
-                          <p className="text-xs text-[#0f172a] mb-3">
+                        <div className="bg-brand-50 ring-1 ring-inset ring-brand-200
+                          rounded-xl p-3 text-center animate-fade-up">
+                          <p className="text-[13px] text-fg mb-3">
                             Move to{' '}
                             <strong>{STATUS_LABELS[status]}</strong>?
                           </p>
@@ -549,10 +478,11 @@ export default function ApplicantReviewPage() {
                       ) : (
                         <Button
                           fullWidth
+                          size="lg"
                           onClick={() => setConfirmStatus(status)}
-                          className="shadow-sm shadow-brand-100"
                         >
-                          → Move to {STATUS_LABELS[status]}
+                          Move to {STATUS_LABELS[status]}
+                          <Icon name="arrowRight" className="w-4 h-4" />
                         </Button>
                       )}
                     </div>
@@ -562,9 +492,9 @@ export default function ApplicantReviewPage() {
                 {legalMoves.includes('REJECTED') && (
                   <div>
                     {confirmStatus === 'REJECTED' ? (
-                      <div className="bg-red-50 border border-red-200
-                        rounded-xl p-3 text-center">
-                        <p className="text-xs text-[#0f172a] mb-3">
+                      <div className="bg-red-50 ring-1 ring-inset ring-red-200
+                        rounded-xl p-3 text-center animate-fade-up">
+                        <p className="text-[13px] text-fg mb-3">
                           Reject this application?
                         </p>
                         <div className="flex gap-2 justify-center">
@@ -587,11 +517,10 @@ export default function ApplicantReviewPage() {
                       </div>
                     ) : (
                       <Button
-                        variant="ghost"
+                        variant="secondary"
                         fullWidth
                         onClick={() => setConfirmStatus('REJECTED')}
-                        className="text-red-500 hover:text-red-700
-                          hover:bg-red-50 mt-2 gap-1.5"
+                        className="!text-red-600 dark:!text-red-400 hover:!bg-red-50 hover:!border-red-200"
                       >
                         <Icon name="xMark" className="w-3.5 h-3.5" strokeWidth={2} />
                         Reject Application
@@ -601,77 +530,114 @@ export default function ApplicantReviewPage() {
                 )}
 
                 {/* Legal moves note */}
-                <p className="text-xs text-center text-[#94a3b8] pt-1">
+                <p className="text-xs text-center text-fg-faint pt-1">
                   Only valid next stages are shown above
                 </p>
               </div>
             )}
-          </div>
+          </Panel>
+
+          {/* Rating card */}
+          <Panel title="Candidate Rating">
+            <div className="flex flex-col items-center gap-2.5">
+              {/* Star picker */}
+              <div className="flex gap-1.5" role="radiogroup" aria-label="Candidate rating">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    role="radio"
+                    aria-checked={application.rating === star}
+                    aria-label={`${star} star${star > 1 ? 's' : ''}`}
+                    disabled={ratingLoading}
+                    onClick={() => handleRate(star)}
+                    onMouseEnter={() => setHoverRating(star)}
+                    onMouseLeave={() => setHoverRating(0)}
+                    className="p-0.5 rounded-md transition-transform hover:scale-110
+                      disabled:cursor-not-allowed"
+                  >
+                    <svg
+                      className={`w-8 h-8 transition-colors ${
+                        star <= (hoverRating || application.rating || 0)
+                          ? 'text-amber-400'
+                          : 'text-line-strong'
+                      }`}
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18
+                        6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01
+                        L12 2z"/>
+                    </svg>
+                  </button>
+                ))}
+              </div>
+
+              {/* Rating label */}
+              <p className="text-[13px] font-medium text-fg-subtle">
+                {application.rating
+                  ? `Rated ${application.rating}/5`
+                  : 'Click to rate this candidate'}
+              </p>
+
+              {/* Success */}
+              <div className={`inline-flex items-center gap-1 text-xs font-medium
+                text-emerald-600 transition-opacity
+                duration-300 ${ratingSuccess ? 'opacity-100' : 'opacity-0'}`}>
+                <Icon name="check" className="w-3.5 h-3.5" strokeWidth={2.5} />
+                Rating saved
+              </div>
+            </div>
+          </Panel>
 
           {/* Application info */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0]">
-              Application Details
-            </h2>
-            <dl className="space-y-3">
-              <div>
-                <dt className="text-xs font-bold text-[#64748b] uppercase
-                  tracking-wider mb-0.5">
-                  Applied
-                </dt>
-                <dd className="text-sm text-[#0f172a]">
+          <Panel title="Application Details">
+            <dl className="divide-y divide-line -my-2">
+              <div className="flex items-center justify-between gap-4 py-2.5">
+                <dt className="text-[13px] text-fg-subtle">Applied</dt>
+                <dd className="text-[13px] font-medium text-fg text-right">
                   {formatDate(application.appliedAt)}
                 </dd>
               </div>
-              <div>
-                <dt className="text-xs font-bold text-[#64748b] uppercase
-                  tracking-wider mb-0.5">
-                  Last Updated
-                </dt>
-                <dd className="text-sm text-[#0f172a]">
+              <div className="flex items-center justify-between gap-4 py-2.5">
+                <dt className="text-[13px] text-fg-subtle">Last Updated</dt>
+                <dd className="text-[13px] font-medium text-fg text-right">
                   {formatDate(application.updatedAt)}
                 </dd>
               </div>
-              <div>
-                <dt className="text-xs font-bold text-[#64748b] uppercase
-                  tracking-wider mb-0.5">
-                  Current Status
-                </dt>
-                <dd className="mt-1">
+              <div className="flex items-center justify-between gap-4 py-2.5">
+                <dt className="text-[13px] text-fg-subtle">Current Status</dt>
+                <dd>
                   <StatusBadge status={application.status} />
                 </dd>
               </div>
-              {application.resumeUrl && (
-                <div>
-                  <dt className="text-xs font-bold text-[#64748b] uppercase
-                    tracking-wider mb-1">
-                    Resume
-                  </dt>
-                  <dd>
-                    <button
-                      type="button"
-                      onClick={handleResumeDownload}
-                      disabled={resumeLoading}
-                      className="inline-flex items-center gap-1.5 text-sm
-                        text-brand-600 font-semibold hover:text-brand-700
-                        disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
-                    >
-                      {resumeLoading ? (
-                        'Opening resume...'
-                      ) : (
-                        <>
-                          <Icon name="document" className="w-4 h-4" strokeWidth={1.8} />
-                          View Resume
-                          <span aria-hidden="true">→</span>
-                        </>
-                      )}
-                    </button>
-                  </dd>
-                </div>
-              )}
             </dl>
-          </div>
+            {application.resumeUrl && (
+              <button
+                type="button"
+                onClick={handleResumeDownload}
+                disabled={resumeLoading}
+                className="mt-5 w-full flex items-center gap-3 p-3 rounded-xl border border-line
+                  bg-subtle hover:bg-muted hover:border-line-strong text-left group
+                  disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
+              >
+                <span className="w-9 h-9 rounded-lg bg-red-50 text-red-600 ring-1 ring-inset ring-red-100
+                  flex items-center justify-center flex-shrink-0">
+                  <Icon name="document" className="w-4 h-4" strokeWidth={1.8} />
+                </span>
+                <span className="flex-1 min-w-0">
+                  <span className="block text-sm font-semibold text-fg">
+                    {resumeLoading ? 'Opening resume...' : 'View Resume'}
+                  </span>
+                  <span className="block text-xs text-fg-subtle">Opens in a new tab</span>
+                </span>
+                <span className="text-fg-faint group-hover:text-fg group-hover:translate-x-0.5 transition-transform">
+                  <Icon name="arrowRight" className="w-4 h-4" />
+                </span>
+              </button>
+            )}
+          </Panel>
         </div>
       </div>
     </Layout>

@@ -7,6 +7,8 @@ import { RowListSkeleton } from '../../components/ui/Skeleton'
 import EmptyState from '../../components/ui/EmptyState'
 import Icon from '../../components/ui/Icon'
 import { JobStatusBadge } from '../../components/ui/Badge'
+import PageHeader from '../../components/ui/PageHeader'
+import { SearchInput, FilterTabs, Pagination, ErrorPanel } from '../../components/ui/ListControls'
 import {
   getRecruiterJobs,
   deleteJob,
@@ -127,90 +129,49 @@ export default function RecruiterJobsPage() {
   }
 
   const nextStatusLabel = (current) => {
-    if (current === 'DRAFT')  return '→ Publish'
-    if (current === 'OPEN')   return '→ Close'
+    if (current === 'DRAFT')  return 'Publish'
+    if (current === 'OPEN')   return 'Close'
     return null
   }
 
   return (
     <Layout>
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center
-        justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-[#0f172a]">My Jobs</h1>
-          <p className="text-sm text-[#64748b] mt-1">
-            {loading ? 'Loading...' : `${totalJobs} job${totalJobs !== 1 ? 's' : ''} total`}
-          </p>
+      <PageHeader
+        title="My Jobs"
+        description={loading ? 'Loading…' : `${totalJobs} job${totalJobs !== 1 ? 's' : ''} total`}
+        actions={
+          <Button onClick={() => navigate('/recruiter/jobs/create')}>
+            <Icon name="plus" className="w-4 h-4" strokeWidth={2.2} />
+            Post New Job
+          </Button>
+        }
+      />
+
+      {successMessage && (
+        <div className="mb-5">
+          <Alert type="success" message={successMessage} />
         </div>
-        <Button
-          onClick={() => navigate('/recruiter/jobs/create')}
-          className="flex-shrink-0"
-        >
-          + Post New Job
-        </Button>
-      </div>
+      )}
 
       {/* Search + filters */}
-      <div className="bg-white border border-[#e2e8f0] rounded-xl p-4 mb-5">
-        <div className="flex flex-col sm:flex-row gap-3 mb-4">
-          <div className="relative flex-1">
-            <svg className="absolute left-3.5 top-1/2 -translate-y-1/2
-              w-4 h-4 text-[#64748b]" fill="none" stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search jobs by title..."
-              className="w-full pl-10 pr-4 py-2.5 text-sm border
-                border-[#e2e8f0] rounded-lg focus:outline-none
-                focus:ring-2 focus:ring-brand-500 focus:border-transparent"
-            />
-          </div>
-
-          {successMessage && (
-            <div className="mb-5">
-              <Alert type="success" message={successMessage} />
-            </div>
-          )}
-        </div>
-
-        {/* Status filter tabs */}
-        <div className="flex gap-1.5 overflow-x-auto">
-          {STATUS_FILTERS.map(({ value, label }) => (
-            <button
-              key={value}
-              onClick={() => setStatusFilter(value)}
-              className={`
-                flex-shrink-0 px-4 py-2 rounded-lg text-sm font-semibold
-                transition-all
-                ${statusFilter === value
-                  ? 'bg-brand-600 text-white'
-                  : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f7f9fb]'}
-              `}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+      <div className="flex flex-col md:flex-row md:items-center gap-3 mb-5">
+        <SearchInput
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search jobs by title..."
+        />
+        <FilterTabs
+          options={STATUS_FILTERS}
+          value={statusFilter}
+          onChange={setStatusFilter}
+        />
       </div>
 
       {/* States */}
       {loading && <RowListSkeleton />}
 
       {!loading && error && (
-        <div className="bg-red-50 border border-red-100 rounded-xl p-6
-          text-center">
-          <p className="text-red-600 text-sm mb-3">{error}</p>
-          <Button variant="outline" size="sm" onClick={fetchJobs}>
-            Try again
-          </Button>
-        </div>
+        <ErrorPanel message={error} onRetry={fetchJobs} />
       )}
 
       {!loading && !error && jobs.length === 0 && (
@@ -233,12 +194,12 @@ export default function RecruiterJobsPage() {
       {/* Jobs table */}
       {!loading && !error && jobs.length > 0 && (
         <>
-          <div className="bg-white border border-[#e2e8f0] rounded-xl
+          <div className="bg-surface border border-line rounded-xl shadow-card
             overflow-hidden">
             {/* Table header */}
-            <div className="hidden sm:grid grid-cols-12 gap-4 px-5 py-3
-              bg-[#f7f9fb] border-b border-[#e2e8f0] text-xs font-bold
-              text-[#64748b] uppercase tracking-wider">
+            <div className="hidden sm:grid grid-cols-12 gap-4 px-5 py-2.5
+              bg-subtle border-b border-line text-[11px] font-semibold
+              text-fg-subtle uppercase tracking-wider">
               <div className="col-span-5">Job Title</div>
               <div className="col-span-2">Status</div>
               <div className="col-span-2">Posted</div>
@@ -246,17 +207,18 @@ export default function RecruiterJobsPage() {
             </div>
 
             {/* Rows */}
-            <div className="divide-y divide-[#e2e8f0]">
+            <div className="divide-y divide-line">
               {jobs.map((job) => (
                 <div key={job.id} className="relative">
 
                   {/* Delete confirm overlay */}
                   {confirmDelete === job.id && (
-                    <div className="absolute inset-0 bg-white/97 z-10
-                      flex items-center justify-center gap-4 border-b
-                      border-[#e2e8f0] px-5">
-                      <p className="text-sm text-[#0f172a]">
-                        Delete <strong>{job.title}</strong>? This cannot be undone.
+                    <div className="absolute inset-0 bg-surface/95 backdrop-blur-sm z-10
+                      flex flex-wrap items-center justify-center gap-3 sm:gap-4 px-5
+                      animate-fade-up">
+                      <p className="text-sm text-fg flex items-center gap-2">
+                        <Icon name="warning" className="w-4 h-4 text-red-600 flex-shrink-0" />
+                        <span>Delete <strong>{job.title}</strong>? This cannot be undone.</span>
                       </p>
                       <div className="flex gap-2 flex-shrink-0">
                         <Button
@@ -278,28 +240,32 @@ export default function RecruiterJobsPage() {
                     </div>
                   )}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-12 gap-2
-                    sm:gap-4 px-5 py-4 hover:bg-[#f7f9fb] transition-colors
+                  <div className="grid grid-cols-1 sm:grid-cols-12 gap-3
+                    sm:gap-4 px-5 py-4 hover:bg-subtle transition-colors
                     items-center">
 
                     {/* Title */}
-                    <div className="sm:col-span-5 flex items-center gap-3">
-                      <div className="w-9 h-9 bg-[#f2f4f6] rounded-lg
-                        flex items-center justify-center flex-shrink-0">
-                        <Icon name="briefcase" className="w-4 h-4 text-slate-500" strokeWidth={2} />
+                    <div className="sm:col-span-5 flex items-center gap-3 min-w-0">
+                      <div className="w-9 h-9 bg-brand-50 text-brand-600 ring-1 ring-inset ring-brand-100
+                        rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Icon name="briefcase" className="w-4 h-4" strokeWidth={2} />
                       </div>
                       <div className="min-w-0">
-                        <p className="font-semibold text-[#0f172a] text-sm
-                          truncate">
+                        <button
+                          type="button"
+                          onClick={() => navigate(`/recruiter/jobs/${job.id}/applicants`)}
+                          className="font-semibold text-fg text-sm truncate block max-w-full
+                            text-left hover:text-brand-600"
+                        >
                           {job.title}
-                        </p>
-                        <div className="flex flex-wrap items-center gap-2
-                          mt-0.5 text-xs text-[#64748b]">
+                        </button>
+                        <div className="flex flex-wrap items-center gap-1.5
+                          mt-0.5 text-xs text-fg-subtle">
                           {job.workMode && (
                             <span>{WORK_MODE_LABELS[job.workMode]}</span>
                           )}
                           {job.workMode && job.employmentType && (
-                            <span>·</span>
+                            <span className="text-fg-faint">·</span>
                           )}
                           {job.employmentType && (
                             <span>
@@ -316,13 +282,13 @@ export default function RecruiterJobsPage() {
                     </div>
 
                     {/* Date */}
-                    <div className="sm:col-span-2 text-xs text-[#64748b]">
+                    <div className="sm:col-span-2 text-[13px] text-fg-subtle tabular-nums">
                       {formatDate(job.createdAt)}
                     </div>
 
                     {/* Actions */}
                     <div className="sm:col-span-3 flex items-center
-                      justify-end gap-2 flex-wrap">
+                      sm:justify-end gap-1.5 flex-wrap">
 
                       {/* View applicants */}
                       <Button
@@ -332,6 +298,7 @@ export default function RecruiterJobsPage() {
                           navigate(`/recruiter/jobs/${job.id}/applicants`)
                         }
                       >
+                        <Icon name="users" className="w-3.5 h-3.5" />
                         Applicants
                       </Button>
 
@@ -357,7 +324,7 @@ export default function RecruiterJobsPage() {
                           onClick={() =>
                             handleStatusChange(job.id, nextStatus(job.status))
                           }
-                          className="text-brand-600 hover:bg-brand-50"
+                          className="!text-brand-600 dark:!text-brand-300 hover:!bg-brand-50"
                         >
                           {nextStatusLabel(job.status)}
                         </Button>
@@ -366,8 +333,8 @@ export default function RecruiterJobsPage() {
                       {/* Status transition — OPEN → CLOSED (with confirm) */}
                       {job.status === 'OPEN' && (
                         confirmClose === job.id ? (
-                          <div className="flex items-center gap-1">
-                            <span className="text-xs text-[#64748b]">Close?</span>
+                          <div className="flex items-center gap-1 pl-1">
+                            <span className="text-xs font-medium text-fg-subtle mr-0.5">Close?</span>
                             <Button
                               variant="danger"
                               size="xs"
@@ -392,9 +359,8 @@ export default function RecruiterJobsPage() {
                             variant="ghost"
                             size="xs"
                             onClick={() => setConfirmClose(job.id)}
-                            className="text-brand-600 hover:bg-brand-50"
                           >
-                            → Close
+                            {nextStatusLabel(job.status)}
                           </Button>
                         )
                       )}
@@ -405,8 +371,7 @@ export default function RecruiterJobsPage() {
                           variant="ghost"
                           size="xs"
                           onClick={() => setConfirmDelete(job.id)}
-                          className="text-red-400 hover:text-red-600
-                            hover:bg-red-50"
+                          className="!text-red-600 dark:!text-red-400 hover:!bg-red-50"
                         >
                           Delete
                         </Button>
@@ -418,33 +383,12 @@ export default function RecruiterJobsPage() {
             </div>
           </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 pt-6
-              border-t border-[#e2e8f0]">
-              <p className="text-sm text-[#64748b]">
-                Page {page + 1} of {totalPages}
-              </p>
-              <div className="flex gap-2">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  disabled={page === 0}
-                  onClick={() => setPage(p => p - 1)}
-                >
-                  ← Previous
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  disabled={page >= totalPages - 1}
-                  onClick={() => setPage(p => p + 1)}
-                >
-                  Next →
-                </Button>
-              </div>
-            </div>
-          )}
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPrev={() => setPage(p => p - 1)}
+            onNext={() => setPage(p => p + 1)}
+          />
         </>
       )}
     </Layout>
