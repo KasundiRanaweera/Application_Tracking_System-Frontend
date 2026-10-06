@@ -31,7 +31,7 @@ const FEATURES = [
   { icon: 'document',      title: 'CV upload or link',        body: 'Attach a PDF, DOC or DOCX up to 5 MB, or share a link to your resume instead.' },
   { icon: 'bolt',          title: 'Always up to date',        body: 'See the latest status of every application each time you sign in.' },
   { icon: 'xCircle',       title: 'Withdraw if plans change', body: 'Changed your mind? Withdraw an application at any point before a final decision.' },
-  { icon: 'lock',          title: 'Private and secure',       body: 'Your account is protected with secure sign-in, and your applications are shared only with the hiring team.', wide: true },
+  { icon: 'lock',          title: 'Private and secure',       body: 'Your account is protected with secure sign-in, and your applications are shared only with the hiring team.' },
 ]
 
 export default function LandingPage() {
@@ -180,7 +180,7 @@ export default function LandingPage() {
                 className={[
                   'group rounded-2xl border border-line bg-surface p-6 shadow-card',
                   'hover:border-line-strong hover:shadow-pop transition-[border-color,box-shadow] duration-200',
-                  f.wide ? 'lg:col-span-2' : '',
+                  f.wide ? 'sm:col-span-2' : '',
                 ].join(' ')}>
                 <span className="w-10 h-10 rounded-xl bg-muted text-fg-muted flex items-center justify-center mb-5
                   group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">
