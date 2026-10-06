@@ -8,7 +8,9 @@ import Icon from '../../components/ui/Icon'
 import { StatusBadge } from '../../components/ui/Badge'
 import { getRecruiterJobs } from '../../api/jobsApi'
 import { getJobApplications } from '../../api/applicationsApi'
-import { STATUS_LABELS } from '../../utils/pipelineRules'
+import { STATUS_LABELS, WORK_MODE_LABELS } from '../../utils/pipelineRules'
+import PageHeader, { BackLink } from '../../components/ui/PageHeader'
+import { FilterTabs, Pagination, ErrorPanel } from '../../components/ui/ListControls'
 
 const STATUS_FILTERS = [
   { value: '',             label: 'All'          },
@@ -121,69 +123,52 @@ export default function JobApplicantsPage() {
 
   return (
     <Layout>
-      {/* Header */}
-      <div className="mb-6">
-        <button
-          onClick={() => navigate('/recruiter/jobs')}
-          className="inline-flex items-center gap-1.5 text-sm text-fg-subtle
-            hover:text-brand-600 mb-3 transition-colors font-medium group"
-        >
-          <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
-            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-          </svg>
-          Back to Jobs
-        </button>
-
-        <div className="flex flex-col sm:flex-row sm:items-start
-          justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-fg">
-              {job ? job.title : 'Applicants'}
-            </h1>
-            <div className="flex flex-wrap items-center gap-3 mt-1
-              text-sm text-fg-subtle">
-              {job?.location && (
-                <span className="flex items-center gap-1.5">
-                  <Icon name="mapPin" className="w-3.5 h-3.5 text-fg-faint" strokeWidth={2} />
-                  {job.location}
-                </span>
-              )}
-              {job?.workMode && (
-                <span className="flex items-center gap-1.5">
-                  <Icon name="globe" className="w-3.5 h-3.5 text-fg-faint" strokeWidth={2} />
-                  {job.workMode}
-                </span>
-              )}
-              <span className="text-brand-600 font-semibold">
-                {totalElements} applicant{totalElements !== 1 ? 's' : ''}
+      <PageHeader
+        eyebrow={<BackLink onClick={() => navigate('/recruiter/jobs')}>Back to Jobs</BackLink>}
+        title={job ? job.title : 'Applicants'}
+        description={
+          <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            {job?.location && (
+              <span className="inline-flex items-center gap-1.5">
+                <Icon name="mapPin" className="w-3.5 h-3.5 text-fg-faint" strokeWidth={2} />
+                {job.location}
               </span>
-            </div>
-          </div>
-        </div>
-      </div>
+            )}
+            {job?.workMode && (
+              <span className="inline-flex items-center gap-1.5">
+                <Icon name="globe" className="w-3.5 h-3.5 text-fg-faint" strokeWidth={2} />
+                {WORK_MODE_LABELS[job.workMode] ?? job.workMode}
+              </span>
+            )}
+            <span className="inline-flex items-center gap-1.5 text-fg font-semibold">
+              <Icon name="users" className="w-3.5 h-3.5 text-brand-600" strokeWidth={2} />
+              {totalElements} applicant{totalElements !== 1 ? 's' : ''}
+            </span>
+          </span>
+        }
+      />
 
       {/* Stats */}
       {!loading && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
-            { label: 'Total',     value: counts.all,       icon: 'users',      color: 'text-fg',    bg: 'bg-subtle',  iconColor: 'text-fg-subtle' },
-            { label: 'Interview', value: counts.interview, icon: 'chatBubble', color: 'text-brand-600',   bg: 'bg-brand-50',   iconColor: 'text-brand-600' },
-            { label: 'Offer',     value: counts.offer,     icon: 'mail',       color: 'text-amber-600',   bg: 'bg-amber-50',   iconColor: 'text-amber-600' },
-            { label: 'Hired',     value: counts.hired,     icon: 'checkCircle',color: 'text-emerald-600', bg: 'bg-emerald-50', iconColor: 'text-emerald-600' },
-          ].map(({ label, value, icon, color, bg, iconColor }) => (
+            { label: 'Total',     value: counts.all,       icon: 'users',       tone: 'bg-muted text-fg-subtle ring-line' },
+            { label: 'Interview', value: counts.interview, icon: 'chatBubble',  tone: 'bg-brand-50 text-brand-600 ring-brand-100' },
+            { label: 'Offer',     value: counts.offer,     icon: 'mail',        tone: 'bg-amber-50 text-amber-600 ring-amber-100' },
+            { label: 'Hired',     value: counts.hired,     icon: 'checkCircle', tone: 'bg-emerald-50 text-emerald-600 ring-emerald-100' },
+          ].map(({ label, value, icon, tone }, i) => (
             <div
               key={label}
-              className="bg-surface border border-line rounded-xl
+              className="bg-surface border border-line rounded-xl shadow-card
                 p-4 flex items-center gap-3 animate-fade-up"
+              style={{ animationDelay: `${i * 50}ms` }}
             >
-              <div className={`w-9 h-9 ${bg} rounded-lg flex-shrink-0
-                flex items-center justify-center`}>
-                <Icon name={icon} className={`w-4.5 h-4.5 ${iconColor}`} strokeWidth={2} />
+              <div className={`w-9 h-9 rounded-lg ring-1 ring-inset flex-shrink-0
+                flex items-center justify-center ${tone}`}>
+                <Icon name={icon} className="w-4 h-4" strokeWidth={2} />
               </div>
               <div>
-                <p className={`text-xl font-bold ${color}`}>{value}</p>
+                <p className="font-display text-xl font-extrabold text-fg tabular-nums leading-tight">{value}</p>
                 <p className="text-xs text-fg-subtle">{label}</p>
               </div>
             </div>
@@ -191,52 +176,38 @@ export default function JobApplicantsPage() {
         </div>
       )}
 
-      {/* Status filter tabs */}
-      <div className="bg-surface border border-line rounded-xl p-1.5
-        mb-5 flex gap-1 overflow-x-auto">
-        {STATUS_FILTERS.map(({ value, label }) => (
-          <button
-            key={value}
-            onClick={() => setStatusFilter(value)}
-            className={`
-              flex-shrink-0 px-3 py-2 rounded-lg text-xs font-semibold
-              transition-all whitespace-nowrap
-              ${statusFilter === value
-                ? 'bg-brand-600 text-white'
-                : 'text-fg-subtle hover:text-fg hover:bg-subtle'}
-            `}
+      {/* Filters + sort */}
+      <div className="flex flex-col lg:flex-row lg:items-center gap-3 mb-5">
+        <FilterTabs
+          options={STATUS_FILTERS}
+          value={statusFilter}
+          onChange={setStatusFilter}
+          className="lg:flex-1 lg:max-w-fit"
+        />
+        <div className="lg:ml-auto flex items-center gap-2">
+          <label htmlFor="applicant-sort" className="text-[13px] text-fg-subtle whitespace-nowrap">
+            Sort by
+          </label>
+          <select
+            id="applicant-sort"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="h-9 text-[13px] font-medium border border-line rounded-lg pl-3
+              pr-8 bg-surface text-fg shadow-xs cursor-pointer hover:border-line-strong
+              focus:outline-none focus:ring-4 focus:ring-brand-500/15 focus:border-brand-500"
           >
-            {label}
-          </button>
-        ))}
-      </div>
-
-      {/* Sort dropdown */}
-      <div className="flex justify-end mt-3 mb-5">
-        <select
-          value={sort}
-          onChange={(e) => setSort(e.target.value)}
-          className="text-sm border border-line rounded-lg py-2 pl-3
-            pr-8 bg-surface focus:outline-none focus:ring-2
-            focus:ring-brand-500 text-fg cursor-pointer"
-        >
-          <option value="appliedAt,desc">Newest first</option>
-          <option value="appliedAt,asc">Oldest first</option>
-          <option value="rating,desc">Highest rated</option>
-        </select>
+            <option value="appliedAt,desc">Newest first</option>
+            <option value="appliedAt,asc">Oldest first</option>
+            <option value="rating,desc">Highest rated</option>
+          </select>
+        </div>
       </div>
 
       {/* States */}
       {loading && <RowListSkeleton />}
 
       {!loading && error && (
-        <div className="bg-red-50 border border-red-100 rounded-xl p-6
-          text-center">
-          <p className="text-red-600 text-sm mb-3">{error}</p>
-          <Button variant="outline" size="sm" onClick={fetchApps}>
-            Try again
-          </Button>
-        </div>
+        <ErrorPanel message={error} onRetry={fetchApps} />
       )}
 
       {!loading && !error && applications.length === 0 && (
@@ -254,11 +225,11 @@ export default function JobApplicantsPage() {
       {/* Applicants table */}
       {!loading && !error && applications.length > 0 && (
         <>
-          <div className="bg-surface border border-line rounded-xl
+          <div className="bg-surface border border-line rounded-xl shadow-card
             overflow-hidden">
             {/* Table header */}
-            <div className="hidden sm:grid grid-cols-12 gap-4 px-5 py-3
-              bg-subtle border-b border-line text-xs font-bold
+            <div className="hidden sm:grid grid-cols-12 gap-4 px-5 py-2.5
+              bg-subtle border-b border-line text-[11px] font-semibold
               text-fg-subtle uppercase tracking-wider">
               <div className="col-span-4">Candidate</div>
               <div className="col-span-2">Stage</div>
@@ -267,19 +238,19 @@ export default function JobApplicantsPage() {
               <div className="col-span-2 text-right">Action</div>
             </div>
 
-            <div className="divide-y divide-[#e2e8f0]">
+            <div className="divide-y divide-line">
               {applications.map((app) => (
                 <div
                   key={app.id}
-                  className="grid grid-cols-1 sm:grid-cols-12 gap-2
+                  className="grid grid-cols-1 sm:grid-cols-12 gap-3
                     sm:gap-4 px-5 py-4 hover:bg-subtle transition-colors
                     items-center group"
                 >
                   {/* Candidate */}
-                  <div className="sm:col-span-4 flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-brand-100
-                      flex items-center justify-center text-brand-600
-                      font-bold text-sm flex-shrink-0">
+                  <div className="sm:col-span-4 flex items-center gap-3 min-w-0">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500 to-brand-700
+                      flex items-center justify-center text-white
+                      font-semibold text-sm flex-shrink-0 ring-2 ring-surface">
                       {app.candidateName?.charAt(0).toUpperCase() || '?'}
                     </div>
                     <div className="min-w-0">
@@ -304,12 +275,12 @@ export default function JobApplicantsPage() {
                   </div>
 
                   {/* Date */}
-                  <div className="sm:col-span-2 text-xs text-fg-subtle">
+                  <div className="sm:col-span-2 text-[13px] text-fg-subtle tabular-nums">
                     {formatDate(app.appliedAt)}
                   </div>
 
                   {/* Action */}
-                  <div className="sm:col-span-2 flex justify-end">
+                  <div className="sm:col-span-2 flex sm:justify-end">
                     <Button
                       variant="secondary"
                       size="xs"
@@ -317,7 +288,8 @@ export default function JobApplicantsPage() {
                         navigate(`/recruiter/applications/${app.id}`)
                       }
                     >
-                      Review →
+                      Review
+                      <Icon name="arrowRight" className="w-3.5 h-3.5" />
                     </Button>
                   </div>
                 </div>
@@ -325,33 +297,12 @@ export default function JobApplicantsPage() {
             </div>
           </div>
 
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 pt-6
-              border-t border-line">
-              <p className="text-sm text-fg-subtle">
-                Page {page + 1} of {totalPages}
-              </p>
-              <div className="flex gap-2">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  disabled={page === 0}
-                  onClick={() => setPage(p => p - 1)}
-                >
-                  ← Previous
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  disabled={page >= totalPages - 1}
-                  onClick={() => setPage(p => p + 1)}
-                >
-                  Next →
-                </Button>
-              </div>
-            </div>
-          )}
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPrev={() => setPage(p => p - 1)}
+            onNext={() => setPage(p => p + 1)}
+          />
         </>
       )}
     </Layout>

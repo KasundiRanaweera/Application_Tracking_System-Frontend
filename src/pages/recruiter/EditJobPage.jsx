@@ -1,20 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Layout from '../../components/layout/Layout'
-import Button from '../../components/ui/Button'
-import Input from '../../components/ui/Input'
-import Alert from '../../components/ui/Alert'
+import JobForm from '../../components/recruiter/JobForm'
 import Spinner from '../../components/ui/Spinner'
-import Icon from '../../components/ui/Icon'
 import { getRecruiterJobs, updateJob } from '../../api/jobsApi'
 
-const WORK_MODES  = ['REMOTE', 'HYBRID', 'ONSITE']
-const EMP_TYPES   = ['FULL_TIME', 'PART_TIME', 'CONTRACT', 'INTERNSHIP']
-const WORK_LABELS = { REMOTE: 'Remote', HYBRID: 'Hybrid', ONSITE: 'On-site' }
-const EMP_LABELS  = {
-  FULL_TIME: 'Full-time', PART_TIME: 'Part-time',
-  CONTRACT: 'Contract', INTERNSHIP: 'Internship',
-}
 
 export default function EditJobPage() {
   const { id } = useParams()
@@ -108,236 +98,20 @@ export default function EditJobPage() {
 
   return (
     <Layout>
-      <div className="mb-8">
-        <button
-          onClick={() => navigate('/recruiter/jobs')}
-          className="inline-flex items-center gap-1.5 text-sm text-fg-subtle
-            hover:text-brand-600 mb-4 transition-colors font-medium group"
-        >
-          <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
-            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-          </svg>
-          Back to Jobs
-        </button>
-        <h1 className="text-2xl font-bold text-fg">Edit Job</h1>
-        <p className="text-sm text-fg-subtle mt-1">
-          Update the details for this draft position
-        </p>
-      </div>
-
-      {serverError && (
-        <div className="mb-6">
-          <Alert type="error" message={serverError} />
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-        {/* Left */}
-        <div className="lg:col-span-2 space-y-5">
-          <div className="bg-surface border border-line rounded-xl p-6">
-            <h2 className="text-base font-bold text-fg mb-4 pb-3
-              border-b border-line">
-              Basic Information
-            </h2>
-            <div className="space-y-4">
-              <Input
-                id="title"
-                label="Job Title"
-                value={form.title}
-                onChange={handleChange}
-                error={errors.title}
-                required
-              />
-              <div>
-                <label className="block text-sm font-semibold
-                  text-fg mb-1.5">
-                  Description <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="description"
-                  value={form.description}
-                  onChange={handleChange}
-                  rows={5}
-                  className={`w-full px-3.5 py-2.5 border rounded-lg text-sm
-                    resize-y focus:outline-none focus:ring-2
-                    focus:ring-brand-500 focus:border-transparent
-                    text-fg
-                    ${errors.description
-                      ? 'border-red-400' : 'border-line'}`}
-                />
-                {errors.description && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.description}
-                  </p>
-                )}
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold
-                    text-fg mb-1.5">
-                    Employment Type
-                  </label>
-                  <select
-                    id="employmentType"
-                    value={form.employmentType}
-                    onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 border border-line
-                      rounded-lg text-sm bg-surface text-fg
-                      focus:outline-none focus:ring-2 focus:ring-brand-500"
-                  >
-                    {EMP_TYPES.map(t => (
-                      <option key={t} value={t}>{EMP_LABELS[t]}</option>
-                    ))}
-                  </select>
-                </div>
-                <Input
-                  id="closingDate"
-                  label="Closing Date"
-                  type="date"
-                  value={form.closingDate}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-surface border border-line rounded-xl p-6">
-            <h2 className="text-base font-bold text-fg mb-4 pb-3
-              border-b border-line flex items-center gap-2">
-              <Icon name="checkCircle" className="w-4 h-4 text-brand-500" strokeWidth={2} />
-              Required Skills
-            </h2>
-            <input
-              id="requiredSkills"
-              type="text"
-              value={form.requiredSkills}
-              onChange={handleChange}
-              placeholder="e.g. React, TypeScript, Node.js"
-              className="w-full px-3.5 py-2.5 border border-line
-                rounded-lg text-sm focus:outline-none focus:ring-2
-                focus:ring-brand-500 text-fg"
-            />
-            {form.requiredSkills && (
-              <div className="flex flex-wrap gap-2 mt-3">
-                {form.requiredSkills
-                  .split(',').map(s => s.trim()).filter(Boolean)
-                  .map(s => (
-                    <span key={s}
-                      className="px-3 py-1 bg-brand-50 border
-                        border-brand-200 text-brand-700 text-xs
-                        font-semibold rounded-full">
-                      {s}
-                    </span>
-                  ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Right */}
-        <div className="space-y-5">
-          <div className="bg-surface border border-line rounded-xl p-6">
-            <h2 className="text-base font-bold text-fg mb-4 pb-3
-              border-b border-line flex items-center gap-2">
-              <Icon name="mapPin" className="w-4 h-4 text-brand-500" strokeWidth={2} />
-              Logistics
-            </h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold
-                  text-fg mb-2">
-                  Work Mode
-                </label>
-                <div className="grid grid-cols-3 gap-2">
-                  {WORK_MODES.map(m => (
-                    <button
-                      key={m}
-                      type="button"
-                      onClick={() => setForm(p => ({ ...p, workMode: m }))}
-                      className={`py-2 px-3 rounded-lg border text-xs
-                        font-semibold transition-all
-                        ${form.workMode === m
-                          ? 'bg-brand-600 text-white border-brand-600'
-                          : 'border-line text-fg-subtle hover:border-brand-300'}`}
-                    >
-                      {WORK_LABELS[m]}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <Input
-                id="location"
-                label="Location"
-                value={form.location}
-                onChange={handleChange}
-                placeholder="City, Country"
-              />
-            </div>
-          </div>
-
-          <div className="bg-surface border border-line rounded-xl p-6">
-            <h2 className="text-base font-bold text-fg mb-4 pb-3
-              border-b border-line flex items-center gap-2">
-              <Icon name="dollar" className="w-4 h-4 text-brand-500" strokeWidth={2} />
-              Compensation
-            </h2>
-            <div className="flex items-center gap-2">
-              <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2
-                  text-fg-faint text-sm">Rs.</span>
-                <input
-                  id="salaryMin"
-                  type="number"
-                  value={form.salaryMin}
-                  onChange={handleChange}
-                  placeholder="Min"
-                  className="w-full pl-9 pr-3 py-2.5 border border-line
-                    rounded-lg text-sm focus:outline-none focus:ring-2
-                    focus:ring-brand-500 text-fg"
-                />
-              </div>
-              <span className="text-fg-subtle text-sm">—</span>
-              <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2
-                  text-fg-faint text-sm">Rs.</span>
-                <input
-                  id="salaryMax"
-                  type="number"
-                  value={form.salaryMax}
-                  onChange={handleChange}
-                  placeholder="Max"
-                  className="w-full pl-9 pr-3 py-2.5 border border-line
-                    rounded-lg text-sm focus:outline-none focus:ring-2
-                    focus:ring-brand-500 text-fg"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-surface border border-line rounded-xl p-6
-            space-y-3">
-            <Button
-              fullWidth
-              size="lg"
-              loading={loading}
-              onClick={handleSubmit}
-              className="shadow-md shadow-brand-200"
-            >
-              Save Changes
-            </Button>
-            <Button
-              variant="secondary"
-              fullWidth
-              onClick={() => navigate('/recruiter/jobs')}
-            >
-              Cancel
-            </Button>
-          </div>
-        </div>
-      </div>
+      <JobForm
+        title="Edit Job"
+        description="Update the details for this draft position"
+        form={form}
+        errors={errors}
+        serverError={serverError}
+        onChange={handleChange}
+        setForm={setForm}
+        onBack={() => navigate('/recruiter/jobs')}
+        onSubmit={handleSubmit}
+        onCancel={() => navigate('/recruiter/jobs')}
+        submitLabel="Save Changes"
+        loading={loading}
+      />
     </Layout>
   )
 }
