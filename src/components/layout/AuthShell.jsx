@@ -2,57 +2,64 @@ import Logo from '../ui/Logo'
 import ThemeToggle from '../ui/ThemeToggle'
 
 /**
- * Split layout for the auth pages: an always-dark brand panel on the
- * left (desktop only) and the form column on the right.
+ * Auth page layout matching the landing hero: soft brand glow and a
+ * fading grid on the canvas, a product showcase on the left (desktop
+ * only) and the form in a card on the right.
  */
-export default function AuthShell({ eyebrow, title, description, visual, glow = 'top', children }) {
+export default function AuthShell({ eyebrow, title, highlight, description, visual, children }) {
   return (
-    <div className="relative min-h-screen flex bg-canvas">
-      {/* Left — brand panel */}
-      <aside className="hidden lg:flex lg:w-[46%] xl:w-[44%] flex-col justify-between
-        bg-slate-950 p-12 xl:p-14 relative overflow-hidden">
-        <div aria-hidden="true" className={[
-          'absolute w-[30rem] h-[30rem] bg-brand-600/30 rounded-full blur-[110px] pointer-events-none',
-          glow === 'top' ? '-top-28 -right-28' : '-bottom-28 -left-28',
-        ].join(' ')} />
-        <div aria-hidden="true" className="absolute inset-0 bg-grid-dots opacity-40 pointer-events-none" />
-        <div aria-hidden="true" className="absolute inset-y-0 right-0 w-px bg-gradient-to-b
-          from-transparent via-white/10 to-transparent" />
+    <div className="relative min-h-screen bg-canvas text-fg overflow-x-clip flex flex-col">
+      {/* Background: same glow + grid as the landing hero */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0
+        bg-[radial-gradient(50%_45%_at_25%_0%,rgb(30_76_224/0.14),transparent_75%)]" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0
+        bg-[linear-gradient(to_right,var(--tb-line)_1px,transparent_1px),linear-gradient(to_bottom,var(--tb-line)_1px,transparent_1px)]
+        bg-[size:56px_56px] opacity-50
+        [mask-image:radial-gradient(55%_60%_at_25%_10%,black,transparent_80%)]" />
 
-        <div className="relative z-10">
-          <Logo size="lg" inverted />
-        </div>
+      {/* Top bar */}
+      <header className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 h-16
+        flex items-center justify-between">
+        <Logo />
+        <ThemeToggle />
+      </header>
 
-        <div className="relative z-10 max-w-md">
-          <p className="text-brand-300 text-xs font-bold uppercase tracking-[0.14em] mb-4">
-            {eyebrow}
-          </p>
-          <h1 className="text-[2.6rem] xl:text-[2.85rem] font-extrabold text-white leading-[1.06]
-            tracking-[-0.035em] mb-5">
-            {title}
-          </h1>
-          <p className="text-slate-400 text-base leading-relaxed mb-10 max-w-sm">
-            {description}
-          </p>
-          {visual}
-        </div>
+      <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-4 lg:pt-8
+        grid lg:grid-cols-[1fr_minmax(0,440px)] gap-12 xl:gap-20 items-center">
 
-        <p className="relative z-10 text-slate-500 text-xs">
-          © {new Date().getFullYear()} TalentBridge ATS
-        </p>
-      </aside>
-
-      {/* Right — form */}
-      <main className="flex-1 flex flex-col px-6 py-6 sm:px-12 lg:px-16">
-        <div className="flex items-center justify-between lg:justify-end">
-          <Logo className="lg:hidden" />
-          <ThemeToggle />
-        </div>
-        <div className="flex-1 flex flex-col justify-center py-10">
-          <div className="w-full max-w-[380px] mx-auto animate-fade-up">
+        {/* Form card */}
+        <div className="w-full max-w-[440px] mx-auto lg:mr-0 lg:order-2 animate-rise-in">
+          <div className="rounded-2xl border border-line bg-surface/90 backdrop-blur shadow-pop
+            dark:bg-surface dark:border-line-strong/60 p-6 sm:p-8">
             {children}
           </div>
         </div>
+
+        {/* Showcase */}
+        <aside className="hidden lg:block min-w-0 lg:order-1">
+          <div className="max-w-xl animate-rise-in [animation-delay:120ms]">
+            <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/80 backdrop-blur
+              pl-1.5 pr-3 py-1 text-xs font-medium text-fg-muted shadow-xs mb-6">
+              <span className="rounded-full bg-brand-600 text-white px-2 py-0.5 text-[11px] font-semibold">Careers</span>
+              {eyebrow}
+            </p>
+            <h1 className="text-5xl xl:text-[3.5rem] font-extrabold leading-[1.05] tracking-[-0.04em] text-balance">
+              {title}
+              <span className="block bg-gradient-to-r from-brand-600 via-brand-500 to-sky-500 bg-clip-text text-transparent">
+                {highlight}
+              </span>
+            </h1>
+            <p className="mt-5 text-lg text-fg-subtle leading-relaxed max-w-lg text-pretty">
+              {description}
+            </p>
+          </div>
+
+          {visual && (
+            <div className="mt-10 max-w-xl animate-rise-in [animation-delay:240ms]">
+              {visual}
+            </div>
+          )}
+        </aside>
       </main>
     </div>
   )
