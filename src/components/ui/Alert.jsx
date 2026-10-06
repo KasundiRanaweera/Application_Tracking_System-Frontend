@@ -48,7 +48,9 @@ export default function Alert({ type = 'error', message, title }) {
   const { wrap, icon } = CONFIG[type] ?? CONFIG.error
 
   return (
-    <div className={`flex items-start gap-3 rounded-lg border px-4 py-3
+    <div
+      role={type === 'error' ? 'alert' : 'status'}
+      className={`flex items-start gap-3 rounded-xl border px-4 py-3
       text-sm font-medium animate-fade-up ${wrap}`}
     >
       {icon}

@@ -17,13 +17,13 @@ export default function Card({
       onClick={onClick}
       className={[
         'bg-surface rounded-xl border border-line',
-        'shadow-sm',
+        'shadow-card',
         paddings[padding] ?? paddings.default,
         hover ? [
           'cursor-pointer',
-          'hover:border-brand-300 hover:shadow-md',
+          'hover:border-line-strong hover:shadow-pop',
           'hover:-translate-y-0.5',
-          'transition-all duration-200',
+          'transition-[border-color,box-shadow,transform] duration-200',
         ].join(' ') : '',
         className,
       ].join(' ')}

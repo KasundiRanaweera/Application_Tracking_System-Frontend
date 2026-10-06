@@ -138,11 +138,15 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.15;
 }
 
-/* Form controls inherit theme surfaces */
-select, input, textarea { color: var(--tb-fg); }
-html.dark select, html.dark input:not([type=checkbox]):not([type=radio]), html.dark textarea {
-  background-color: var(--tb-surface);
-  border-color: var(--tb-line);
+/* Form controls inherit theme surfaces. Kept in the base layer so
+   utility classes (focus/error borders) still win. */
+@layer base {
+  select, input, textarea { color: var(--tb-fg); }
+  html.dark select, html.dark input:not([type=checkbox]):not([type=radio]), html.dark textarea {
+    background-color: var(--tb-surface);
+    border-color: var(--tb-line);
+  }
+  input::placeholder, textarea::placeholder { color: var(--tb-fg-faint); }
 }
 
 /* Scrollbar */

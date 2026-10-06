@@ -20,16 +20,16 @@ export default function Input({
   const inputType = type === 'password' && passwordVisible ? 'text' : type
 
   const inputClasses = [
-    'w-full text-sm text-fg bg-surface placeholder-fg-faint',
-    'border rounded-lg',
-    'transition-all duration-150',
-    'focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500',
+    'w-full h-10 text-sm text-fg bg-surface placeholder-fg-faint',
+    'border rounded-lg shadow-xs',
+    'transition-[border-color,box-shadow,background-color] duration-150',
+    'focus:outline-none focus:ring-4 focus:ring-brand-500/15 focus:border-brand-500',
     'disabled:bg-subtle disabled:text-fg-faint disabled:cursor-not-allowed',
-    prefix ? 'pl-9 pr-3 py-2.5' : 'px-3.5 py-2.5',
+    prefix ? 'pl-9 pr-3' : 'px-3.5',
     suffix ? 'pr-9'             : '',
     showPasswordToggle && type === 'password' ? 'pr-10' : '',
     error
-      ? 'border-red-400 focus:ring-red-400/30 focus:border-red-500'
+      ? 'border-red-400 focus:ring-red-500/15 focus:border-red-500'
       : 'border-line hover:border-line-strong',
   ].join(' ')
 
@@ -38,7 +38,7 @@ export default function Input({
       {label && (
         <label
           htmlFor={id}
-          className="text-sm font-semibold text-fg-muted leading-none"
+          className="text-[13px] font-medium text-fg-muted leading-none"
         >
           {label}
           {required && (

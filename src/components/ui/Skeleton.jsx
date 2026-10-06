@@ -1,12 +1,12 @@
 function Skeleton({ className = '' }) {
-  return <div className={['animate-pulse rounded-md bg-line', className].join(' ')} aria-hidden="true" />
+  return <div className={['animate-pulse rounded-md bg-muted', className].join(' ')} aria-hidden="true" />
 }
 
 export function RowListSkeleton({ count = 5 }) {
   return (
-    <div className="space-y-3" aria-label="Loading">
+    <div className="space-y-3" aria-label="Loading" aria-busy="true">
       {Array.from({ length: count }, (_, index) => (
-        <div key={index} className="flex items-center gap-4 rounded-xl border border-line bg-surface p-4">
+        <div key={index} className="flex items-center gap-4 rounded-xl border border-line bg-surface p-4 shadow-card">
           <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
           <div className="min-w-0 flex-1 space-y-2">
             <Skeleton className="h-4 w-2/5" />
@@ -25,9 +25,9 @@ export function ApplicationListSkeleton({ count = 5 }) {
 
 export function RowStackSkeleton({ count = 4 }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Loading">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Loading" aria-busy="true">
       {Array.from({ length: count }, (_, index) => (
-        <div key={index} className="rounded-xl border border-line bg-surface p-5">
+        <div key={index} className="rounded-xl border border-line bg-surface p-5 shadow-card">
           <Skeleton className="mb-4 h-4 w-2/5" />
           <Skeleton className="mb-2 h-8 w-1/2" />
           <Skeleton className="h-3 w-3/5" />
