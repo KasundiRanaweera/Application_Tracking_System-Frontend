@@ -93,7 +93,7 @@ export default function JobDetailPage() {
     <Layout>
       <div className="text-center py-20">
         <div className="text-5xl mb-4">😕</div>
-        <h2 className="text-xl font-bold text-[#0f172a] mb-2">{error}</h2>
+        <h2 className="text-xl font-bold text-fg mb-2">{error}</h2>
         <Button variant="outline" onClick={() => navigate('/jobs')}>
           ← Back to jobs
         </Button>
@@ -106,7 +106,7 @@ export default function JobDetailPage() {
       {/* Back */}
       <button
         onClick={() => navigate('/jobs')}
-        className="inline-flex items-center gap-1.5 text-sm text-[#64748b]
+        className="inline-flex items-center gap-1.5 text-sm text-fg-subtle
           hover:text-brand-600 mb-6 transition-colors group font-medium"
       >
         <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
@@ -118,7 +118,7 @@ export default function JobDetailPage() {
       </button>
 
       {/* Hero header */}
-      <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 lg:p-8 mb-6
+      <div className="bg-surface border border-line rounded-xl p-6 lg:p-8 mb-6
         relative overflow-hidden">
         <div className="absolute -top-16 -right-16 w-48 h-48 bg-brand-600/5
           rounded-full blur-3xl pointer-events-none" />
@@ -128,23 +128,23 @@ export default function JobDetailPage() {
           <div>
             {/* Category + posted */}
             <div className="flex items-center gap-3 mb-3">
-              <span className="bg-[#f2f4f6] text-[#464555] text-xs font-semibold
+              <span className="bg-muted text-fg-muted text-xs font-semibold
                 px-2.5 py-1 rounded-lg">
                 Open Position
               </span>
               {job.createdAt && (
-                <span className="text-xs text-[#64748b]">
+                <span className="text-xs text-fg-subtle">
                   Posted {formatDate(job.createdAt)}
                 </span>
               )}
             </div>
 
-            <h1 className="text-2xl lg:text-3xl font-bold text-[#0f172a] mb-3">
+            <h1 className="text-2xl lg:text-3xl font-bold text-fg mb-3">
               {job.title}
             </h1>
 
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-[#64748b]">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-fg-subtle">
               {job.location && (
                 <span className="flex items-center gap-1.5">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor"
@@ -224,28 +224,28 @@ export default function JobDetailPage() {
         <div className="lg:col-span-2 space-y-5">
 
           {/* Description */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0]">
+          <div className="bg-surface border border-line rounded-xl p-6">
+            <h2 className="text-base font-bold text-fg mb-4 pb-3
+              border-b border-line">
               About this role
             </h2>
-            <p className="text-sm text-[#464555] leading-relaxed whitespace-pre-line">
+            <p className="text-sm text-fg-muted leading-relaxed whitespace-pre-line">
               {job.description}
             </p>
           </div>
 
           {/* Required skills */}
           {job.requiredSkills && (
-            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-              <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-                border-b border-[#e2e8f0]">
+            <div className="bg-surface border border-line rounded-xl p-6">
+              <h2 className="text-base font-bold text-fg mb-4 pb-3
+                border-b border-line">
                 Required Skills
               </h2>
               <div className="flex flex-wrap gap-2">
                 {job.requiredSkills.split(',').map((s) => (
                   <span key={s.trim()}
-                    className="px-3 py-1.5 bg-[#f7f9fb] border border-[#e2e8f0]
-                      rounded-lg text-xs font-semibold text-[#464555]">
+                    className="px-3 py-1.5 bg-subtle border border-line
+                      rounded-lg text-xs font-semibold text-fg-muted">
                     {s.trim()}
                   </span>
                 ))}
@@ -255,33 +255,33 @@ export default function JobDetailPage() {
 
           {/* Apply form */}
           {showApplyForm && !alreadyApplied && !applySuccess && (
-            <div className="bg-white border border-brand-200 rounded-xl p-6
+            <div className="bg-surface border border-brand-200 rounded-xl p-6
               shadow-sm shadow-brand-100">
-              <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-                border-b border-[#e2e8f0]">
+              <h2 className="text-base font-bold text-fg mb-4 pb-3
+                border-b border-line">
                 Your Application
               </h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-[#0f172a] mb-1.5">
+                  <label className="block text-sm font-semibold text-fg mb-1.5">
                     Cover Note
-                    <span className="text-[#64748b] font-normal ml-1">(optional)</span>
+                    <span className="text-fg-subtle font-normal ml-1">(optional)</span>
                   </label>
                   <textarea
                     value={coverNote}
                     onChange={(e) => setCoverNote(e.target.value)}
                     rows={4}
                     placeholder="Tell us why you're a great fit for this role..."
-                    className="w-full px-3.5 py-3 border border-[#e2e8f0] rounded-xl
+                    className="w-full px-3.5 py-3 border border-line rounded-xl
                       text-sm resize-none focus:outline-none focus:ring-2
-                      focus:ring-brand-500 focus:border-transparent text-[#191c1e]
+                      focus:ring-brand-500 focus:border-transparent text-fg
                       placeholder-[#94a3b8]"
                   />
                 </div>
                 <div>
-                  <label htmlFor="resumeFile" className="block text-sm font-semibold text-[#0f172a] mb-1.5">
+                  <label htmlFor="resumeFile" className="block text-sm font-semibold text-fg mb-1.5">
                     Upload CV
-                    <span className="text-[#64748b] font-normal ml-1">(PDF, DOC, or DOCX; max 5 MB)</span>
+                    <span className="text-fg-subtle font-normal ml-1">(PDF, DOC, or DOCX; max 5 MB)</span>
                   </label>
                   <input
                     id="resumeFile"
@@ -302,9 +302,9 @@ export default function JobDetailPage() {
                       setApplyError('')
                       setResumeFile(file)
                     }}
-                    className="w-full px-3.5 py-2.5 border border-[#e2e8f0] rounded-xl
+                    className="w-full px-3.5 py-2.5 border border-line rounded-xl
                       text-sm focus:outline-none focus:ring-2 focus:ring-brand-500
-                      focus:border-transparent text-[#191c1e] file:mr-3 file:rounded-lg
+                      focus:border-transparent text-fg file:mr-3 file:rounded-lg
                       file:border-0 file:bg-brand-50 file:px-3 file:py-1.5
                       file:text-xs file:font-semibold file:text-brand-700"
                   />
@@ -313,7 +313,7 @@ export default function JobDetailPage() {
                       Selected: {resumeFile.name}
                     </p>
                   )}
-                  <label htmlFor="resumeUrl" className="block text-xs font-semibold text-[#64748b] mt-3 mb-1.5">
+                  <label htmlFor="resumeUrl" className="block text-xs font-semibold text-fg-subtle mt-3 mb-1.5">
                     Or provide a resume URL
                   </label>
                   <input
@@ -322,9 +322,9 @@ export default function JobDetailPage() {
                     value={resumeUrl}
                     onChange={(e) => setResumeUrl(e.target.value)}
                     placeholder="https://drive.google.com/your-cv-link"
-                    className="w-full px-3.5 py-2.5 border border-[#e2e8f0] rounded-xl
+                    className="w-full px-3.5 py-2.5 border border-line rounded-xl
                       text-sm focus:outline-none focus:ring-2 focus:ring-brand-500
-                      focus:border-transparent text-[#191c1e] placeholder-[#94a3b8]"
+                      focus:border-transparent text-fg placeholder-[#94a3b8]"
                   />
                 </div>
                 {applyError && <Alert type="error" message={applyError} />}
@@ -344,47 +344,47 @@ export default function JobDetailPage() {
 
         {/* Sidebar — job details */}
         <div className="lg:col-span-1">
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 sticky top-24">
-            <h2 className="text-base font-bold text-[#0f172a] mb-5 pb-3
-              border-b border-[#e2e8f0]">
+          <div className="bg-surface border border-line rounded-xl p-6 sticky top-24">
+            <h2 className="text-base font-bold text-fg mb-5 pb-3
+              border-b border-line">
               Job Details
             </h2>
 
             <dl className="space-y-4">
               {job.employmentType && (
                 <div>
-                  <dt className="text-xs font-bold text-[#64748b] uppercase
+                  <dt className="text-xs font-bold text-fg-subtle uppercase
                     tracking-wider mb-1">
                     Job Type
                   </dt>
-                  <dd className="text-sm font-medium text-[#0f172a]">
+                  <dd className="text-sm font-medium text-fg">
                     {EMPLOYMENT_TYPE_LABELS[job.employmentType]}
                   </dd>
                 </div>
               )}
               {job.workMode && (
                 <div>
-                  <dt className="text-xs font-bold text-[#64748b] uppercase
+                  <dt className="text-xs font-bold text-fg-subtle uppercase
                     tracking-wider mb-1">
                     Work Mode
                   </dt>
-                  <dd className="text-sm font-medium text-[#0f172a]">
+                  <dd className="text-sm font-medium text-fg">
                     {WORK_MODE_LABELS[job.workMode]}
                   </dd>
                 </div>
               )}
               {job.location && (
                 <div>
-                  <dt className="text-xs font-bold text-[#64748b] uppercase
+                  <dt className="text-xs font-bold text-fg-subtle uppercase
                     tracking-wider mb-1">
                     Location
                   </dt>
-                  <dd className="text-sm font-medium text-[#0f172a]">{job.location}</dd>
+                  <dd className="text-sm font-medium text-fg">{job.location}</dd>
                 </div>
               )}
               {formatSalary(job.salaryMin, job.salaryMax) && (
                 <div>
-                  <dt className="text-xs font-bold text-[#64748b] uppercase
+                  <dt className="text-xs font-bold text-fg-subtle uppercase
                     tracking-wider mb-1">
                     Salary Range
                   </dt>
@@ -395,22 +395,22 @@ export default function JobDetailPage() {
               )}
               {job.closingDate && (
                 <div>
-                  <dt className="text-xs font-bold text-[#64748b] uppercase
+                  <dt className="text-xs font-bold text-fg-subtle uppercase
                     tracking-wider mb-1">
                     Application Closes
                   </dt>
-                  <dd className="text-sm font-medium text-[#0f172a]">
+                  <dd className="text-sm font-medium text-fg">
                     {formatDate(job.closingDate)}
                   </dd>
                 </div>
               )}
               {job.createdAt && (
                 <div>
-                  <dt className="text-xs font-bold text-[#64748b] uppercase
+                  <dt className="text-xs font-bold text-fg-subtle uppercase
                     tracking-wider mb-1">
                     Date Posted
                   </dt>
-                  <dd className="text-sm font-medium text-[#0f172a]">
+                  <dd className="text-sm font-medium text-fg">
                     {formatDate(job.createdAt)}
                   </dd>
                 </div>
@@ -419,7 +419,7 @@ export default function JobDetailPage() {
 
             {/* Apply CTA in sidebar */}
             {!alreadyApplied && !applySuccess && (
-              <div className="mt-6 pt-5 border-t border-[#e2e8f0]">
+              <div className="mt-6 pt-5 border-t border-line">
                 <Button
                   fullWidth
                   onClick={() => {
@@ -434,7 +434,7 @@ export default function JobDetailPage() {
             )}
 
             {alreadyApplied && !applySuccess && (
-              <div className="mt-6 pt-5 border-t border-[#e2e8f0]">
+              <div className="mt-6 pt-5 border-t border-line">
                 <div className="bg-amber-50 border border-amber-200 rounded-xl
                   p-3 text-center text-sm text-amber-700 font-medium mb-3">
                   ✓ You've already applied
@@ -447,7 +447,7 @@ export default function JobDetailPage() {
             )}
 
             {applySuccess && (
-              <div className="mt-6 pt-5 border-t border-[#e2e8f0]">
+              <div className="mt-6 pt-5 border-t border-line">
                 <div className="bg-emerald-50 border border-emerald-200 rounded-xl
                   p-3 text-center text-sm text-emerald-700 font-medium mb-3">
                   ✓ Application submitted!

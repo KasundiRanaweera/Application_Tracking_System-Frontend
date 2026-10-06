@@ -81,7 +81,7 @@ export default function CreateJobPage() {
       <div className="mb-8">
         <button
           onClick={() => navigate('/recruiter/jobs')}
-          className="inline-flex items-center gap-1.5 text-sm text-[#64748b]
+          className="inline-flex items-center gap-1.5 text-sm text-fg-subtle
             hover:text-brand-600 mb-4 transition-colors font-medium group"
         >
           <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
@@ -91,8 +91,8 @@ export default function CreateJobPage() {
           </svg>
           Back to Jobs
         </button>
-        <h1 className="text-2xl font-bold text-[#0f172a]">Post a New Job</h1>
-        <p className="text-sm text-[#64748b] mt-1">
+        <h1 className="text-2xl font-bold text-fg">Post a New Job</h1>
+        <p className="text-sm text-fg-subtle mt-1">
           Fill out the details below to create a new job posting
         </p>
       </div>
@@ -110,9 +110,9 @@ export default function CreateJobPage() {
         <div className="lg:col-span-2 space-y-5">
 
           {/* Basic info card */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0] flex items-center gap-2">
+          <div className="bg-surface border border-line rounded-xl p-6">
+            <h2 className="text-base font-bold text-fg mb-4 pb-3
+              border-b border-line flex items-center gap-2">
               <span className="text-brand-500">ℹ</span>
               Basic Information
             </h2>
@@ -128,7 +128,7 @@ export default function CreateJobPage() {
               />
               <div>
                 <label className="block text-sm font-semibold
-                  text-[#0f172a] mb-1.5">
+                  text-fg mb-1.5">
                   Job Description
                   <span className="text-red-500 ml-0.5">*</span>
                 </label>
@@ -141,10 +141,10 @@ export default function CreateJobPage() {
                   className={`w-full px-3.5 py-2.5 border rounded-lg text-sm
                     resize-y focus:outline-none focus:ring-2
                     focus:ring-brand-500 focus:border-transparent
-                    placeholder-[#94a3b8] text-[#0f172a]
+                    placeholder-[#94a3b8] text-fg
                     ${errors.description
                       ? 'border-red-400'
-                      : 'border-[#e2e8f0]'}`}
+                      : 'border-line'}`}
                 />
                 {errors.description && (
                   <p className="text-xs text-red-500 mt-1">
@@ -155,15 +155,15 @@ export default function CreateJobPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold
-                    text-[#0f172a] mb-1.5">
+                    text-fg mb-1.5">
                     Employment Type
                   </label>
                   <select
                     id="employmentType"
                     value={form.employmentType}
                     onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 border border-[#e2e8f0]
-                      rounded-lg text-sm bg-white text-[#0f172a]
+                    className="w-full px-3.5 py-2.5 border border-line
+                      rounded-lg text-sm bg-surface text-fg
                       focus:outline-none focus:ring-2 focus:ring-brand-500
                       focus:border-transparent"
                   >
@@ -184,17 +184,17 @@ export default function CreateJobPage() {
           </div>
 
           {/* Skills card */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0] flex items-center gap-2">
+          <div className="bg-surface border border-line rounded-xl p-6">
+            <h2 className="text-base font-bold text-fg mb-4 pb-3
+              border-b border-line flex items-center gap-2">
               <Icon name="checkCircle" className="w-4 h-4 text-brand-500" strokeWidth={2} />
               Requirements & Skills
             </h2>
             <div>
               <label className="block text-sm font-semibold
-                text-[#0f172a] mb-1.5">
+                text-fg mb-1.5">
                 Required Skills
-                <span className="text-[#64748b] font-normal ml-1 text-xs">
+                <span className="text-fg-subtle font-normal ml-1 text-xs">
                   (comma-separated)
                 </span>
               </label>
@@ -204,10 +204,10 @@ export default function CreateJobPage() {
                 value={form.requiredSkills}
                 onChange={handleChange}
                 placeholder="e.g. React, TypeScript, Node.js"
-                className="w-full px-3.5 py-2.5 border border-[#e2e8f0]
+                className="w-full px-3.5 py-2.5 border border-line
                   rounded-lg text-sm focus:outline-none focus:ring-2
                   focus:ring-brand-500 focus:border-transparent
-                  placeholder-[#94a3b8] text-[#0f172a]"
+                  placeholder-[#94a3b8] text-fg"
               />
               {/* Skill preview tags */}
               {form.requiredSkills && (
@@ -230,16 +230,16 @@ export default function CreateJobPage() {
         <div className="space-y-5">
 
           {/* Logistics card */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0] flex items-center gap-2">
+          <div className="bg-surface border border-line rounded-xl p-6">
+            <h2 className="text-base font-bold text-fg mb-4 pb-3
+              border-b border-line flex items-center gap-2">
               <Icon name="mapPin" className="w-4 h-4 text-brand-500" strokeWidth={2} />
               Logistics
             </h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold
-                  text-[#0f172a] mb-1.5">
+                  text-fg mb-1.5">
                   Work Mode
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -252,7 +252,7 @@ export default function CreateJobPage() {
                         font-semibold transition-all
                         ${form.workMode === m
                           ? 'bg-brand-600 text-white border-brand-600'
-                          : 'border-[#e2e8f0] text-[#64748b] hover:border-brand-300 hover:text-brand-600'
+                          : 'border-line text-fg-subtle hover:border-brand-300 hover:text-brand-600'
                         }`}
                     >
                       {WORK_LABELS[m]}
@@ -271,46 +271,46 @@ export default function CreateJobPage() {
           </div>
 
           {/* Compensation card */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0] flex items-center gap-2">
+          <div className="bg-surface border border-line rounded-xl p-6">
+            <h2 className="text-base font-bold text-fg mb-4 pb-3
+              border-b border-line flex items-center gap-2">
               <Icon name="dollar" className="w-4 h-4 text-brand-500" strokeWidth={2} />
               Compensation
             </h2>
             <div className="space-y-3">
-              <label className="block text-sm font-semibold text-[#0f172a]">
+              <label className="block text-sm font-semibold text-fg">
                 Salary Range (Annual, LKR)
               </label>
               <div className="flex items-center gap-2">
                 <div className="relative flex-1">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2
-                    text-slate-400 text-sm">Rs.</span>
+                    text-fg-faint text-sm">Rs.</span>
                   <input
                     id="salaryMin"
                     type="number"
                     value={form.salaryMin}
                     onChange={handleChange}
                     placeholder="Min"
-                    className="w-full pl-9 pr-3 py-2.5 border border-[#e2e8f0]
+                    className="w-full pl-9 pr-3 py-2.5 border border-line
                       rounded-lg text-sm focus:outline-none focus:ring-2
                       focus:ring-brand-500 focus:border-transparent
-                      text-[#0f172a]"
+                      text-fg"
                   />
                 </div>
-                <span className="text-[#64748b] text-sm flex-shrink-0">—</span>
+                <span className="text-fg-subtle text-sm flex-shrink-0">—</span>
                 <div className="relative flex-1">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2
-                    text-slate-400 text-sm">Rs.</span>
+                    text-fg-faint text-sm">Rs.</span>
                   <input
                     id="salaryMax"
                     type="number"
                     value={form.salaryMax}
                     onChange={handleChange}
                     placeholder="Max"
-                    className="w-full pl-9 pr-3 py-2.5 border border-[#e2e8f0]
+                    className="w-full pl-9 pr-3 py-2.5 border border-line
                       rounded-lg text-sm focus:outline-none focus:ring-2
                       focus:ring-brand-500 focus:border-transparent
-                      text-[#0f172a]"
+                      text-fg"
                   />
                 </div>
               </div>
@@ -318,7 +318,7 @@ export default function CreateJobPage() {
           </div>
 
           {/* Action buttons */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6
+          <div className="bg-surface border border-line rounded-xl p-6
             space-y-3">
             <Button
               fullWidth
@@ -336,7 +336,7 @@ export default function CreateJobPage() {
             >
               Cancel
             </Button>
-            <p className="text-xs text-center text-[#64748b]">
+            <p className="text-xs text-center text-fg-subtle">
               You can publish the job from My Jobs after saving as draft.
             </p>
           </div>

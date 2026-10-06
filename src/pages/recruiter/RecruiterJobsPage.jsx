@@ -138,8 +138,8 @@ export default function RecruiterJobsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center
         justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#0f172a]">My Jobs</h1>
-          <p className="text-sm text-[#64748b] mt-1">
+          <h1 className="text-2xl font-bold text-fg">My Jobs</h1>
+          <p className="text-sm text-fg-subtle mt-1">
             {loading ? 'Loading...' : `${totalJobs} job${totalJobs !== 1 ? 's' : ''} total`}
           </p>
         </div>
@@ -152,11 +152,11 @@ export default function RecruiterJobsPage() {
       </div>
 
       {/* Search + filters */}
-      <div className="bg-white border border-[#e2e8f0] rounded-xl p-4 mb-5">
+      <div className="bg-surface border border-line rounded-xl p-4 mb-5">
         <div className="flex flex-col sm:flex-row gap-3 mb-4">
           <div className="relative flex-1">
             <svg className="absolute left-3.5 top-1/2 -translate-y-1/2
-              w-4 h-4 text-[#64748b]" fill="none" stroke="currentColor"
+              w-4 h-4 text-fg-subtle" fill="none" stroke="currentColor"
               viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round"
                 strokeWidth={2}
@@ -168,7 +168,7 @@ export default function RecruiterJobsPage() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search jobs by title..."
               className="w-full pl-10 pr-4 py-2.5 text-sm border
-                border-[#e2e8f0] rounded-lg focus:outline-none
+                border-line rounded-lg focus:outline-none
                 focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
           </div>
@@ -191,7 +191,7 @@ export default function RecruiterJobsPage() {
                 transition-all
                 ${statusFilter === value
                   ? 'bg-brand-600 text-white'
-                  : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f7f9fb]'}
+                  : 'text-fg-subtle hover:text-fg hover:bg-subtle'}
               `}
             >
               {label}
@@ -233,12 +233,12 @@ export default function RecruiterJobsPage() {
       {/* Jobs table */}
       {!loading && !error && jobs.length > 0 && (
         <>
-          <div className="bg-white border border-[#e2e8f0] rounded-xl
+          <div className="bg-surface border border-line rounded-xl
             overflow-hidden">
             {/* Table header */}
             <div className="hidden sm:grid grid-cols-12 gap-4 px-5 py-3
-              bg-[#f7f9fb] border-b border-[#e2e8f0] text-xs font-bold
-              text-[#64748b] uppercase tracking-wider">
+              bg-subtle border-b border-line text-xs font-bold
+              text-fg-subtle uppercase tracking-wider">
               <div className="col-span-5">Job Title</div>
               <div className="col-span-2">Status</div>
               <div className="col-span-2">Posted</div>
@@ -252,10 +252,10 @@ export default function RecruiterJobsPage() {
 
                   {/* Delete confirm overlay */}
                   {confirmDelete === job.id && (
-                    <div className="absolute inset-0 bg-white/97 z-10
+                    <div className="absolute inset-0 bg-surface/97 z-10
                       flex items-center justify-center gap-4 border-b
-                      border-[#e2e8f0] px-5">
-                      <p className="text-sm text-[#0f172a]">
+                      border-line px-5">
+                      <p className="text-sm text-fg">
                         Delete <strong>{job.title}</strong>? This cannot be undone.
                       </p>
                       <div className="flex gap-2 flex-shrink-0">
@@ -279,22 +279,22 @@ export default function RecruiterJobsPage() {
                   )}
 
                   <div className="grid grid-cols-1 sm:grid-cols-12 gap-2
-                    sm:gap-4 px-5 py-4 hover:bg-[#f7f9fb] transition-colors
+                    sm:gap-4 px-5 py-4 hover:bg-subtle transition-colors
                     items-center">
 
                     {/* Title */}
                     <div className="sm:col-span-5 flex items-center gap-3">
-                      <div className="w-9 h-9 bg-[#f2f4f6] rounded-lg
+                      <div className="w-9 h-9 bg-muted rounded-lg
                         flex items-center justify-center flex-shrink-0">
-                        <Icon name="briefcase" className="w-4 h-4 text-slate-500" strokeWidth={2} />
+                        <Icon name="briefcase" className="w-4 h-4 text-fg-subtle" strokeWidth={2} />
                       </div>
                       <div className="min-w-0">
-                        <p className="font-semibold text-[#0f172a] text-sm
+                        <p className="font-semibold text-fg text-sm
                           truncate">
                           {job.title}
                         </p>
                         <div className="flex flex-wrap items-center gap-2
-                          mt-0.5 text-xs text-[#64748b]">
+                          mt-0.5 text-xs text-fg-subtle">
                           {job.workMode && (
                             <span>{WORK_MODE_LABELS[job.workMode]}</span>
                           )}
@@ -316,7 +316,7 @@ export default function RecruiterJobsPage() {
                     </div>
 
                     {/* Date */}
-                    <div className="sm:col-span-2 text-xs text-[#64748b]">
+                    <div className="sm:col-span-2 text-xs text-fg-subtle">
                       {formatDate(job.createdAt)}
                     </div>
 
@@ -367,7 +367,7 @@ export default function RecruiterJobsPage() {
                       {job.status === 'OPEN' && (
                         confirmClose === job.id ? (
                           <div className="flex items-center gap-1">
-                            <span className="text-xs text-[#64748b]">Close?</span>
+                            <span className="text-xs text-fg-subtle">Close?</span>
                             <Button
                               variant="danger"
                               size="xs"
@@ -421,8 +421,8 @@ export default function RecruiterJobsPage() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between mt-6 pt-6
-              border-t border-[#e2e8f0]">
-              <p className="text-sm text-[#64748b]">
+              border-t border-line">
+              <p className="text-sm text-fg-subtle">
                 Page {page + 1} of {totalPages}
               </p>
               <div className="flex gap-2">

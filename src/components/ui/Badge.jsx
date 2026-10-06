@@ -9,7 +9,7 @@ export function StatusBadge({ status }) {
     <span className={[
       'inline-flex items-center gap-1 px-2.5 py-1',
       'rounded-full text-xs font-semibold tracking-wide',
-      STATUS_COLORS[status] ?? 'bg-slate-100 text-slate-600',
+      STATUS_COLORS[status] ?? 'bg-muted text-fg-muted',
     ].join(' ')}>
       {STATUS_LABELS[status] ?? status}
     </span>
@@ -22,7 +22,7 @@ export function JobStatusBadge({ status }) {
     <span className={[
       'inline-flex items-center gap-1 px-2.5 py-1',
       'rounded-full text-xs font-semibold tracking-wide',
-      JOB_STATUS_COLORS[status] ?? 'bg-slate-100 text-slate-600',
+      JOB_STATUS_COLORS[status] ?? 'bg-muted text-fg-muted',
     ].join(' ')}>
       {labels[status] ?? status}
     </span>
@@ -35,7 +35,7 @@ export function WorkModeBadge({ mode }) {
     <span className={[
       'inline-flex items-center gap-1 px-2.5 py-1',
       'rounded-full text-xs font-medium',
-      WORK_MODE_COLORS[mode] ?? 'bg-slate-50 text-slate-600',
+      WORK_MODE_COLORS[mode] ?? 'bg-subtle text-fg-muted',
     ].join(' ')}>
       {icons[mode]} {WORK_MODE_LABELS[mode] ?? mode}
     </span>
@@ -44,7 +44,7 @@ export function WorkModeBadge({ mode }) {
 
 export function Tag({ children, color = 'default' }) {
   const colors = {
-    default: 'bg-slate-100 text-slate-600',
+    default: 'bg-muted text-fg-muted',
     indigo:  'bg-brand-50 text-brand-700',
     emerald: 'bg-emerald-50 text-emerald-700',
     amber:   'bg-amber-50 text-amber-700',

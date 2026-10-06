@@ -49,7 +49,7 @@ export default function RecruiterDashboardPage() {
 
   const statusStyle = {
     OPEN:   'bg-emerald-50 text-emerald-700 border border-emerald-200',
-    DRAFT:  'bg-[#f2f4f6] text-[#64748b] border border-[#e2e8f0]',
+    DRAFT:  'bg-muted text-fg-subtle border border-line',
     CLOSED: 'bg-red-50 text-red-600 border border-red-200',
   }
 
@@ -59,10 +59,10 @@ export default function RecruiterDashboardPage() {
       <div className="flex flex-col sm:flex-row sm:items-center
         justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-[#0f172a]">
+          <h1 className="text-2xl font-bold text-fg">
             Recruiter Dashboard
           </h1>
-          <p className="text-sm text-[#64748b] mt-1">
+          <p className="text-sm text-fg-subtle mt-1">
             Manage your job postings and track applicants
           </p>
         </div>
@@ -82,9 +82,9 @@ export default function RecruiterDashboardPage() {
             label: 'Total Jobs',
             value: stats.total,
             icon:  'briefcase',
-            bg:    'bg-[#f7f9fb]',
-            iconColor: 'text-[#64748b]',
-            color: 'text-[#0f172a]',
+            bg:    'bg-subtle',
+            iconColor: 'text-fg-subtle',
+            color: 'text-fg',
           },
           {
             label: 'Open',
@@ -98,9 +98,9 @@ export default function RecruiterDashboardPage() {
             label: 'Draft',
             value: stats.draft,
             icon:  'clipboardList',
-            bg:    'bg-[#f2f4f6]',
-            iconColor: 'text-[#64748b]',
-            color: 'text-[#64748b]',
+            bg:    'bg-muted',
+            iconColor: 'text-fg-subtle',
+            color: 'text-fg-subtle',
           },
           {
             label: 'Closed',
@@ -113,12 +113,12 @@ export default function RecruiterDashboardPage() {
         ].map(({ label, value, icon, bg, iconColor, color }) => (
           <div
             key={label}
-            className="bg-white border border-[#e2e8f0] rounded-xl p-5
+            className="bg-surface border border-line rounded-xl p-5
               hover:shadow-sm transition-all duration-200 hover:-translate-y-0.5
               animate-fade-up"
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-bold text-[#64748b]
+              <span className="text-xs font-bold text-fg-subtle
                 uppercase tracking-wider">
                 {label}
               </span>
@@ -136,16 +136,16 @@ export default function RecruiterDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
 
         {/* Pipeline visual */}
-        <div className="lg:col-span-2 bg-white border border-[#e2e8f0]
+        <div className="lg:col-span-2 bg-surface border border-line
           rounded-xl p-6 overflow-hidden relative">
           <div className="absolute top-0 right-0 w-36 h-36 bg-brand-50
             rounded-full blur-3xl opacity-70 pointer-events-none" />
           <div className="relative flex items-start justify-between gap-4 mb-7">
             <div>
-              <h2 className="text-base font-bold text-[#0f172a] mb-1">
+              <h2 className="text-base font-bold text-fg mb-1">
                 Pipeline Overview
               </h2>
-              <p className="text-xs text-[#64748b]">
+              <p className="text-xs text-fg-subtle">
                 Candidate journey from application to hire
               </p>
             </div>
@@ -158,7 +158,7 @@ export default function RecruiterDashboardPage() {
 
           <div className="relative space-y-3">
             <div className="absolute left-[18px] top-5 bottom-5 w-px
-              bg-slate-200" />
+              bg-line" />
             {PIPELINE_STAGES.map((stage, idx) => {
               const widths = [100, 75, 55, 35, 18, 8]
               const colors = [
@@ -177,20 +177,20 @@ export default function RecruiterDashboardPage() {
                       ? 'bg-brand-600 border-brand-600 text-white'
                       : idx === PIPELINE_STAGES.length - 1
                         ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
-                        : 'bg-white border-slate-200 text-slate-500'}`}>
+                        : 'bg-surface border-line text-fg-subtle'}`}>
                     {idx + 1}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-3 mb-1.5">
-                      <span className="text-xs font-bold text-[#464555]">
+                      <span className="text-xs font-bold text-fg-muted">
                         {STATUS_LABELS[stage]}
                       </span>
-                      <span className="text-[10px] font-semibold text-[#94a3b8]
+                      <span className="text-[10px] font-semibold text-fg-faint
                         uppercase tracking-wider">
                         Stage {idx + 1}
                       </span>
                     </div>
-                    <div className="h-2 bg-[#f2f4f6] rounded-full overflow-hidden">
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div
                         className={`h-full ${colors[idx]} rounded-full
                           transition-all duration-700`}
@@ -205,8 +205,8 @@ export default function RecruiterDashboardPage() {
         </div>
 
         {/* Quick actions */}
-        <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-          <h2 className="text-base font-bold text-[#0f172a] mb-4">
+        <div className="bg-surface border border-line rounded-xl p-6">
+          <h2 className="text-base font-bold text-fg mb-4">
             Quick Actions
           </h2>
           <div className="space-y-3">
@@ -232,20 +232,20 @@ export default function RecruiterDashboardPage() {
                   border text-left transition-all cursor-pointer
                   ${primary
                     ? 'border-brand-200 bg-brand-50 hover:bg-brand-100'
-                    : 'border-[#e2e8f0] bg-[#f7f9fb] hover:bg-[#f2f4f6]'}
+                    : 'border-line bg-subtle hover:bg-muted'}
                 `}
               >
                 <div className={`w-10 h-10 rounded-lg flex items-center
                   justify-center flex-shrink-0
-                  ${primary ? 'bg-brand-100' : 'bg-white border border-[#e2e8f0]'}`}>
-                  <Icon name={icon} className={`w-4.5 h-4.5 ${primary ? 'text-brand-600' : 'text-slate-600'}`} strokeWidth={2} />
+                  ${primary ? 'bg-brand-100' : 'bg-surface border border-line'}`}>
+                  <Icon name={icon} className={`w-4.5 h-4.5 ${primary ? 'text-brand-600' : 'text-fg-muted'}`} strokeWidth={2} />
                 </div>
                 <div>
                   <p className={`text-sm font-semibold
-                    ${primary ? 'text-brand-700' : 'text-[#0f172a]'}`}>
+                    ${primary ? 'text-brand-700' : 'text-fg'}`}>
                     {label}
                   </p>
-                  <p className="text-xs text-[#64748b]">{desc}</p>
+                  <p className="text-xs text-fg-subtle">{desc}</p>
                 </div>
               </button>
             ))}
@@ -254,10 +254,10 @@ export default function RecruiterDashboardPage() {
       </div>
 
       {/* Recent jobs */}
-      <div className="bg-white border border-[#e2e8f0] rounded-xl">
+      <div className="bg-surface border border-line rounded-xl">
         <div className="flex items-center justify-between p-5 border-b
-          border-[#e2e8f0]">
-          <h2 className="text-base font-bold text-[#0f172a]">
+          border-line">
+          <h2 className="text-base font-bold text-fg">
             Recent Jobs
           </h2>
           <button
@@ -273,7 +273,7 @@ export default function RecruiterDashboardPage() {
 
         {!loading && jobs.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-[#64748b] text-sm mb-4">
+            <p className="text-fg-subtle text-sm mb-4">
               No jobs posted yet
             </p>
             <Button
@@ -291,19 +291,19 @@ export default function RecruiterDashboardPage() {
               <div
                 key={job.id}
                 className="flex items-center justify-between p-5
-                  hover:bg-[#f7f9fb] transition-colors group"
+                  hover:bg-subtle transition-colors group"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-9 h-9 bg-[#f2f4f6] rounded-lg
+                  <div className="w-9 h-9 bg-muted rounded-lg
                     flex items-center justify-center flex-shrink-0">
-                    <Icon name="briefcase" className="w-4 h-4 text-slate-500" strokeWidth={2} />
+                    <Icon name="briefcase" className="w-4 h-4 text-fg-subtle" strokeWidth={2} />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold text-[#0f172a]
+                    <p className="text-sm font-semibold text-fg
                       truncate group-hover:text-brand-600 transition-colors">
                       {job.title}
                     </p>
-                    <p className="text-xs text-[#64748b] mt-0.5">
+                    <p className="text-xs text-fg-subtle mt-0.5">
                       Posted {formatDate(job.createdAt)}
                     </p>
                   </div>

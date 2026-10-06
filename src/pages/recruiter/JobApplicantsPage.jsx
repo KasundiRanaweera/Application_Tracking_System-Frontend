@@ -92,14 +92,14 @@ export default function JobApplicantsPage() {
   }
 
   const renderStars = (rating) => {
-    if (!rating) return <span className="text-xs text-[#94a3b8]">—</span>
+    if (!rating) return <span className="text-xs text-fg-faint">—</span>
     return (
       <div className="flex gap-0.5">
         {[1, 2, 3, 4, 5].map(i => (
           <svg
             key={i}
             className={`w-3.5 h-3.5 ${i <= rating
-              ? 'text-amber-400' : 'text-[#e2e8f0]'}`}
+              ? 'text-amber-400' : 'text-line-strong'}`}
             fill="currentColor"
             viewBox="0 0 24 24"
           >
@@ -125,7 +125,7 @@ export default function JobApplicantsPage() {
       <div className="mb-6">
         <button
           onClick={() => navigate('/recruiter/jobs')}
-          className="inline-flex items-center gap-1.5 text-sm text-[#64748b]
+          className="inline-flex items-center gap-1.5 text-sm text-fg-subtle
             hover:text-brand-600 mb-3 transition-colors font-medium group"
         >
           <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
@@ -139,20 +139,20 @@ export default function JobApplicantsPage() {
         <div className="flex flex-col sm:flex-row sm:items-start
           justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-[#0f172a]">
+            <h1 className="text-2xl font-bold text-fg">
               {job ? job.title : 'Applicants'}
             </h1>
             <div className="flex flex-wrap items-center gap-3 mt-1
-              text-sm text-[#64748b]">
+              text-sm text-fg-subtle">
               {job?.location && (
                 <span className="flex items-center gap-1.5">
-                  <Icon name="mapPin" className="w-3.5 h-3.5 text-slate-400" strokeWidth={2} />
+                  <Icon name="mapPin" className="w-3.5 h-3.5 text-fg-faint" strokeWidth={2} />
                   {job.location}
                 </span>
               )}
               {job?.workMode && (
                 <span className="flex items-center gap-1.5">
-                  <Icon name="globe" className="w-3.5 h-3.5 text-slate-400" strokeWidth={2} />
+                  <Icon name="globe" className="w-3.5 h-3.5 text-fg-faint" strokeWidth={2} />
                   {job.workMode}
                 </span>
               )}
@@ -168,14 +168,14 @@ export default function JobApplicantsPage() {
       {!loading && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
-            { label: 'Total',     value: counts.all,       icon: 'users',      color: 'text-[#0f172a]',    bg: 'bg-[#f7f9fb]',  iconColor: 'text-slate-500' },
+            { label: 'Total',     value: counts.all,       icon: 'users',      color: 'text-fg',    bg: 'bg-subtle',  iconColor: 'text-fg-subtle' },
             { label: 'Interview', value: counts.interview, icon: 'chatBubble', color: 'text-brand-600',   bg: 'bg-brand-50',   iconColor: 'text-brand-600' },
             { label: 'Offer',     value: counts.offer,     icon: 'mail',       color: 'text-amber-600',   bg: 'bg-amber-50',   iconColor: 'text-amber-600' },
             { label: 'Hired',     value: counts.hired,     icon: 'checkCircle',color: 'text-emerald-600', bg: 'bg-emerald-50', iconColor: 'text-emerald-600' },
           ].map(({ label, value, icon, color, bg, iconColor }) => (
             <div
               key={label}
-              className="bg-white border border-[#e2e8f0] rounded-xl
+              className="bg-surface border border-line rounded-xl
                 p-4 flex items-center gap-3 animate-fade-up"
             >
               <div className={`w-9 h-9 ${bg} rounded-lg flex-shrink-0
@@ -184,7 +184,7 @@ export default function JobApplicantsPage() {
               </div>
               <div>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-[#64748b]">{label}</p>
+                <p className="text-xs text-fg-subtle">{label}</p>
               </div>
             </div>
           ))}
@@ -192,7 +192,7 @@ export default function JobApplicantsPage() {
       )}
 
       {/* Status filter tabs */}
-      <div className="bg-white border border-[#e2e8f0] rounded-xl p-1.5
+      <div className="bg-surface border border-line rounded-xl p-1.5
         mb-5 flex gap-1 overflow-x-auto">
         {STATUS_FILTERS.map(({ value, label }) => (
           <button
@@ -203,7 +203,7 @@ export default function JobApplicantsPage() {
               transition-all whitespace-nowrap
               ${statusFilter === value
                 ? 'bg-brand-600 text-white'
-                : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f7f9fb]'}
+                : 'text-fg-subtle hover:text-fg hover:bg-subtle'}
             `}
           >
             {label}
@@ -216,9 +216,9 @@ export default function JobApplicantsPage() {
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value)}
-          className="text-sm border border-[#e2e8f0] rounded-lg py-2 pl-3
-            pr-8 bg-white focus:outline-none focus:ring-2
-            focus:ring-brand-500 text-[#0f172a] cursor-pointer"
+          className="text-sm border border-line rounded-lg py-2 pl-3
+            pr-8 bg-surface focus:outline-none focus:ring-2
+            focus:ring-brand-500 text-fg cursor-pointer"
         >
           <option value="appliedAt,desc">Newest first</option>
           <option value="appliedAt,asc">Oldest first</option>
@@ -254,12 +254,12 @@ export default function JobApplicantsPage() {
       {/* Applicants table */}
       {!loading && !error && applications.length > 0 && (
         <>
-          <div className="bg-white border border-[#e2e8f0] rounded-xl
+          <div className="bg-surface border border-line rounded-xl
             overflow-hidden">
             {/* Table header */}
             <div className="hidden sm:grid grid-cols-12 gap-4 px-5 py-3
-              bg-[#f7f9fb] border-b border-[#e2e8f0] text-xs font-bold
-              text-[#64748b] uppercase tracking-wider">
+              bg-subtle border-b border-line text-xs font-bold
+              text-fg-subtle uppercase tracking-wider">
               <div className="col-span-4">Candidate</div>
               <div className="col-span-2">Stage</div>
               <div className="col-span-2">Rating</div>
@@ -272,7 +272,7 @@ export default function JobApplicantsPage() {
                 <div
                   key={app.id}
                   className="grid grid-cols-1 sm:grid-cols-12 gap-2
-                    sm:gap-4 px-5 py-4 hover:bg-[#f7f9fb] transition-colors
+                    sm:gap-4 px-5 py-4 hover:bg-subtle transition-colors
                     items-center group"
                 >
                   {/* Candidate */}
@@ -283,11 +283,11 @@ export default function JobApplicantsPage() {
                       {app.candidateName?.charAt(0).toUpperCase() || '?'}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-[#0f172a]
+                      <p className="text-sm font-semibold text-fg
                         truncate group-hover:text-brand-600 transition-colors">
                         {app.candidateName}
                       </p>
-                      <p className="text-xs text-[#64748b] truncate">
+                      <p className="text-xs text-fg-subtle truncate">
                         {app.candidateEmail}
                       </p>
                     </div>
@@ -304,7 +304,7 @@ export default function JobApplicantsPage() {
                   </div>
 
                   {/* Date */}
-                  <div className="sm:col-span-2 text-xs text-[#64748b]">
+                  <div className="sm:col-span-2 text-xs text-fg-subtle">
                     {formatDate(app.appliedAt)}
                   </div>
 
@@ -328,8 +328,8 @@ export default function JobApplicantsPage() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between mt-6 pt-6
-              border-t border-[#e2e8f0]">
-              <p className="text-sm text-[#64748b]">
+              border-t border-line">
+              <p className="text-sm text-fg-subtle">
                 Page {page + 1} of {totalPages}
               </p>
               <div className="flex gap-2">

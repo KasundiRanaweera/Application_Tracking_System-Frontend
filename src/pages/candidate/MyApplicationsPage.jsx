@@ -106,10 +106,10 @@ export default function MyApplicationsPage() {
 
       {/* Page header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">
+        <h1 className="text-2xl font-bold text-fg">
           My Applications
         </h1>
-        <p className="text-sm text-slate-500 mt-1">
+        <p className="text-sm text-fg-subtle mt-1">
           Track every application you have submitted
         </p>
       </div>
@@ -122,8 +122,8 @@ export default function MyApplicationsPage() {
               label: 'Total Applied',
               value: totalElements,
               icon: 'clipboardList',
-              color: 'text-slate-900',
-              bg:    'bg-slate-50',
+              color: 'text-fg',
+              bg:    'bg-subtle',
             },
             {
               label: 'Active',
@@ -149,7 +149,7 @@ export default function MyApplicationsPage() {
           ].map(({ label, value, icon, color, bg }) => (
             <div
               key={label}
-              className="bg-white border border-slate-200 rounded-xl p-4
+              className="bg-surface border border-line rounded-xl p-4
                 flex items-center gap-3"
             >
               <div className={`w-10 h-10 rounded-xl flex items-center
@@ -158,7 +158,7 @@ export default function MyApplicationsPage() {
               </div>
               <div>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
-                <p className="text-xs text-slate-500">{label}</p>
+                <p className="text-xs text-fg-subtle">{label}</p>
               </div>
             </div>
           ))}
@@ -166,7 +166,7 @@ export default function MyApplicationsPage() {
       )}
 
       {/* Status filter tabs */}
-      <div className="bg-white border border-slate-200 rounded-xl p-1.5
+      <div className="bg-surface border border-line rounded-xl p-1.5
         mb-5 flex gap-1 overflow-x-auto">
         {STATUS_FILTERS.map(({ value, label }) => (
           <button
@@ -177,7 +177,7 @@ export default function MyApplicationsPage() {
               transition-all duration-150 whitespace-nowrap
               ${statusFilter === value
                 ? 'bg-brand-600 text-white shadow-sm'
-                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'}
+                : 'text-fg-subtle hover:text-fg hover:bg-subtle'}
             `}
           >
             {label}
@@ -229,25 +229,25 @@ export default function MyApplicationsPage() {
           {applications.map((app) => (
             <div
               key={app.id}
-              className="bg-white border border-[#e2e8f0] rounded-xl
+              className="bg-surface border border-line rounded-xl
                 overflow-hidden relative"
             >
               {/* Withdraw confirm overlay */}
               {confirmId === app.id && (
-                <div className="absolute inset-0 bg-white/97 backdrop-blur-sm
+                <div className="absolute inset-0 bg-surface/97 backdrop-blur-sm
                   rounded-xl z-10 flex flex-col items-center justify-center
-                  p-8 text-center border border-[#e2e8f0]">
+                  p-8 text-center border border-line">
                   <div className="w-14 h-14 bg-red-50 rounded-2xl flex
                     items-center justify-center mb-4 border
                     border-red-100">
                     <Icon name="warning" className="w-6 h-6 text-red-500" strokeWidth={1.8} />
                   </div>
-                  <h3 className="font-bold text-[#0f172a] text-base mb-1">
+                  <h3 className="font-bold text-fg text-base mb-1">
                     Withdraw application?
                   </h3>
-                  <p className="text-sm text-[#64748b] mb-6 max-w-xs">
+                  <p className="text-sm text-fg-subtle mb-6 max-w-xs">
                     This will remove your application for{' '}
-                    <strong className="text-[#0f172a]">{app.jobTitle}</strong>.
+                    <strong className="text-fg">{app.jobTitle}</strong>.
                     This action cannot be undone.
                   </p>
                   <div className="flex gap-3">
@@ -276,10 +276,10 @@ export default function MyApplicationsPage() {
                   sm:items-start gap-4">
 
                   {/* Icon */}
-                  <div className="w-12 h-12 bg-[#f7f9fb] border
-                    border-[#e2e8f0] rounded-xl flex items-center
+                  <div className="w-12 h-12 bg-subtle border
+                    border-line rounded-xl flex items-center
                     justify-center flex-shrink-0">
-                    <Icon name="briefcase" className="w-5 h-5 text-slate-500" strokeWidth={1.8} />
+                    <Icon name="briefcase" className="w-5 h-5 text-fg-subtle" strokeWidth={1.8} />
                   </div>
 
                   {/* Main info */}
@@ -288,7 +288,7 @@ export default function MyApplicationsPage() {
                     {/* Title row */}
                     <div className="flex flex-wrap items-start
                       justify-between gap-2 mb-1">
-                      <h3 className="font-bold text-[#0f172a] text-base">
+                      <h3 className="font-bold text-fg text-base">
                         {app.jobTitle}
                       </h3>
                       <StatusBadge status={app.status} />
@@ -296,9 +296,9 @@ export default function MyApplicationsPage() {
 
                     {/* Meta */}
                     <div className="flex flex-wrap items-center gap-3
-                      text-xs text-[#64748b] mb-4">
+                      text-xs text-fg-subtle mb-4">
                       <span className="flex items-center gap-1.5">
-                        <Icon name="building" className="w-3.5 h-3.5 text-slate-400" strokeWidth={2} />
+                        <Icon name="building" className="w-3.5 h-3.5 text-fg-faint" strokeWidth={2} />
                         {app.companyName || 'TalentBridge'}
                       </span>
                       <span>·</span>
@@ -335,8 +335,8 @@ export default function MyApplicationsPage() {
                                     ${isDone
                                       ? 'bg-brand-600 border-brand-600'
                                       : isCurrent
-                                        ? 'bg-white border-brand-600 shadow-sm shadow-brand-200 ring-2 ring-brand-100'
-                                        : 'bg-white border-[#e2e8f0]'}
+                                        ? 'bg-surface border-brand-600 shadow-sm shadow-brand-200 ring-2 ring-brand-100'
+                                        : 'bg-surface border-line'}
                                   `}/>
                                   <span className={`
                                     text-xs hidden sm:block font-medium
@@ -344,8 +344,8 @@ export default function MyApplicationsPage() {
                                     ${isCurrent
                                       ? 'text-brand-600'
                                       : isDone
-                                        ? 'text-[#64748b]'
-                                        : 'text-[#e2e8f0]'}
+                                        ? 'text-fg-subtle'
+                                        : 'text-line-strong'}
                                   `}>
                                     {stage === 'UNDER_REVIEW'
                                       ? 'Review'
@@ -361,7 +361,7 @@ export default function MyApplicationsPage() {
                                     flex-1 h-0.5 mx-1 rounded-full
                                     ${idx < currentIdx
                                       ? 'bg-brand-600'
-                                      : 'bg-[#e2e8f0]'}
+                                      : 'bg-line'}
                                   `}/>
                                 )}
                               </div>
@@ -388,9 +388,9 @@ export default function MyApplicationsPage() {
                       </div>
                     )}
                     {app.status === 'WITHDRAWN' && (
-                      <div className="flex items-center gap-2 bg-[#f7f9fb]
-                        border border-[#e2e8f0] rounded-lg px-3 py-2
-                        mb-4 text-sm text-[#64748b]">
+                      <div className="flex items-center gap-2 bg-subtle
+                        border border-line rounded-lg px-3 py-2
+                        mb-4 text-sm text-fg-subtle">
                         You withdrew this application on{' '}
                         {formatDate(app.updatedAt)}.
                       </div>
@@ -428,8 +428,8 @@ export default function MyApplicationsPage() {
       {/* Pagination */}
       {!loading && totalPages > 1 && (
         <div className="flex items-center justify-between mt-6 pt-6
-          border-t border-[#e2e8f0]">
-          <p className="text-sm text-[#64748b]">
+          border-t border-line">
+          <p className="text-sm text-fg-subtle">
             Page {page + 1} of {totalPages}
           </p>
           <div className="flex gap-2">

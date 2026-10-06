@@ -56,7 +56,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="relative min-h-screen flex bg-slate-50 dark:bg-slate-950">
+    <div className="relative min-h-screen flex bg-subtle dark:bg-slate-950">
       {/* Left panel */}
       <div className="hidden lg:flex lg:w-[46%] flex-col justify-between
         bg-slate-950 p-12 pt-20 relative overflow-hidden">
@@ -99,13 +99,13 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <p className="relative z-10 text-slate-600 text-xs">
+        <p className="relative z-10 text-slate-500 text-xs">
           © {new Date().getFullYear()} TalentBridge ATS
         </p>
       </div>
 
       {/* Right panel */}
-      <div className="flex-1 flex flex-col justify-center bg-slate-50 dark:bg-slate-950
+      <div className="flex-1 flex flex-col justify-center bg-subtle dark:bg-slate-950
         px-6 py-12 sm:px-12 lg:px-16">
         <div className="w-full max-w-[360px] mx-auto">
 
@@ -114,14 +114,14 @@ export default function RegisterPage() {
               justify-center shadow-sm">
               <span className="text-white font-black text-xs">TB</span>
             </div>
-            <span className="font-display font-bold text-slate-900 dark:text-slate-100">TalentBridge</span>
+            <span className="font-display font-bold text-fg dark:text-slate-100">TalentBridge</span>
           </Link>
 
           <div className="mb-7">
-            <h2 className="text-2xl text-slate-900 dark:text-white tracking-tight mb-1">
+            <h2 className="text-2xl text-fg dark:text-white tracking-tight mb-1">
               Create your account
             </h2>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-fg-subtle">
               Join TalentBridge as a candidate — it's free
             </p>
           </div>
@@ -167,20 +167,20 @@ export default function RegisterPage() {
             </Button>
           </form>
 
-          <p className="text-sm text-center text-slate-500 mt-6">
+          <p className="text-sm text-center text-fg-subtle mt-6">
             Already have an account?{' '}
             <Link to="/login"
               className="text-brand-600 font-semibold hover:text-brand-700">
               Sign in
             </Link>
           </p>
-          <p className="text-xs text-center text-slate-400 mt-4 leading-relaxed">
+          <p className="text-xs text-center text-fg-faint mt-4 leading-relaxed">
             By signing up, you agree to our{' '}
-            <a href="/terms" className="underline hover:text-slate-500">
+            <a href="/terms" className="underline hover:text-fg-subtle">
               Terms of Service
             </a>
             {' '}and{' '}
-            <a href="/privacy" className="underline hover:text-slate-500">
+            <a href="/privacy" className="underline hover:text-fg-subtle">
               Privacy Policy
             </a>
           </p>

@@ -29,8 +29,8 @@ export default function Button({
     ].join(' '),
 
     secondary: [
-      'bg-white text-slate-700 border-slate-200',
-      'hover:bg-slate-50 hover:border-slate-300 hover:text-slate-900',
+      'bg-surface text-fg-muted border-line',
+      'hover:bg-subtle hover:border-line-strong hover:text-fg',
       'active:scale-[0.98]',
       'focus-visible:ring-slate-400',
       'shadow-sm',
@@ -45,14 +45,14 @@ export default function Button({
     ].join(' '),
 
     ghost: [
-      'bg-transparent text-slate-500 border-transparent',
-      'hover:bg-slate-100 hover:text-slate-900',
+      'bg-transparent text-fg-subtle border-transparent',
+      'hover:bg-muted hover:text-fg',
       'active:scale-[0.98]',
       'focus-visible:ring-slate-400',
     ].join(' '),
 
     outline: [
-      'bg-white text-brand-600 border-brand-300',
+      'bg-surface text-brand-600 border-brand-300',
       'hover:bg-brand-50 hover:border-brand-400',
       'active:scale-[0.98]',
       'focus-visible:ring-brand-400',

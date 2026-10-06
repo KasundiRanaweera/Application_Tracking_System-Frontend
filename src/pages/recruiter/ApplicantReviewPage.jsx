@@ -168,11 +168,11 @@ export default function ApplicantReviewPage() {
   if (error || !application) return (
     <Layout>
       <div className="text-center py-20">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-100
+        <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-muted
           flex items-center justify-center">
-          <Icon name="frown" className="w-7 h-7 text-slate-400" strokeWidth={1.6} />
+          <Icon name="frown" className="w-7 h-7 text-fg-faint" strokeWidth={1.6} />
         </div>
-        <h2 className="text-xl font-bold text-[#0f172a] mb-2">
+        <h2 className="text-xl font-bold text-fg mb-2">
           {error || 'Application not found'}
         </h2>
         <Button variant="outline" onClick={() => navigate(-1)}>
@@ -191,7 +191,7 @@ export default function ApplicantReviewPage() {
       {/* Back */}
       <button
         onClick={() => navigate(-1)}
-        className="inline-flex items-center gap-1.5 text-sm text-[#64748b]
+        className="inline-flex items-center gap-1.5 text-sm text-fg-subtle
           hover:text-brand-600 mb-6 transition-colors font-medium group"
       >
         <svg className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
@@ -203,7 +203,7 @@ export default function ApplicantReviewPage() {
       </button>
 
       {/* Hero header */}
-      <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 mb-6">
+      <div className="bg-surface border border-line rounded-xl p-6 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-start
           justify-between gap-5">
 
@@ -215,15 +215,15 @@ export default function ApplicantReviewPage() {
               {application.candidateName?.charAt(0).toUpperCase() || '?'}
             </div>
             <div>
-              <h1 className="text-xl font-bold text-[#0f172a]">
+              <h1 className="text-xl font-bold text-fg">
                 {application.candidateName}
               </h1>
-              <p className="text-sm text-[#64748b] mt-0.5">
+              <p className="text-sm text-fg-subtle mt-0.5">
                 {application.candidateEmail}
               </p>
               <div className="flex flex-wrap items-center gap-2 mt-2">
                 <StatusBadge status={application.status} />
-                <span className="text-xs text-[#64748b]">
+                <span className="text-xs text-fg-subtle">
                   Applied {formatDate(application.appliedAt)}
                 </span>
               </div>
@@ -231,13 +231,13 @@ export default function ApplicantReviewPage() {
           </div>
 
           {/* Job info */}
-          <div className="bg-[#f7f9fb] border border-[#e2e8f0] rounded-xl
+          <div className="bg-subtle border border-line rounded-xl
             px-4 py-3 text-sm flex-shrink-0">
-            <p className="text-xs font-bold text-[#64748b] uppercase
+            <p className="text-xs font-bold text-fg-subtle uppercase
               tracking-wider mb-1">
               Applied for
             </p>
-            <p className="font-semibold text-[#0f172a]">
+            <p className="font-semibold text-fg">
               {application.jobTitle}
             </p>
           </div>
@@ -252,9 +252,9 @@ export default function ApplicantReviewPage() {
 
           {/* Pipeline tracker */}
           {!terminal && (
-            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-              <h2 className="text-base font-bold text-[#0f172a] mb-5 pb-3
-                border-b border-[#e2e8f0]">
+            <div className="bg-surface border border-line rounded-xl p-6">
+              <h2 className="text-base font-bold text-fg mb-5 pb-3
+                border-b border-line">
                 Pipeline Progress
               </h2>
               <div className="flex items-start gap-0">
@@ -274,8 +274,8 @@ export default function ApplicantReviewPage() {
                           ${isDone
                             ? 'bg-brand-600 border-brand-600 text-white'
                             : isCurrent
-                              ? 'bg-white border-brand-600 text-brand-600 ring-4 ring-brand-50'
-                              : 'bg-white border-[#e2e8f0] text-[#94a3b8]'}
+                              ? 'bg-surface border-brand-600 text-brand-600 ring-4 ring-brand-50'
+                              : 'bg-surface border-line text-fg-faint'}
                         `}>
                           {isDone
                             ? <Icon name="check" className="w-3.5 h-3.5" strokeWidth={2.5} />
@@ -286,8 +286,8 @@ export default function ApplicantReviewPage() {
                           ${isCurrent
                             ? 'text-brand-600'
                             : isDone
-                              ? 'text-[#64748b]'
-                              : 'text-[#94a3b8]'}
+                              ? 'text-fg-subtle'
+                              : 'text-fg-faint'}
                         `}>
                           {stage === 'UNDER_REVIEW'
                             ? 'Review'
@@ -298,7 +298,7 @@ export default function ApplicantReviewPage() {
                         <div className={`flex-1 h-0.5 mx-1
                           ${idx < currentIdx
                             ? 'bg-brand-600'
-                            : 'bg-[#e2e8f0]'}
+                            : 'bg-line'}
                         `}/>
                       )}
                     </div>
@@ -310,12 +310,12 @@ export default function ApplicantReviewPage() {
 
           {/* Cover note */}
           {application.coverNote && (
-            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-              <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-                border-b border-[#e2e8f0]">
+            <div className="bg-surface border border-line rounded-xl p-6">
+              <h2 className="text-base font-bold text-fg mb-4 pb-3
+                border-b border-line">
                 Cover Note
               </h2>
-              <p className="text-sm text-[#464555] leading-relaxed
+              <p className="text-sm text-fg-muted leading-relaxed
                 whitespace-pre-line">
                 {application.coverNote}
               </p>
@@ -323,11 +323,11 @@ export default function ApplicantReviewPage() {
           )}
 
           {/* Internal notes */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0] flex items-center justify-between">
+          <div className="bg-surface border border-line rounded-xl p-6">
+            <h2 className="text-base font-bold text-fg mb-4 pb-3
+              border-b border-line flex items-center justify-between">
               Internal Notes
-              <span className="text-xs font-normal text-[#64748b] bg-[#f2f4f6]
+              <span className="text-xs font-normal text-fg-subtle bg-muted
                 px-2 py-1 rounded-full">
                 Only visible to recruiters
               </span>
@@ -346,8 +346,8 @@ export default function ApplicantReviewPage() {
                 className={`w-full px-3.5 py-3 border rounded-xl text-sm
                   resize-none focus:outline-none focus:ring-2
                   focus:ring-brand-500 focus:border-transparent
-                  placeholder-[#94a3b8] text-[#0f172a]
-                  ${noteError ? 'border-red-400' : 'border-[#e2e8f0]'}`}
+                  placeholder-[#94a3b8] text-fg
+                  ${noteError ? 'border-red-400' : 'border-line'}`}
               />
               {noteError && (
                 <p className="text-xs text-red-500 mt-1">{noteError}</p>
@@ -378,7 +378,7 @@ export default function ApplicantReviewPage() {
                 {[...application.notes].reverse().map((note) => (
                   <div
                     key={note.id}
-                    className="bg-[#f7f9fb] border border-[#e2e8f0]
+                    className="bg-subtle border border-line
                       rounded-xl p-4"
                   >
                     <div className="flex items-center justify-between mb-2">
@@ -389,22 +389,22 @@ export default function ApplicantReviewPage() {
                           {note.recruiterName?.charAt(0).toUpperCase()}
                         </div>
                         <span className="text-xs font-semibold
-                          text-[#0f172a]">
+                          text-fg">
                           {note.recruiterName}
                         </span>
                       </div>
-                      <span className="text-xs text-[#94a3b8]">
+                      <span className="text-xs text-fg-faint">
                         {formatDateTime(note.createdAt)}
                       </span>
                     </div>
-                    <p className="text-sm text-[#464555] leading-relaxed">
+                    <p className="text-sm text-fg-muted leading-relaxed">
                       {note.content}
                     </p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-[#94a3b8] text-center py-4">
+              <p className="text-sm text-fg-faint text-center py-4">
                 No notes yet. Add the first one above.
               </p>
             )}
@@ -415,9 +415,9 @@ export default function ApplicantReviewPage() {
         <div className="space-y-5">
 
           {/* Rating card */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0]">
+          <div className="bg-surface border border-line rounded-xl p-6">
+            <h2 className="text-base font-bold text-fg mb-4 pb-3
+              border-b border-line">
               Candidate Rating
             </h2>
 
@@ -438,7 +438,7 @@ export default function ApplicantReviewPage() {
                       className={`w-9 h-9 transition-colors ${
                         star <= (hoverRating || application.rating || 0)
                           ? 'text-amber-400'
-                          : 'text-[#e2e8f0]'
+                          : 'text-line-strong'
                       }`}
                       fill="currentColor"
                       viewBox="0 0 24 24"
@@ -452,7 +452,7 @@ export default function ApplicantReviewPage() {
               </div>
 
               {/* Rating label */}
-              <p className="text-sm font-medium text-[#64748b]">
+              <p className="text-sm font-medium text-fg-subtle">
                 {application.rating
                   ? `Rated ${application.rating}/5`
                   : 'Click to rate this candidate'}
@@ -469,9 +469,9 @@ export default function ApplicantReviewPage() {
           </div>
 
           {/* Pipeline actions */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0]">
+          <div className="bg-surface border border-line rounded-xl p-6">
+            <h2 className="text-base font-bold text-fg mb-4 pb-3
+              border-b border-line">
               Pipeline Actions
             </h2>
 
@@ -494,7 +494,7 @@ export default function ApplicantReviewPage() {
                   ? 'bg-emerald-50 border border-emerald-200 text-emerald-700'
                   : application.status === 'REJECTED'
                     ? 'bg-red-50 border border-red-200 text-red-600'
-                    : 'bg-[#f2f4f6] border border-[#e2e8f0] text-[#64748b]'}
+                    : 'bg-muted border border-line text-fg-subtle'}
               `}>
                 {application.status === 'HIRED' && (
                   <>
@@ -525,7 +525,7 @@ export default function ApplicantReviewPage() {
                       {confirmStatus === status ? (
                         <div className="bg-brand-50 border border-brand-200
                           rounded-xl p-3 text-center">
-                          <p className="text-xs text-[#0f172a] mb-3">
+                          <p className="text-xs text-fg mb-3">
                             Move to{' '}
                             <strong>{STATUS_LABELS[status]}</strong>?
                           </p>
@@ -564,7 +564,7 @@ export default function ApplicantReviewPage() {
                     {confirmStatus === 'REJECTED' ? (
                       <div className="bg-red-50 border border-red-200
                         rounded-xl p-3 text-center">
-                        <p className="text-xs text-[#0f172a] mb-3">
+                        <p className="text-xs text-fg mb-3">
                           Reject this application?
                         </p>
                         <div className="flex gap-2 justify-center">
@@ -601,7 +601,7 @@ export default function ApplicantReviewPage() {
                 )}
 
                 {/* Legal moves note */}
-                <p className="text-xs text-center text-[#94a3b8] pt-1">
+                <p className="text-xs text-center text-fg-faint pt-1">
                   Only valid next stages are shown above
                 </p>
               </div>
@@ -609,32 +609,32 @@ export default function ApplicantReviewPage() {
           </div>
 
           {/* Application info */}
-          <div className="bg-white border border-[#e2e8f0] rounded-xl p-6">
-            <h2 className="text-base font-bold text-[#0f172a] mb-4 pb-3
-              border-b border-[#e2e8f0]">
+          <div className="bg-surface border border-line rounded-xl p-6">
+            <h2 className="text-base font-bold text-fg mb-4 pb-3
+              border-b border-line">
               Application Details
             </h2>
             <dl className="space-y-3">
               <div>
-                <dt className="text-xs font-bold text-[#64748b] uppercase
+                <dt className="text-xs font-bold text-fg-subtle uppercase
                   tracking-wider mb-0.5">
                   Applied
                 </dt>
-                <dd className="text-sm text-[#0f172a]">
+                <dd className="text-sm text-fg">
                   {formatDate(application.appliedAt)}
                 </dd>
               </div>
               <div>
-                <dt className="text-xs font-bold text-[#64748b] uppercase
+                <dt className="text-xs font-bold text-fg-subtle uppercase
                   tracking-wider mb-0.5">
                   Last Updated
                 </dt>
-                <dd className="text-sm text-[#0f172a]">
+                <dd className="text-sm text-fg">
                   {formatDate(application.updatedAt)}
                 </dd>
               </div>
               <div>
-                <dt className="text-xs font-bold text-[#64748b] uppercase
+                <dt className="text-xs font-bold text-fg-subtle uppercase
                   tracking-wider mb-0.5">
                   Current Status
                 </dt>
@@ -644,7 +644,7 @@ export default function ApplicantReviewPage() {
               </div>
               {application.resumeUrl && (
                 <div>
-                  <dt className="text-xs font-bold text-[#64748b] uppercase
+                  <dt className="text-xs font-bold text-fg-subtle uppercase
                     tracking-wider mb-1">
                     Resume
                   </dt>

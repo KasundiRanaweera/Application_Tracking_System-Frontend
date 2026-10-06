@@ -16,7 +16,7 @@ function NavLink({ to, children }) {
         'transition-colors duration-150',
         active
           ? 'text-brand-600 bg-brand-50'
-          : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100',
+          : 'text-fg-subtle hover:text-fg hover:bg-muted',
       ].join(' ')}
     >
       {children}
@@ -59,8 +59,8 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm
-        border-b border-slate-200 shadow-sm">
+      <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm
+        border-b border-line shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
 
@@ -74,7 +74,7 @@ export default function Navbar() {
                   TB
                 </span>
               </div>
-              <span className="font-display font-bold text-slate-900 text-[15px]
+              <span className="font-display font-bold text-fg text-[15px]
                 tracking-tight hidden sm:block">
                 TalentBridge
               </span>
@@ -103,7 +103,7 @@ export default function Navbar() {
           {user && (
             <div className="hidden md:flex items-center gap-3">
               <div className="flex items-center gap-2.5 pl-3
-                border-l border-slate-200">
+                border-l border-line">
 
                 {/* Avatar + name */}
                 <div className={[
@@ -118,10 +118,10 @@ export default function Navbar() {
                 </div>
 
                 <div className="hidden lg:block leading-none">
-                  <p className="text-xs font-semibold text-slate-800">
+                  <p className="text-xs font-semibold text-fg">
                     {user.name}
                   </p>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
+                  <p className="text-[11px] text-fg-faint mt-0.5">
                     {isRec ? 'Recruiter' : 'Candidate'}
                   </p>
                 </div>
@@ -129,7 +129,7 @@ export default function Navbar() {
 
               <button
                 onClick={handleLogout}
-                className="text-xs font-semibold text-slate-400
+                className="text-xs font-semibold text-fg-faint
                   hover:text-red-500 transition-colors px-2 py-1 rounded
                   hover:bg-red-50"
               >
@@ -142,8 +142,8 @@ export default function Navbar() {
           {user && (
             <button
               onClick={() => setOpen(v => !v)}
-              className="md:hidden p-2 rounded-lg text-slate-500
-                hover:bg-slate-100 transition-colors"
+              className="md:hidden p-2 rounded-lg text-fg-subtle
+                hover:bg-muted transition-colors"
               aria-label="Toggle menu"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor"
@@ -161,19 +161,19 @@ export default function Navbar() {
 
       {/* Mobile dropdown */}
       {user && open && (
-        <div className="md:hidden border-t border-slate-200 bg-white
+        <div className="md:hidden border-t border-line bg-surface
           shadow-lg animate-fade-up">
           <div className="px-4 py-3 space-y-1">
             {isCan && (
               <>
                 <Link to="/jobs" onClick={() => setOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700
-                    hover:bg-slate-50 rounded-lg">
+                  className="block px-3 py-2 text-sm font-medium text-fg-muted
+                    hover:bg-subtle rounded-lg">
                   Browse Jobs
                 </Link>
                 <Link to="/my-applications" onClick={() => setOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700
-                    hover:bg-slate-50 rounded-lg">
+                  className="block px-3 py-2 text-sm font-medium text-fg-muted
+                    hover:bg-subtle rounded-lg">
                   My Applications
                 </Link>
               </>
@@ -181,19 +181,19 @@ export default function Navbar() {
             {isRec && (
               <>
                 <Link to="/recruiter/dashboard" onClick={() => setOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700
-                    hover:bg-slate-50 rounded-lg">
+                  className="block px-3 py-2 text-sm font-medium text-fg-muted
+                    hover:bg-subtle rounded-lg">
                   Dashboard
                 </Link>
                 <Link to="/recruiter/jobs" onClick={() => setOpen(false)}
-                  className="block px-3 py-2 text-sm font-medium text-slate-700
-                    hover:bg-slate-50 rounded-lg">
+                  className="block px-3 py-2 text-sm font-medium text-fg-muted
+                    hover:bg-subtle rounded-lg">
                   My Jobs
                 </Link>
               </>
             )}
           </div>
-          <div className="px-4 py-3 border-t border-slate-100
+          <div className="px-4 py-3 border-t border-line
             flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className={[
@@ -203,7 +203,7 @@ export default function Navbar() {
               ].join(' ')}>
                 {user.name?.charAt(0).toUpperCase()}
               </div>
-              <span className="text-sm font-semibold text-slate-700">
+              <span className="text-sm font-semibold text-fg-muted">
                 {user.name}
               </span>
             </div>
@@ -227,8 +227,8 @@ export default function Navbar() {
           }}
         >
           <div
-            className="w-full max-w-sm rounded-2xl border border-slate-200
-              bg-white p-6 shadow-2xl animate-fade-up"
+            className="w-full max-w-sm rounded-2xl border border-line
+              bg-surface p-6 shadow-2xl animate-fade-up"
             role="dialog"
             aria-modal="true"
             aria-labelledby="sign-out-title"
@@ -242,10 +242,10 @@ export default function Navbar() {
                   d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1" />
               </svg>
             </div>
-            <h2 id="sign-out-title" className="text-lg font-bold text-slate-900">
+            <h2 id="sign-out-title" className="text-lg font-bold text-fg">
               Sign out?
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-slate-500">
+            <p className="mt-2 text-sm leading-relaxed text-fg-subtle">
               You will need to sign in again to access your account.
             </p>
             <div className="mt-6 flex justify-end gap-3">

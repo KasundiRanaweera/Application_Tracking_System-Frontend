@@ -48,7 +48,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative min-h-screen flex bg-slate-50 dark:bg-slate-950">
+    <div className="relative min-h-screen flex bg-subtle dark:bg-slate-950">
       {/* Left — ink hero panel */}
       <div className="hidden lg:flex lg:w-[46%] flex-col justify-between
         bg-slate-950 p-12 pt-20 relative overflow-hidden">
@@ -133,13 +133,13 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <p className="relative z-10 text-slate-600 text-xs">
+        <p className="relative z-10 text-slate-500 text-xs">
           © {new Date().getFullYear()} TalentBridge ATS
         </p>
       </div>
 
       {/* Right — form */}
-      <div className="flex-1 flex flex-col justify-center bg-slate-50 dark:bg-slate-950
+      <div className="flex-1 flex flex-col justify-center bg-subtle dark:bg-slate-950
         px-6 py-12 sm:px-12 lg:px-16">
         <div className="w-full max-w-[360px] mx-auto">
 
@@ -149,14 +149,14 @@ export default function LoginPage() {
               justify-center shadow-sm">
               <span className="text-white font-black text-xs">TB</span>
             </div>
-            <span className="font-display font-bold text-slate-900 dark:text-slate-100">TalentBridge</span>
+            <span className="font-display font-bold text-fg dark:text-slate-100">TalentBridge</span>
           </Link>
 
           <div className="mb-8">
-            <h2 className="text-2xl text-slate-900 dark:text-white tracking-tight mb-1">
+            <h2 className="text-2xl text-fg dark:text-white tracking-tight mb-1">
               Welcome back
             </h2>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-fg-subtle">
               Sign in to your account to continue
             </p>
           </div>
@@ -196,7 +196,7 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <p className="text-sm text-center text-slate-500 mt-6">
+          <p className="text-sm text-center text-fg-subtle mt-6">
             New to TalentBridge?{' '}
             <Link to="/register"
               className="text-brand-600 font-semibold hover:text-brand-700">

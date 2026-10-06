@@ -42,20 +42,20 @@ const FEATURES = [
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <div className="relative min-h-screen bg-surface text-fg dark:bg-slate-950 dark:text-slate-100">
       <div className="absolute top-4 left-4 z-20">
         <ThemeToggle />
       </div>
 
       {/* Public nav */}
-      <header className="border-b border-slate-200 dark:border-slate-700 dark:bg-slate-900">
+      <header className="border-b border-line dark:border-slate-700 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center
               justify-center shadow-sm">
               <span className="text-white font-black text-xs">TB</span>
             </div>
-            <span className="font-display font-bold text-slate-900 text-[15px]
+            <span className="font-display font-bold text-fg text-[15px]
               tracking-tight">
               TalentBridge
             </span>
@@ -63,7 +63,7 @@ export default function LandingPage() {
 
           <div className="flex items-center gap-3">
             <Link to="/login"
-              className="text-sm font-semibold text-slate-600 hover:text-slate-900
+              className="text-sm font-semibold text-fg-muted hover:text-fg
                 px-3 py-2 rounded-lg transition-colors">
               Log in
             </Link>
@@ -86,11 +86,11 @@ export default function LandingPage() {
             tracking-[0.14em] mb-4">
             Applicant Tracking, Simplified
           </p>
-          <h1 className="text-[2.75rem] lg:text-5xl font-extrabold text-slate-900
+          <h1 className="text-[2.75rem] lg:text-5xl font-extrabold text-fg
             leading-[1.08] tracking-tight mb-6">
             Hire smarter.<br />Get hired faster.
           </h1>
-          <p className="text-slate-500 text-lg leading-relaxed mb-9 max-w-md">
+          <p className="text-fg-subtle text-lg leading-relaxed mb-9 max-w-md">
             TalentBridge brings candidates and recruiters onto one platform -
             post jobs, apply in minutes, and move through every hiring stage
             without losing track of anything.
@@ -106,8 +106,8 @@ export default function LandingPage() {
             </Link>
             <Link to="/login"
               className="inline-flex items-center justify-center text-sm
-                font-semibold text-slate-700 bg-white border border-slate-300
-                hover:border-slate-400 hover:bg-slate-50 px-6 py-3 rounded-xl
+                font-semibold text-fg-muted bg-surface border border-line-strong
+                hover:border-slate-400 hover:bg-subtle px-6 py-3 rounded-xl
                 transition-all">
               Log in
             </Link>
@@ -168,12 +168,12 @@ export default function LandingPage() {
       </section>
 
       {/* Feature strip */}
-      <section className="border-t border-slate-100 bg-slate-50 dark:border-slate-700 dark:bg-slate-900">
+      <section className="border-t border-line bg-subtle dark:border-slate-700 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid sm:grid-cols-3 gap-6">
             {FEATURES.map(({ audience, title, body, icon }, i) => (
               <div key={title}
-                className="bg-white rounded-xl border border-slate-200 p-6
+                className="bg-surface rounded-xl border border-line p-6
                   shadow-sm hover:shadow-md hover:-translate-y-0.5
                   transition-all duration-200 animate-fade-up"
                 style={{ animationDelay: `${i * 80}ms`, animationFillMode: 'backwards' }}>
@@ -188,22 +188,22 @@ export default function LandingPage() {
                   tracking-wider mb-1.5">
                   {audience}
                 </p>
-                <h3 className="text-slate-900 dark:text-white text-base mb-2">{title}</h3>
-                <h3 className="text-slate-900 text-base mb-2">{title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{body}</p>
+                <h3 className="text-fg dark:text-white text-base mb-2">{title}</h3>
+                <h3 className="text-fg text-base mb-2">{title}</h3>
+                <p className="text-fg-subtle text-sm leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <footer className="border-t border-slate-200">
+      <footer className="border-t border-line">
         <div className="max-w-7xl mx-auto px-6 py-8 flex items-center
-          justify-between text-xs text-slate-400">
+          justify-between text-xs text-fg-faint">
           <span>© {new Date().getFullYear()} TalentBridge ATS</span>
           <div className="flex items-center gap-5">
-            <Link to="/login" className="hover:text-slate-600">Log in</Link>
-            <Link to="/register" className="hover:text-slate-600">Sign up</Link>
+            <Link to="/login" className="hover:text-fg-muted">Log in</Link>
+            <Link to="/register" className="hover:text-fg-muted">Sign up</Link>
           </div>
         </div>
       </footer>
