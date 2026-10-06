@@ -6,6 +6,8 @@ import { ApplicationListSkeleton } from '../../components/ui/Skeleton'
 import EmptyState from '../../components/ui/EmptyState'
 import Icon from '../../components/ui/Icon'
 import { StatusBadge } from '../../components/ui/Badge'
+import PageHeader from '../../components/ui/PageHeader'
+import { FilterTabs, Pagination, ErrorPanel } from '../../components/ui/ListControls'
 import { getMyApplications, withdrawApplication } from '../../api/applicationsApi'
 import { PIPELINE_STAGES, STATUS_LABELS } from '../../utils/pipelineRules'
 
@@ -103,61 +105,38 @@ export default function MyApplicationsPage() {
 
   return (
     <Layout>
-
-      {/* Page header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-fg">
-          My Applications
-        </h1>
-        <p className="text-sm text-fg-subtle mt-1">
-          Track every application you have submitted
-        </p>
-      </div>
+      <PageHeader
+        title="My Applications"
+        description="Track every application you have submitted"
+        actions={
+          <Button variant="secondary" onClick={() => navigate('/jobs')}>
+            <Icon name="search" className="w-4 h-4" strokeWidth={2} />
+            Browse jobs
+          </Button>
+        }
+      />
 
       {/* Stats row */}
       {!loading && totalElements > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {[
-            {
-              label: 'Total Applied',
-              value: totalElements,
-              icon: 'clipboardList',
-              color: 'text-fg',
-              bg:    'bg-subtle',
-            },
-            {
-              label: 'Active',
-              value: active,
-              icon: 'bolt',
-              color: 'text-brand-600',
-              bg:    'bg-brand-50',
-            },
-            {
-              label: 'Hired',
-              value: hired,
-              icon: 'sparkles',
-              color: 'text-emerald-600',
-              bg:    'bg-emerald-50',
-            },
-            {
-              label: 'Rejected',
-              value: rejected,
-              icon: 'xCircle',
-              color: 'text-red-500',
-              bg:    'bg-red-50',
-            },
-          ].map(({ label, value, icon, color, bg }) => (
+            { label: 'Total Applied', value: totalElements, icon: 'clipboardList', tone: 'bg-muted text-fg-subtle ring-line' },
+            { label: 'Active',        value: active,        icon: 'bolt',          tone: 'bg-brand-50 text-brand-600 ring-brand-100' },
+            { label: 'Hired',         value: hired,         icon: 'sparkles',      tone: 'bg-emerald-50 text-emerald-600 ring-emerald-100' },
+            { label: 'Rejected',      value: rejected,      icon: 'xCircle',       tone: 'bg-red-50 text-red-600 ring-red-100' },
+          ].map(({ label, value, icon, tone }, i) => (
             <div
               key={label}
-              className="bg-surface border border-line rounded-xl p-4
-                flex items-center gap-3"
+              className="bg-surface border border-line rounded-xl shadow-card p-4
+                flex items-center gap-3 animate-fade-up"
+              style={{ animationDelay: `${i * 50}ms` }}
             >
-              <div className={`w-10 h-10 rounded-xl flex items-center
-                justify-center flex-shrink-0 ${bg} ${color}`}>
-                <Icon name={icon} className="w-5 h-5" strokeWidth={1.8} />
+              <div className={`w-9 h-9 rounded-lg ring-1 ring-inset flex items-center
+                justify-center flex-shrink-0 ${tone}`}>
+                <Icon name={icon} className="w-4 h-4" strokeWidth={2} />
               </div>
               <div>
-                <p className={`text-xl font-bold ${color}`}>{value}</p>
+                <p className="font-display text-xl font-extrabold text-fg tabular-nums leading-tight">{value}</p>
                 <p className="text-xs text-fg-subtle">{label}</p>
               </div>
             </div>
@@ -166,43 +145,25 @@ export default function MyApplicationsPage() {
       )}
 
       {/* Status filter tabs */}
-      <div className="bg-surface border border-line rounded-xl p-1.5
-        mb-5 flex gap-1 overflow-x-auto">
-        {STATUS_FILTERS.map(({ value, label }) => (
-          <button
-            key={value}
-            onClick={() => setStatusFilter(value)}
-            className={`
-              flex-shrink-0 px-4 py-2 rounded-lg text-sm font-semibold
-              transition-all duration-150 whitespace-nowrap
-              ${statusFilter === value
-                ? 'bg-brand-600 text-white shadow-sm'
-                : 'text-fg-subtle hover:text-fg hover:bg-subtle'}
-            `}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+      <FilterTabs
+        options={STATUS_FILTERS}
+        value={statusFilter}
+        onChange={setStatusFilter}
+        className="mb-5"
+      />
 
       {/* Loading */}
       {loading && <ApplicationListSkeleton />}
 
       {/* Error */}
       {!loading && error && (
-        <div className="bg-red-50 border border-red-100 rounded-xl p-6
-          text-center">
-          <p className="text-red-600 text-sm mb-3">{error}</p>
-          <Button variant="outline" size="sm" onClick={fetchApplications}>
-            Try again
-          </Button>
-        </div>
+        <ErrorPanel message={error} onRetry={fetchApplications} />
       )}
 
       {/* Empty state */}
       {!loading && !error && applications.length === 0 && (
         <EmptyState
-          icon="search"
+          icon={statusFilter ? 'search' : 'clipboardList'}
           title={
             statusFilter
               ? 'No applications with this status'
@@ -226,31 +187,31 @@ export default function MyApplicationsPage() {
       {/* Applications list */}
       {!loading && !error && applications.length > 0 && (
         <div className="space-y-3">
-          {applications.map((app) => (
-            <div
+          {applications.map((app, i) => (
+            <article
               key={app.id}
-              className="bg-surface border border-line rounded-xl
-                overflow-hidden relative"
+              className="bg-surface border border-line rounded-xl shadow-card
+                overflow-hidden relative animate-fade-up hover:border-line-strong transition-colors"
+              style={{ animationDelay: `${Math.min(i, 8) * 30}ms` }}
             >
               {/* Withdraw confirm overlay */}
               {confirmId === app.id && (
-                <div className="absolute inset-0 bg-surface/97 backdrop-blur-sm
-                  rounded-xl z-10 flex flex-col items-center justify-center
-                  p-8 text-center border border-line">
-                  <div className="w-14 h-14 bg-red-50 rounded-2xl flex
-                    items-center justify-center mb-4 border
-                    border-red-100">
-                    <Icon name="warning" className="w-6 h-6 text-red-500" strokeWidth={1.8} />
+                <div className="absolute inset-0 bg-surface/95 backdrop-blur-sm
+                  z-10 flex flex-col items-center justify-center
+                  p-6 text-center animate-fade-up">
+                  <div className="w-11 h-11 bg-red-50 rounded-xl flex
+                    items-center justify-center mb-3 ring-1 ring-inset ring-red-100">
+                    <Icon name="warning" className="w-5 h-5 text-red-600" strokeWidth={1.8} />
                   </div>
                   <h3 className="font-bold text-fg text-base mb-1">
                     Withdraw application?
                   </h3>
-                  <p className="text-sm text-fg-subtle mb-6 max-w-xs">
+                  <p className="text-sm text-fg-subtle mb-5 max-w-xs">
                     This will remove your application for{' '}
                     <strong className="text-fg">{app.jobTitle}</strong>.
                     This action cannot be undone.
                   </p>
-                  <div className="flex gap-3">
+                  <div className="flex gap-2">
                     <Button
                       variant="danger"
                       size="sm"
@@ -276,10 +237,10 @@ export default function MyApplicationsPage() {
                   sm:items-start gap-4">
 
                   {/* Icon */}
-                  <div className="w-12 h-12 bg-subtle border
-                    border-line rounded-xl flex items-center
+                  <div className="w-11 h-11 bg-brand-50 ring-1 ring-inset ring-brand-100
+                    text-brand-600 rounded-xl flex items-center
                     justify-center flex-shrink-0">
-                    <Icon name="briefcase" className="w-5 h-5 text-fg-subtle" strokeWidth={1.8} />
+                    <Icon name="briefcase" className="w-5 h-5" strokeWidth={1.8} />
                   </div>
 
                   {/* Main info */}
@@ -288,24 +249,24 @@ export default function MyApplicationsPage() {
                     {/* Title row */}
                     <div className="flex flex-wrap items-start
                       justify-between gap-2 mb-1">
-                      <h3 className="font-bold text-fg text-base">
+                      <h3 className="font-bold text-fg text-base tracking-tight">
                         {app.jobTitle}
                       </h3>
                       <StatusBadge status={app.status} />
                     </div>
 
                     {/* Meta */}
-                    <div className="flex flex-wrap items-center gap-3
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1
                       text-xs text-fg-subtle mb-4">
-                      <span className="flex items-center gap-1.5">
+                      <span className="inline-flex items-center gap-1.5">
                         <Icon name="building" className="w-3.5 h-3.5 text-fg-faint" strokeWidth={2} />
                         {app.companyName || 'TalentBridge'}
                       </span>
-                      <span>·</span>
+                      <span className="text-fg-faint">·</span>
                       <span>Applied {formatDate(app.appliedAt)}</span>
                       {app.updatedAt !== app.appliedAt && (
                         <>
-                          <span>·</span>
+                          <span className="text-fg-faint">·</span>
                           <span>Updated {formatDate(app.updatedAt)}</span>
                         </>
                       )}
@@ -313,9 +274,8 @@ export default function MyApplicationsPage() {
 
                     {/* Pipeline progress — active stages only */}
                     {!isTerminal(app.status) && (
-                      <div className="mb-4">
-                        {/* Stage dots */}
-                        <div className="flex items-center gap-0">
+                      <div className="mb-5 rounded-lg bg-subtle ring-1 ring-inset ring-line px-4 py-3">
+                        <ol className="flex items-start">
                           {PIPELINE_STAGES.map((stage, idx) => {
                             const currentIdx = getStageIndex(app.status)
                             const isDone    = idx < currentIdx
@@ -323,29 +283,29 @@ export default function MyApplicationsPage() {
                             const isLast    = idx === PIPELINE_STAGES.length - 1
 
                             return (
-                              <div
+                              <li
                                 key={stage}
-                                className="flex items-center flex-1"
+                                className={`flex items-start ${isLast ? '' : 'flex-1'}`}
                               >
                                 {/* Dot */}
                                 <div className="flex flex-col items-center
                                   gap-1.5 flex-shrink-0">
                                   <div className={`
-                                    w-3 h-3 rounded-full border-2 transition-all
+                                    w-3 h-3 rounded-full transition-all
                                     ${isDone
-                                      ? 'bg-brand-600 border-brand-600'
+                                      ? 'bg-brand-600'
                                       : isCurrent
-                                        ? 'bg-surface border-brand-600 shadow-sm shadow-brand-200 ring-2 ring-brand-100'
-                                        : 'bg-surface border-line'}
+                                        ? 'bg-surface ring-[3px] ring-brand-600 shadow-[0_0_0_6px_var(--color-brand-50)]'
+                                        : 'bg-surface ring-2 ring-line-strong'}
                                   `}/>
                                   <span className={`
-                                    text-xs hidden sm:block font-medium
+                                    text-[11px] hidden sm:block font-medium
                                     leading-none
                                     ${isCurrent
-                                      ? 'text-brand-600'
+                                      ? 'text-brand-600 font-semibold'
                                       : isDone
-                                        ? 'text-fg-subtle'
-                                        : 'text-line-strong'}
+                                        ? 'text-fg-muted'
+                                        : 'text-fg-faint'}
                                   `}>
                                     {stage === 'UNDER_REVIEW'
                                       ? 'Review'
@@ -358,41 +318,45 @@ export default function MyApplicationsPage() {
                                 {/* Connector line */}
                                 {!isLast && (
                                   <div className={`
-                                    flex-1 h-0.5 mx-1 rounded-full
+                                    flex-1 h-0.5 mt-[5px] mx-1 rounded-full
                                     ${idx < currentIdx
                                       ? 'bg-brand-600'
-                                      : 'bg-line'}
+                                      : 'bg-line-strong/60'}
                                   `}/>
                                 )}
-                              </div>
+                              </li>
                             )
                           })}
-                        </div>
+                        </ol>
                       </div>
                     )}
 
                     {/* Terminal state messages */}
                     {app.status === 'HIRED' && (
                       <div className="flex items-center gap-2 bg-emerald-50
-                        border border-emerald-200 rounded-lg px-3 py-2
+                        ring-1 ring-inset ring-emerald-200 rounded-lg px-3 py-2
                         mb-4 text-sm text-emerald-700 font-medium">
-                        <Icon name="sparkles" className="w-4 h-4 text-emerald-500 flex-shrink-0" strokeWidth={1.8} />
+                        <Icon name="sparkles" className="w-4 h-4 flex-shrink-0" strokeWidth={1.8} />
                         Congratulations! You got the job.
                       </div>
                     )}
                     {app.status === 'REJECTED' && (
                       <div className="flex items-center gap-2 bg-red-50
-                        border border-red-100 rounded-lg px-3 py-2
-                        mb-4 text-sm text-red-600">
+                        ring-1 ring-inset ring-red-200 rounded-lg px-3 py-2
+                        mb-4 text-sm text-red-700">
+                        <Icon name="xCircle" className="w-4 h-4 flex-shrink-0" strokeWidth={1.8} />
                         This application was not successful.
                       </div>
                     )}
                     {app.status === 'WITHDRAWN' && (
                       <div className="flex items-center gap-2 bg-subtle
-                        border border-line rounded-lg px-3 py-2
+                        ring-1 ring-inset ring-line rounded-lg px-3 py-2
                         mb-4 text-sm text-fg-subtle">
-                        You withdrew this application on{' '}
-                        {formatDate(app.updatedAt)}.
+                        <Icon name="xMark" className="w-4 h-4 flex-shrink-0" strokeWidth={2} />
+                        <span>
+                          You withdrew this application on{' '}
+                          {formatDate(app.updatedAt)}.
+                        </span>
                       </div>
                     )}
 
@@ -404,14 +368,14 @@ export default function MyApplicationsPage() {
                         onClick={() => navigate(`/jobs/${app.jobId}`)}
                       >
                         View Job
+                        <Icon name="arrowRight" className="w-3.5 h-3.5" />
                       </Button>
                       {canWithdraw(app.status) && (
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => setConfirmId(app.id)}
-                          className="text-red-400 hover:text-red-600
-                            hover:bg-red-50"
+                          className="!text-red-600 dark:!text-red-400 hover:!bg-red-50"
                         >
                           Withdraw
                         </Button>
@@ -420,37 +384,19 @@ export default function MyApplicationsPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       )}
 
       {/* Pagination */}
-      {!loading && totalPages > 1 && (
-        <div className="flex items-center justify-between mt-6 pt-6
-          border-t border-line">
-          <p className="text-sm text-fg-subtle">
-            Page {page + 1} of {totalPages}
-          </p>
-          <div className="flex gap-2">
-            <Button
-              variant="secondary"
-              size="sm"
-              disabled={page === 0}
-              onClick={() => setPage((p) => p - 1)}
-            >
-              ← Previous
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
-              disabled={page >= totalPages - 1}
-              onClick={() => setPage((p) => p + 1)}
-            >
-              Next →
-            </Button>
-          </div>
-        </div>
+      {!loading && (
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onPrev={() => setPage((p) => p - 1)}
+          onNext={() => setPage((p) => p + 1)}
+        />
       )}
     </Layout>
   )

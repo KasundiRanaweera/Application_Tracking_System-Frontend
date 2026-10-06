@@ -324,7 +324,7 @@ export default function RecruiterJobsPage() {
                           onClick={() =>
                             handleStatusChange(job.id, nextStatus(job.status))
                           }
-                          className="!text-brand-600 hover:!bg-brand-50"
+                          className="!text-brand-600 dark:!text-brand-300 hover:!bg-brand-50"
                         >
                           {nextStatusLabel(job.status)}
                         </Button>
@@ -371,7 +371,7 @@ export default function RecruiterJobsPage() {
                           variant="ghost"
                           size="xs"
                           onClick={() => setConfirmDelete(job.id)}
-                          className="!text-red-600 hover:!bg-red-50"
+                          className="!text-red-600 dark:!text-red-400 hover:!bg-red-50"
                         >
                           Delete
                         </Button>

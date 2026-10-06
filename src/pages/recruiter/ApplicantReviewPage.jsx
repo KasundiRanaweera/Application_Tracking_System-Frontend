@@ -520,7 +520,7 @@ export default function ApplicantReviewPage() {
                         variant="secondary"
                         fullWidth
                         onClick={() => setConfirmStatus('REJECTED')}
-                        className="!text-red-600 hover:!bg-red-50 hover:!border-red-200"
+                        className="!text-red-600 dark:!text-red-400 hover:!bg-red-50 hover:!border-red-200"
                       >
                         <Icon name="xMark" className="w-3.5 h-3.5" strokeWidth={2} />
                         Reject Application
