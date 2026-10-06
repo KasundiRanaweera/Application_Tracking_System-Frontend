@@ -1,76 +1,62 @@
 import { Link } from 'react-router-dom'
 import ThemeToggle from '../components/ui/ThemeToggle'
-
-const PIPELINE = [
-  { label: 'Applied',      state: 'done' },
-  { label: 'Under Review', state: 'done' },
-  { label: 'Shortlisted',  state: 'done' },
-  { label: 'Interview',    state: 'active' },
-  { label: 'Offer',        state: 'pending' },
-  { label: 'Hired',        state: 'pending' },
-]
+import Logo, { LogoMark } from '../components/ui/Logo'
+import Icon from '../components/ui/Icon'
+import PipelineLadder from '../components/marketing/PipelineLadder'
 
 const FEATURES = [
   {
     audience: 'For candidates',
     title: 'Find roles that fit',
     body: 'Browse open positions, apply in a few clicks, and track every application from submitted to hired. All in one place.',
-    icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-    ),
+    icon: 'document',
   },
   {
     audience: 'For recruiters',
     title: 'Run your pipeline',
     body: 'Post jobs, review applicants side by side, and move candidates through every stage without losing track of anyone.',
-    icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-        d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 100-8 4 4 0 000 8zm6-4a4 4 0 11-8 0 4 4 0 018 0z" />
-    ),
+    icon: 'users',
   },
   {
     audience: 'For everyone',
     title: 'Always up to date',
     body: 'Status changes reflect instantly. No spreadsheets, no waiting for an email to know where things stand.',
-    icon: (
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-        d="M13 10V3L4 14h7v7l9-11h-7z" />
-    ),
+    icon: 'bolt',
   },
 ]
 
+const HIGHLIGHTS = ['Free for candidates', 'Six-stage hiring pipeline', 'Real-time status updates']
+
+const PRIMARY_CTA = `inline-flex items-center justify-center gap-2 h-11 px-5 rounded-xl
+  text-sm font-semibold bg-ink text-on-ink border border-ink
+  hover:bg-ink-hover shadow-xs hover:shadow-pop active:translate-y-px`
+
+const SECONDARY_CTA = `inline-flex items-center justify-center h-11 px-5 rounded-xl
+  text-sm font-semibold text-fg bg-surface border border-line
+  hover:border-line-strong hover:bg-subtle shadow-xs active:translate-y-px`
+
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen bg-surface text-fg dark:bg-slate-950 dark:text-slate-100">
-      <div className="absolute top-4 left-4 z-20">
-        <ThemeToggle />
-      </div>
+    <div className="relative min-h-screen bg-canvas text-fg overflow-x-hidden">
+      {/* Soft brand wash behind the hero */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[640px]
+        bg-[radial-gradient(60%_60%_at_70%_0%,rgb(30_76_224/0.10),transparent_70%)]" />
 
       {/* Public nav */}
-      <header className="border-b border-line dark:border-slate-700 dark:bg-slate-900">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center
-              justify-center shadow-sm">
-              <span className="text-white font-black text-xs">TB</span>
-            </div>
-            <span className="font-display font-bold text-fg text-[15px]
-              tracking-tight">
-              TalentBridge
-            </span>
-          </Link>
+      <header className="sticky top-0 z-40 border-b border-line bg-surface/75 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <Logo />
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link to="/login"
-              className="text-sm font-semibold text-fg-muted hover:text-fg
-                px-3 py-2 rounded-lg transition-colors">
+              className="hidden sm:inline-flex text-sm font-semibold text-fg-muted hover:text-fg
+                px-3 h-9 items-center rounded-lg hover:bg-subtle">
               Log in
             </Link>
             <Link to="/register"
-              className="text-sm font-semibold text-white bg-slate-900
-                hover:bg-slate-800 px-4 py-2 rounded-lg shadow-sm
-                hover:shadow-md transition-all">
+              className="inline-flex items-center h-9 px-4 rounded-lg text-sm font-semibold
+                bg-ink text-on-ink hover:bg-ink-hover shadow-xs">
               Get started
             </Link>
           </div>
@@ -78,117 +64,111 @@ export default function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 pt-16 pb-20 lg:pt-24 lg:pb-28
-        grid lg:grid-cols-2 gap-14 items-center">
-
+      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-16 pb-20 lg:pt-24 lg:pb-28
+        grid lg:grid-cols-[1.05fr_1fr] gap-14 lg:gap-16 items-center">
         <div className="animate-fade-up">
-          <p className="text-brand-600 text-xs font-bold uppercase
-            tracking-[0.14em] mb-4">
+          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface
+            px-3 py-1 text-xs font-semibold text-fg-muted shadow-xs mb-6">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-600" />
             Applicant Tracking, Simplified
           </p>
-          <h1 className="text-[2.75rem] lg:text-5xl font-extrabold text-fg
-            leading-[1.08] tracking-tight mb-6">
-            Hire smarter.<br />Get hired faster.
+          <h1 className="text-[2.6rem] sm:text-5xl lg:text-[3.6rem] font-extrabold text-fg
+            leading-[1.04] tracking-[-0.035em] mb-6">
+            Hire smarter.<br />
+            <span className="bg-gradient-to-r from-brand-600 to-brand-400 bg-clip-text text-transparent">
+              Get hired faster.
+            </span>
           </h1>
-          <p className="text-fg-subtle text-lg leading-relaxed mb-9 max-w-md">
+          <p className="text-fg-subtle text-lg leading-relaxed mb-9 max-w-[30rem]">
             TalentBridge brings candidates and recruiters onto one platform -
             post jobs, apply in minutes, and move through every hiring stage
             without losing track of anything.
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Link to="/register"
-              className="inline-flex items-center justify-center text-sm
-                font-semibold text-white bg-slate-900 hover:bg-slate-800
-                px-6 py-3 rounded-xl shadow-sm hover:shadow-lg
-                hover:shadow-slate-900/15 active:scale-[0.98] transition-all">
+            <Link to="/register" className={PRIMARY_CTA}>
               Create your account
+              <Icon name="arrowRight" className="w-4 h-4" />
             </Link>
-            <Link to="/login"
-              className="inline-flex items-center justify-center text-sm
-                font-semibold text-fg-muted bg-surface border border-line-strong
-                hover:border-slate-400 hover:bg-subtle px-6 py-3 rounded-xl
-                transition-all">
+            <Link to="/login" className={SECONDARY_CTA}>
               Log in
             </Link>
           </div>
+
+          <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-2">
+            {HIGHLIGHTS.map(item => (
+              <li key={item} className="flex items-center gap-2 text-sm text-fg-subtle">
+                <Icon name="checkCircle" className="w-4 h-4 text-emerald-600" />
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Visual: same pipeline-ladder motif used on auth pages, for a
-            consistent brand thread from marketing page into the app. */}
-        <div className="relative rounded-2xl bg-slate-950 p-10 overflow-hidden
-          shadow-xl shadow-slate-900/10 animate-fade-up"
-          style={{ animationDelay: '100ms', animationFillMode: 'backwards' }}>
-          <div className="absolute -top-20 -right-20 w-72 h-72 bg-brand-600/30
-            rounded-full blur-[90px] pointer-events-none" />
-          <div className="absolute inset-0 bg-grid-dots opacity-40 pointer-events-none" />
+        {/* Visual: product-style window with the pipeline ladder */}
+        <div className="relative animate-fade-up"
+          style={{ animationDelay: '100ms' }}>
+          <div aria-hidden="true" className="absolute -inset-4 rounded-[28px]
+            bg-gradient-to-br from-brand-500/20 via-transparent to-transparent blur-2xl" />
+          <div className="relative rounded-2xl bg-slate-950 ring-1 ring-white/10
+            shadow-[0_30px_80px_-20px_rgb(15_23_42/0.45)] overflow-hidden">
+            {/* Window chrome */}
+            <div className="flex items-center gap-2 px-5 h-11 border-b border-white/10 bg-white/[0.03]">
+              <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+              <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+              <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+              <span className="ml-3 text-[11px] font-medium text-slate-500">talentbridge.app/pipeline</span>
+            </div>
 
-          <p className="relative z-10 text-slate-400 text-xs font-semibold
-            uppercase tracking-wider mb-6">
-            Your hiring pipeline
-          </p>
+            <div className="relative p-8 sm:p-10">
+              <div className="absolute -top-20 -right-20 w-72 h-72 bg-brand-600/30
+                rounded-full blur-[90px] pointer-events-none" />
+              <div className="absolute inset-0 bg-grid-dots opacity-40 pointer-events-none" />
 
-          <div className="relative z-10 pl-1">
-            <div className="absolute left-[15px] top-2 bottom-2 w-px
-              bg-gradient-to-b from-brand-500/70 via-white/15 to-transparent" />
-            <div className="space-y-3.5">
-              {PIPELINE.map(({ label, state }) => (
-                <div key={label} className="relative flex items-center gap-4">
-                  <div className={[
-                    'relative z-10 w-[31px] h-[31px] rounded-full flex-shrink-0',
-                    'flex items-center justify-center border',
-                    state === 'active'
-                      ? 'bg-brand-500 border-brand-400 shadow-lg shadow-brand-500/40'
-                      : state === 'done'
-                        ? 'bg-slate-900 border-brand-500/60'
-                        : 'bg-slate-900 border-white/10',
-                  ].join(' ')}>
-                    {state === 'done' && (
-                      <svg className="w-3.5 h-3.5 text-brand-400" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round"
-                          strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                      </svg>
-                    )}
-                    {state === 'active' && (
-                      <div className="w-2 h-2 rounded-full bg-white" />
-                    )}
-                  </div>
-                  <span className={[
-                    'text-sm font-semibold',
-                    state === 'pending' ? 'text-slate-500' : 'text-white',
-                  ].join(' ')}>
-                    {label}
-                  </span>
-                </div>
-              ))}
+              <div className="relative z-10 flex items-center justify-between mb-7">
+                <p className="text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                  Your hiring pipeline
+                </p>
+                <span className="text-[11px] font-medium text-slate-400 rounded-full
+                  border border-white/10 px-2 py-0.5">
+                  Live
+                </span>
+              </div>
+
+              <div className="relative z-10">
+                <PipelineLadder />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Feature strip */}
-      <section className="border-t border-line bg-subtle dark:border-slate-700 dark:bg-slate-900">
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          <div className="grid sm:grid-cols-3 gap-6">
+      <section className="relative border-t border-line bg-surface">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20">
+          <div className="max-w-2xl mb-12">
+            <p className="text-brand-600 text-xs font-bold uppercase tracking-[0.14em] mb-3">
+              One platform, both sides of hiring
+            </p>
+            <h2 className="text-3xl sm:text-[2.2rem] text-fg">
+              Everything you need to move from application to offer.
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-5">
             {FEATURES.map(({ audience, title, body, icon }, i) => (
               <div key={title}
-                className="bg-surface rounded-xl border border-line p-6
-                  shadow-sm hover:shadow-md hover:-translate-y-0.5
-                  transition-all duration-200 animate-fade-up"
-                style={{ animationDelay: `${i * 80}ms`, animationFillMode: 'backwards' }}>
-                <div className="w-10 h-10 rounded-lg bg-brand-50 text-brand-600
-                  flex items-center justify-center mb-4">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    {icon}
-                  </svg>
+                className="group bg-canvas rounded-2xl border border-line p-6
+                  hover:border-line-strong hover:shadow-pop hover:-translate-y-0.5
+                  transition-[border-color,box-shadow,transform] duration-200 animate-fade-up"
+                style={{ animationDelay: `${i * 80}ms` }}>
+                <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 ring-1 ring-brand-100
+                  flex items-center justify-center mb-5">
+                  <Icon name={icon} className="w-5 h-5" />
                 </div>
-                <p className="text-brand-600 text-xs font-bold uppercase
-                  tracking-wider mb-1.5">
+                <p className="text-fg-subtle text-[11px] font-bold uppercase tracking-wider mb-1.5">
                   {audience}
                 </p>
-                <h3 className="text-fg text-base mb-2">{title}</h3>
+                <h3 className="text-fg text-lg mb-2">{title}</h3>
                 <p className="text-fg-subtle text-sm leading-relaxed">{body}</p>
               </div>
             ))}
@@ -196,13 +176,16 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer className="border-t border-line">
-        <div className="max-w-7xl mx-auto px-6 py-8 flex items-center
-          justify-between text-xs text-fg-faint">
-          <span>© {new Date().getFullYear()} TalentBridge ATS</span>
+      <footer className="border-t border-line bg-surface">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row gap-4
+          items-center justify-between text-xs text-fg-subtle">
+          <span className="flex items-center gap-2">
+            <LogoMark size="sm" />
+            © {new Date().getFullYear()} TalentBridge ATS
+          </span>
           <div className="flex items-center gap-5">
-            <Link to="/login" className="hover:text-fg-muted">Log in</Link>
-            <Link to="/register" className="hover:text-fg-muted">Sign up</Link>
+            <Link to="/login" className="hover:text-fg">Log in</Link>
+            <Link to="/register" className="hover:text-fg">Sign up</Link>
           </div>
         </div>
       </footer>

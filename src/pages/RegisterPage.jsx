@@ -5,6 +5,8 @@ import { registerCandidate } from '../api/authApi'
 import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
 import Alert from '../components/ui/Alert'
+import Icon from '../components/ui/Icon'
+import AuthShell from '../components/layout/AuthShell'
 
 export default function RegisterPage() {
   const { login } = useAuth()
@@ -55,137 +57,100 @@ export default function RegisterPage() {
     }
   }
 
+  const steps = ['Create your account', 'Browse open positions', 'Apply & track progress']
+
   return (
-    <div className="relative min-h-screen flex bg-subtle dark:bg-slate-950">
-      {/* Left panel */}
-      <div className="hidden lg:flex lg:w-[46%] flex-col justify-between
-        bg-slate-950 p-12 pt-20 relative overflow-hidden">
-        <div className="absolute -bottom-24 -left-24 w-[28rem] h-[28rem]
-          bg-brand-600/30 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute inset-0 bg-grid-dots opacity-40 pointer-events-none" />
-
-        <div className="relative flex items-center gap-3 z-10">
-          <div className="w-9 h-9 bg-brand-500 rounded-xl flex items-center
-            justify-center shadow-lg shadow-brand-500/30">
-            <span className="text-white font-black text-sm">TB</span>
-          </div>
-          <span className="text-white font-display font-bold text-lg tracking-tight">TalentBridge</span>
-        </div>
-
-        <div className="relative z-10">
-          <p className="text-brand-400 text-xs font-bold uppercase
-            tracking-[0.14em] mb-4">
-            Join as a Candidate
-          </p>
-          <h1 className="text-[2.75rem] font-extrabold text-white leading-[1.08]
-            tracking-tight mb-5">
-            Find your next<br />opportunity.
-          </h1>
-          <p className="text-slate-400 text-base leading-relaxed mb-10 max-w-sm">
-            Create a free candidate account and start applying to open positions today.
-          </p>
-
-          <div className="space-y-4">
-            {['Create your account', 'Browse open positions', 'Apply & track progress'].map((step, i) => (
-              <div key={step} className="flex items-center gap-4">
-                <div className="w-8 h-8 rounded-full bg-slate-900
-                  flex items-center justify-center text-brand-400 text-sm
-                  font-bold flex-shrink-0 border border-brand-500/40">
-                  {i + 1}
-                </div>
-                <span className="text-white text-sm font-medium">{step}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <p className="relative z-10 text-slate-500 text-xs">
-          © {new Date().getFullYear()} TalentBridge ATS
+    <AuthShell
+      eyebrow="Join as a Candidate"
+      title={<>Find your next<br />opportunity.</>}
+      description="Create a free candidate account and start applying to open positions today."
+      glow="bottom"
+      visual={
+        <ol className="space-y-4">
+          {steps.map((step, i) => (
+            <li key={step} className="flex items-center gap-4">
+              <span className="w-8 h-8 rounded-full bg-slate-900 ring-1 ring-brand-500/40
+                flex items-center justify-center text-brand-300 text-sm font-bold flex-shrink-0">
+                {i + 1}
+              </span>
+              <span className="text-white text-sm font-medium">{step}</span>
+            </li>
+          ))}
+        </ol>
+      }
+    >
+      <div className="mb-7">
+        <h2 className="text-[1.65rem] text-fg tracking-tight mb-1.5">
+          Create your account
+        </h2>
+        <p className="text-sm text-fg-subtle">
+          Join TalentBridge as a candidate — it's free
         </p>
       </div>
 
-      {/* Right panel */}
-      <div className="flex-1 flex flex-col justify-center bg-subtle dark:bg-slate-950
-        px-6 py-12 sm:px-12 lg:px-16">
-        <div className="w-full max-w-[360px] mx-auto">
-
-          <Link to="/" className="flex items-center gap-2 mb-10 lg:hidden">
-            <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center
-              justify-center shadow-sm">
-              <span className="text-white font-black text-xs">TB</span>
-            </div>
-            <span className="font-display font-bold text-fg dark:text-slate-100">TalentBridge</span>
-          </Link>
-
-          <div className="mb-7">
-            <h2 className="text-2xl text-fg dark:text-white tracking-tight mb-1">
-              Create your account
-            </h2>
-            <p className="text-sm text-fg-subtle">
-              Join TalentBridge as a candidate — it's free
-            </p>
-          </div>
-
-          {serverError && (
-            <div className="mb-5">
-              <Alert type="error" message={serverError} />
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              id="name" label="Full name"
-              value={form.name} onChange={handleChange}
-              placeholder="Jane Doe"
-              error={errors.name} required
-            />
-            <Input
-              id="email" label="Email address" type="email"
-              value={form.email} onChange={handleChange}
-              placeholder="you@example.com"
-              error={errors.email} required
-            />
-            <Input
-              id="password" label="Password" type="password"
-              value={form.password} onChange={handleChange}
-              placeholder="At least 8 characters"
-              error={errors.password}
-              hint="Minimum 8 characters"
-              required
-              showPasswordToggle
-            />
-            <Input
-              id="confirmPassword" label="Confirm password" type="password"
-              value={form.confirmPassword} onChange={handleChange}
-              placeholder="Repeat your password"
-              error={errors.confirmPassword}
-              required
-              showPasswordToggle
-            />
-            <Button type="submit" loading={loading} fullWidth size="lg">
-              Create account →
-            </Button>
-          </form>
-
-          <p className="text-sm text-center text-fg-subtle mt-6">
-            Already have an account?{' '}
-            <Link to="/login"
-              className="text-brand-600 font-semibold hover:text-brand-700">
-              Sign in
-            </Link>
-          </p>
-          <p className="text-xs text-center text-fg-faint mt-4 leading-relaxed">
-            By signing up, you agree to our{' '}
-            <a href="/terms" className="underline hover:text-fg-subtle">
-              Terms of Service
-            </a>
-            {' '}and{' '}
-            <a href="/privacy" className="underline hover:text-fg-subtle">
-              Privacy Policy
-            </a>
-          </p>
+      {serverError && (
+        <div className="mb-5">
+          <Alert type="error" message={serverError} />
         </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <Input
+          id="name" label="Full name"
+          value={form.name} onChange={handleChange}
+          placeholder="Jane Doe"
+          error={errors.name} required
+        />
+        <Input
+          id="email" label="Email address" type="email"
+          value={form.email} onChange={handleChange}
+          placeholder="you@example.com"
+          error={errors.email} required
+        />
+        <Input
+          id="password" label="Password" type="password"
+          value={form.password} onChange={handleChange}
+          placeholder="At least 8 characters"
+          error={errors.password}
+          hint="Minimum 8 characters"
+          required
+          showPasswordToggle
+        />
+        <Input
+          id="confirmPassword" label="Confirm password" type="password"
+          value={form.confirmPassword} onChange={handleChange}
+          placeholder="Repeat your password"
+          error={errors.confirmPassword}
+          required
+          showPasswordToggle
+        />
+        <div className="pt-1">
+          <Button type="submit" loading={loading} fullWidth size="lg">
+            Create account
+            <Icon name="arrowRight" className="w-4 h-4" />
+          </Button>
+        </div>
+      </form>
+
+      <div className="mt-8 pt-6 border-t border-line">
+        <p className="text-sm text-center text-fg-subtle">
+          Already have an account?{' '}
+          <Link to="/login"
+            className="text-brand-600 font-semibold hover:underline underline-offset-4">
+            Sign in
+          </Link>
+        </p>
+        <p className="text-xs text-center text-fg-faint mt-4 leading-relaxed">
+          By signing up, you agree to our{' '}
+          <a href="/terms" className="underline hover:text-fg-subtle">
+            Terms of Service
+          </a>
+          {' '}and{' '}
+          <a href="/privacy" className="underline hover:text-fg-subtle">
+            Privacy Policy
+          </a>
+        </p>
       </div>
-    </div>
+    </AuthShell>
   )
 }
