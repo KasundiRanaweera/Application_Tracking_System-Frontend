@@ -7,7 +7,7 @@ import HeroMockup from '../components/landing/HeroMockup'
 const HERO_POINTS = [
   'Free to join',
   'Apply with your CV or a resume link',
-  'Live application status',
+  'Track every application',
 ]
 
 const STEPS = [
@@ -29,9 +29,9 @@ const STAGES = [
 const FEATURES = [
   { icon: 'search',        title: 'Search and filter roles',  body: 'Find positions by keyword, work mode, employment type or location, sorted the way you like.', wide: true },
   { icon: 'document',      title: 'CV upload or link',        body: 'Attach a PDF, DOC or DOCX up to 5 MB, or share a link to your resume instead.' },
-  { icon: 'bolt',          title: 'Real-time updates',        body: 'Your application status changes the moment the hiring team moves you forward.' },
-  { icon: 'xCircle',       title: 'Withdraw any time',        body: 'Changed your mind? Withdraw an active application in one click.' },
-  { icon: 'lock',          title: 'Private and secure',       body: 'Your account and applications are protected with secure sign-in. Only you and the hiring team can see your application.', wide: true },
+  { icon: 'bolt',          title: 'Always up to date',        body: 'See the latest status of every application each time you sign in.' },
+  { icon: 'xCircle',       title: 'Withdraw if plans change', body: 'Changed your mind? Withdraw an application at any point before a final decision.' },
+  { icon: 'lock',          title: 'Private and secure',       body: 'Your account is protected with secure sign-in, and your applications are shared only with the hiring team.', wide: true },
 ]
 
 export default function LandingPage() {
@@ -55,7 +55,8 @@ export default function LandingPage() {
               bg-surface/80 backdrop-blur pl-1.5 pr-3 py-1 text-xs font-medium text-fg-muted shadow-xs
               hover:border-line-strong">
             <span className="rounded-full bg-brand-600 text-white px-2 py-0.5 text-[11px] font-semibold">Careers</span>
-            Explore open positions and apply today
+            <span className="sm:hidden">Explore open positions</span>
+            <span className="hidden sm:inline">Explore open positions and apply today</span>
             <Icon name="arrowRight" className="w-3.5 h-3.5 text-fg-faint" />
           </a>
 
@@ -78,7 +79,7 @@ export default function LandingPage() {
             <Link to="/register"
               className="group inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl text-[15px]
                 font-semibold bg-ink text-on-ink hover:bg-ink-hover shadow-xs hover:shadow-pop">
-              Browse open roles
+              Get started for free
               <span className="transition-transform group-hover:translate-x-0.5">
                 <Icon name="arrowRight" className="w-4 h-4" />
               </span>

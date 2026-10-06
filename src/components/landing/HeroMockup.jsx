@@ -65,7 +65,7 @@ export default function HeroMockup() {
             text-[9px] font-bold flex items-center justify-center">AF</span>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_17rem] min-h-[300px] sm:min-h-[360px]">
+        <div className="grid lg:grid-cols-[1fr_17rem] sm:min-h-[340px]">
           {/* Open positions */}
           <div className="p-3 sm:p-5 min-w-0">
             <div className="flex items-end justify-between gap-3 mb-3">
@@ -139,7 +139,7 @@ export default function HeroMockup() {
       </div>
 
       {/* Floating: application submitted */}
-      <div className="hidden lg:flex absolute -left-10 bottom-12 animate-float
+      <div className="hidden lg:flex absolute -left-8 -bottom-7 animate-float
         items-center gap-3 rounded-xl bg-surface border border-line shadow-pop px-4 py-3">
         <span className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
           <Icon name="checkCircle" className="w-4 h-4" strokeWidth={2} />
@@ -151,14 +151,14 @@ export default function HeroMockup() {
       </div>
 
       {/* Floating: status update */}
-      <div className="hidden lg:flex absolute -right-8 -top-6 animate-float [animation-delay:1.5s]
+      <div className="hidden lg:flex absolute -right-6 -top-9 animate-float [animation-delay:1.5s]
         items-center gap-3 rounded-xl bg-surface border border-line shadow-pop px-4 py-3">
         <span className="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
           <Icon name="bolt" className="w-4 h-4" strokeWidth={2} />
         </span>
         <div>
-          <p className="text-[12px] font-semibold text-fg">You're invited to interview</p>
-          <p className="text-[11px] text-fg-subtle">Product Manager · just now</p>
+          <p className="text-[12px] font-semibold text-fg">Moved to Interview</p>
+          <p className="text-[11px] text-fg-subtle">Product Manager · Stage 4 of 6</p>
         </div>
       </div>
     </div>
