@@ -15,6 +15,7 @@ import {
   addNote,
   changeApplicationStatus,
   downloadResume,
+  getResumePath,
 } from '../../api/applicationsApi'
 import {
   getLegalNextStatuses,
@@ -47,6 +48,7 @@ export default function ApplicantReviewPage() {
   const [statusSuccess, setStatusSuccess]   = useState('')
   const [confirmStatus, setConfirmStatus]   = useState(null)
   const [resumeLoading, setResumeLoading]   = useState(false)
+  const [resumeError, setResumeError]       = useState('')
 
   const fetchApplication = useCallback(async () => {
     setLoading(true)
@@ -125,22 +127,60 @@ export default function ApplicantReviewPage() {
   }
 
   const handleResumeDownload = async () => {
-    const resumeTab = window.open('', '_blank', 'noopener,noreferrer')
-    if (!resumeTab) {
-      setStatusError('Please allow pop-ups to open the resume.')
+    setResumeError('')
+    const resumePath = getResumePath(application.resumeUrl)
+
+    // External resume link (e.g. Google Drive): open it directly. Fetching
+    // it through the API client would be blocked by CORS and leak the JWT.
+    if (!resumePath) {
+      window.open(application.resumeUrl, '_blank', 'noopener,noreferrer')
       return
     }
 
-    resumeTab.document.title = 'Opening resume...'
-    resumeTab.document.body.innerHTML = '<p style="font-family: sans-serif; padding: 2rem;">Opening resume...</p>'
+    // PDFs open in a new tab. The tab must be opened synchronously inside the
+    // click so pop-up blockers allow it. Do not pass 'noopener' here: with it,
+    // window.open always returns null, which broke this button before.
+    const isPdf = /\.pdf$/i.test(resumePath)
+    let resumeTab = null
+    if (isPdf) {
+      resumeTab = window.open('', '_blank')
+      if (!resumeTab) {
+        setResumeError('Please allow pop-ups for this site to open the resume.')
+        return
+      }
+      resumeTab.opener = null
+      resumeTab.document.title = 'Opening resume...'
+      resumeTab.document.body.innerHTML = '<p style="font-family: sans-serif; padding: 2rem;">Opening resume...</p>'
+    }
+
     setResumeLoading(true)
     try {
-      const response = await downloadResume(application.resumeUrl)
+      const response = await downloadResume(resumePath)
       const url = URL.createObjectURL(response.data)
-      resumeTab.location.href = url
-    } catch {
-      resumeTab.close()
-      setStatusError('Failed to open the resume.')
+      if (resumeTab) {
+        resumeTab.location.href = url
+      } else {
+        // Word documents cannot be previewed in the browser, so download them.
+        const extension = resumePath.split('.').pop()
+        const safeName = (application.candidateName || 'candidate').replace(/[^\w-]+/g, '-')
+        const link = document.createElement('a')
+        link.href = url
+        link.download = `${safeName}-resume.${extension}`
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+      }
+      setTimeout(() => URL.revokeObjectURL(url), 60_000)
+    } catch (err) {
+      resumeTab?.close()
+      let message = 'Failed to open the resume.'
+      try {
+        const body = JSON.parse(await err.response.data.text())
+        if (body?.error) message = body.error
+      } catch {
+        // Keep the generic message when the error body is not JSON.
+      }
+      setResumeError(message)
     } finally {
       setResumeLoading(false)
     }
@@ -630,12 +670,23 @@ export default function ApplicantReviewPage() {
                   <span className="block text-sm font-semibold text-fg">
                     {resumeLoading ? 'Opening resume...' : 'View Resume'}
                   </span>
-                  <span className="block text-xs text-fg-subtle">Opens in a new tab</span>
+                  <span className="block text-xs text-fg-subtle">
+                    {!getResumePath(application.resumeUrl)
+                      ? "Opens the candidate's resume link"
+                      : /\.pdf$/i.test(application.resumeUrl)
+                        ? 'Opens in a new tab'
+                        : 'Downloads the file'}
+                  </span>
                 </span>
                 <span className="text-fg-faint group-hover:text-fg group-hover:translate-x-0.5 transition-transform">
                   <Icon name="arrowRight" className="w-4 h-4" />
                 </span>
               </button>
+            )}
+            {resumeError && (
+              <div className="mt-3">
+                <Alert type="error" message={resumeError} />
+              </div>
             )}
           </Panel>
         </div>
