@@ -1,4 +1,11 @@
+import { useAuth } from '../../auth/AuthContext'
+
 export default function Footer() {
+  const { user } = useAuth()
+  const tagline = user?.role === 'RECRUITER'
+    ? 'Applicant tracking for modern hiring teams'
+    : 'Find your next role and track every application'
+
   return (
     <footer className="border-t border-line bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6
@@ -9,9 +16,9 @@ export default function Footer() {
             flex items-center justify-center text-[8px] font-extrabold text-white">
             TB
           </span>
-          <span>© {new Date().getFullYear()} TalentBridge ATS</span>
+          <span>© {new Date().getFullYear()} TalentBridge</span>
         </div>
-        <span>Applicant tracking for modern hiring teams</span>
+        <span>{tagline}</span>
       </div>
     </footer>
   )

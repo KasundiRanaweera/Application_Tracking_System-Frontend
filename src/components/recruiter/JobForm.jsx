@@ -17,7 +17,7 @@ const EMP_LABELS  = {
 const FIELD = `w-full h-10 px-3.5 border border-line rounded-lg text-sm bg-surface text-fg
   placeholder-fg-faint shadow-xs hover:border-line-strong
   focus:outline-none focus:ring-4 focus:ring-brand-500/15 focus:border-brand-500`
-const LABEL = 'block text-[13px] font-medium text-fg-muted mb-1.5'
+const LABEL = 'block text-[13px] font-medium text-fg-muted leading-none mb-1.5'
 
 function PanelTitle({ icon, children }) {
   return (
