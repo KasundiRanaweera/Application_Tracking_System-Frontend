@@ -310,7 +310,7 @@ export default function MyApplicationsPage() {
                                     {stage === 'UNDER_REVIEW'
                                       ? 'Review'
                                       : stage === 'SHORTLISTED'
-                                        ? 'Short.'
+                                        ? 'Shortlisted'
                                         : STATUS_LABELS[stage]?.split(' ')[0]}
                                   </span>
                                 </div>

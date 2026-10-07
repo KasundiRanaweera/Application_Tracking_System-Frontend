@@ -200,10 +200,10 @@ export default function RecruiterJobsPage() {
             <div className="hidden sm:grid grid-cols-12 gap-4 px-5 py-2.5
               bg-subtle border-b border-line text-[11px] font-semibold
               text-fg-subtle uppercase tracking-wider">
-              <div className="col-span-5">Job Title</div>
+              <div className="col-span-4">Job Title</div>
               <div className="col-span-2">Status</div>
               <div className="col-span-2">Posted</div>
-              <div className="col-span-3 text-right">Actions</div>
+              <div className="col-span-4 text-right">Actions</div>
             </div>
 
             {/* Rows */}
@@ -245,7 +245,7 @@ export default function RecruiterJobsPage() {
                     items-center">
 
                     {/* Title */}
-                    <div className="sm:col-span-5 flex items-center gap-3 min-w-0">
+                    <div className="sm:col-span-4 flex items-center gap-3 min-w-0">
                       <div className="w-9 h-9 bg-brand-50 text-brand-600 ring-1 ring-inset ring-brand-100
                         rounded-lg flex items-center justify-center flex-shrink-0">
                         <Icon name="briefcase" className="w-4 h-4" strokeWidth={2} />
@@ -287,7 +287,7 @@ export default function RecruiterJobsPage() {
                     </div>
 
                     {/* Actions */}
-                    <div className="sm:col-span-3 flex items-center
+                    <div className="sm:col-span-4 flex items-center
                       sm:justify-end gap-1.5 flex-wrap">
 
                       {/* View applicants */}
