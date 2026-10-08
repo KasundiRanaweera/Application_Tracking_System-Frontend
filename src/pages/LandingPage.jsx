@@ -57,6 +57,30 @@ const mockupItem = {
   show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.9, ease: EASE_OUT, delay: 0.1 } },
 }
 
+const HOVER_SPRING = { type: 'spring', bounce: 0, visualDuration: 0.25 }
+const IN_VIEW = { once: true, amount: 0.25 }
+
+const revealList = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
+const revealItem = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT } },
+}
+const stageList = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09 } },
+}
+const stageItem = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT } },
+}
+const stagePop = {
+  hidden: { opacity: 0, scale: 0.5 },
+  show: { opacity: 1, scale: 1, transition: { type: 'spring', bounce: 0.35, visualDuration: 0.4, delay: 0.15 } },
+}
+
 export default function LandingPage() {
   const reduceMotion = useReducedMotion()
   const { scrollY } = useScroll()
@@ -74,10 +98,10 @@ export default function LandingPage() {
 
       <LandingNav />
 
+      <LazyMotion features={domAnimation} strict>
+      <MotionConfig reducedMotion="user">
       <main className="relative">
         {/* ── Hero ─────────────────────────────────────────── */}
-        <LazyMotion features={domAnimation} strict>
-        <MotionConfig reducedMotion="user">
           <m.section
             variants={heroContainer}
             initial="hidden"
@@ -149,8 +173,6 @@ export default function LandingPage() {
               </m.div>
             </m.div>
           </m.section>
-        </MotionConfig>
-        </LazyMotion>
 
         {/* ── How it works ─────────────────────────────────── */}
         <section id="how-it-works" className="scroll-mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
@@ -160,24 +182,36 @@ export default function LandingPage() {
             body="Everything you need to apply for a role and stay informed, all in one place."
           />
 
-          <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <m.ol
+            variants={revealList}
+            initial="hidden"
+            whileInView="show"
+            viewport={IN_VIEW}
+            className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          >
             {STEPS.map((step, i) => (
-              <li key={step.title}
-                className="relative rounded-2xl border border-line bg-surface p-6 shadow-card">
+              <m.li key={step.title}
+                variants={revealItem}
+                whileHover={{ y: -4 }}
+                transition={HOVER_SPRING}
+                className="group relative rounded-2xl border border-line bg-surface p-6 shadow-card
+                  hover:shadow-pop hover:border-line-strong transition-[box-shadow,border-color]">
                 <div className="flex items-center justify-between mb-5">
                   <span className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 ring-1 ring-inset ring-brand-100
-                    flex items-center justify-center">
+                    flex items-center justify-center transition-colors duration-200
+                    group-hover:bg-brand-600 group-hover:text-white group-hover:ring-brand-600">
                     <Icon name={step.icon} className="w-5 h-5" />
                   </span>
-                  <span className="font-display text-3xl font-extrabold text-line-strong tabular-nums">
+                  <span className="font-display text-3xl font-extrabold text-line-strong tabular-nums
+                    transition-colors duration-200 group-hover:text-brand-300">
                     0{i + 1}
                   </span>
                 </div>
                 <h3 className="text-[17px] text-fg mb-1.5">{step.title}</h3>
                 <p className="text-sm text-fg-subtle leading-relaxed">{step.body}</p>
-              </li>
+              </m.li>
             ))}
-          </ol>
+          </m.ol>
         </section>
 
         {/* ── Pipeline ─────────────────────────────────────── */}
@@ -188,29 +222,38 @@ export default function LandingPage() {
             body="Every application follows the same path, so you always know what has happened and what comes next."
           />
 
-          <ol className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <m.ol
+            variants={stageList}
+            initial="hidden"
+            whileInView="show"
+            viewport={IN_VIEW}
+            className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"
+          >
             {STAGES.map((s, i) => {
               const last = i === STAGES.length - 1
               return (
-                <li key={s.label}
+                <m.li key={s.label}
+                  variants={stageItem}
+                  whileHover={{ y: -3 }}
+                  transition={HOVER_SPRING}
                   className={[
-                    'relative rounded-xl border p-4 sm:p-5',
+                    'relative rounded-xl border p-4 sm:p-5 transition-[box-shadow,border-color]',
                     last
-                      ? 'bg-emerald-50 border-emerald-200'
-                      : 'bg-surface border-line shadow-card',
+                      ? 'bg-emerald-50 border-emerald-200 hover:border-emerald-300'
+                      : 'bg-surface border-line shadow-card hover:shadow-pop hover:border-line-strong',
                   ].join(' ')}>
-                  <span className={[
+                  <m.span variants={stagePop} className={[
                     'w-8 h-8 rounded-full text-[12px] font-bold flex items-center justify-center mb-4 tabular-nums',
                     last ? 'bg-emerald-600 text-white' : 'bg-brand-600 text-white',
                   ].join(' ')}>
                     {last ? <Icon name="check" className="w-4 h-4" strokeWidth={2.5} /> : i + 1}
-                  </span>
+                  </m.span>
                   <p className={`text-[15px] font-bold ${last ? 'text-emerald-700' : 'text-fg'}`}>{s.label}</p>
                   <p className="text-[13px] text-fg-subtle mt-1 leading-snug">{s.body}</p>
-                </li>
+                </m.li>
               )
             })}
-          </ol>
+          </m.ol>
         </section>
 
         {/* ── Features ─────────────────────────────────────── */}
@@ -273,6 +316,8 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
+      </MotionConfig>
+      </LazyMotion>
 
       <LandingFooter />
     </div>
