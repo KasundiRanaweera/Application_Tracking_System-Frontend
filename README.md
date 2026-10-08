@@ -4,8 +4,8 @@ TalentBridge is an Applicant Tracking System (ATS) that connects **candidates** 
 
 The backend API is maintained separately in the `talentbridge-ats` repository. The frontend and backend are intentionally kept in separate Git repositories, with the frontend deployed to Vercel and the backend deployed independently on Render.
 
-**Live app:** [https://application-tracking-system-fronten.vercel.app](https://application-tracking-system-fronten.vercel.app)
-**Backend API:** [https://application-tracking-system-backend.onrender.com](https://application-tracking-system-backend.onrender.com)
+**Live app:** [https://application-tracking-system-fronten.vercel.app](https://application-tracking-system-fronten.vercel.app) <br>
+**Backend API:** [https://application-tracking-system-backend.onrender.com](https://application-tracking-system-backend.onrender.com) <br>
 **API docs (Swagger):** [https://application-tracking-system-backend.onrender.com/swagger-ui.html](https://application-tracking-system-backend.onrender.com/swagger-ui.html)
 
 ---
