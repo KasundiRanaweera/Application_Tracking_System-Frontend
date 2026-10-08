@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { LazyMotion, domAnimation, m, MotionConfig, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import Icon from '../components/ui/Icon'
 import LandingNav from '../components/landing/LandingNav'
 import HeroMockup from '../components/landing/HeroMockup'
@@ -34,7 +35,33 @@ const FEATURES = [
   { icon: 'lock',          title: 'Private and secure',       body: 'Your account is protected with secure sign-in, and your applications are shared only with the hiring team.' },
 ]
 
+const MotionLink = m.create(Link)
+
+const EASE_OUT = [0.16, 1, 0.3, 1]
+const PRESS_SPRING = { type: 'spring', bounce: 0, visualDuration: 0.2 }
+
+const heroContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+}
+const heroItem = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_OUT } },
+}
+const pointsList = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06 } },
+}
+const mockupItem = {
+  hidden: { opacity: 0, y: 40, scale: 0.97 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.9, ease: EASE_OUT, delay: 0.1 } },
+}
+
 export default function LandingPage() {
+  const reduceMotion = useReducedMotion()
+  const { scrollY } = useScroll()
+  const mockupY = useTransform(scrollY, [0, 600], reduceMotion ? [0, 0] : [0, -40])
+
   return (
     <div className="relative min-h-screen bg-canvas text-fg overflow-x-clip">
       {/* Background: soft brand glow + fading grid */}
@@ -49,61 +76,81 @@ export default function LandingPage() {
 
       <main className="relative">
         {/* ── Hero ─────────────────────────────────────────── */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-20 lg:pt-24 text-center">
-          <a href="#how-it-works"
-            className="animate-rise-in inline-flex items-center gap-2 rounded-full border border-line
-              bg-surface/80 backdrop-blur pl-1.5 pr-3 py-1 text-xs font-medium text-fg-muted shadow-xs
-              hover:border-line-strong">
-            <span className="rounded-full bg-brand-600 text-white px-2 py-0.5 text-[11px] font-semibold">Careers</span>
-            <span className="sm:hidden">Explore open positions</span>
-            <span className="hidden sm:inline">Explore open positions and apply today</span>
-            <Icon name="arrowRight" className="w-3.5 h-3.5 text-fg-faint" />
-          </a>
+        <LazyMotion features={domAnimation} strict>
+        <MotionConfig reducedMotion="user">
+          <m.section
+            variants={heroContainer}
+            initial="hidden"
+            animate="show"
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-20 lg:pt-24 text-center"
+          >
+            <m.a href="#how-it-works"
+              variants={heroItem}
+              className="inline-flex items-center gap-2 rounded-full border border-line
+                bg-surface/80 backdrop-blur pl-1.5 pr-3 py-1 text-xs font-medium text-fg-muted shadow-xs
+                hover:border-line-strong transition-[border-color]">
+              <span className="rounded-full bg-brand-600 text-white px-2 py-0.5 text-[11px] font-semibold">Careers</span>
+              <span className="sm:hidden">Explore open positions</span>
+              <span className="hidden sm:inline">Explore open positions and apply today</span>
+              <Icon name="arrowRight" className="w-3.5 h-3.5 text-fg-faint" />
+            </m.a>
 
-          <h1 className="animate-rise-in [animation-delay:80ms] mt-6 mx-auto max-w-4xl
-            text-[2.4rem] leading-[1.05] sm:text-6xl lg:text-7xl font-extrabold tracking-[-0.04em] text-balance">
-            Find your next role.{' '}
-            <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-sky-500 bg-clip-text text-transparent">
-              Track every step.
-            </span>
-          </h1>
-
-          <p className="animate-rise-in [animation-delay:160ms] mt-6 mx-auto max-w-2xl
-            text-base sm:text-lg text-fg-subtle leading-relaxed text-pretty">
-            Browse open positions, apply in minutes with your CV, and follow your application
-            from Applied to Hired. No more wondering where you stand.
-          </p>
-
-          <div className="animate-rise-in [animation-delay:240ms] mt-9 flex flex-col sm:flex-row
-            items-stretch sm:items-center justify-center gap-3 max-w-sm sm:max-w-none mx-auto">
-            <Link to="/register"
-              className="group inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl text-[15px]
-                font-semibold bg-ink text-on-ink hover:bg-ink-hover shadow-xs hover:shadow-pop">
-              Get started for free
-              <span className="transition-transform group-hover:translate-x-0.5">
-                <Icon name="arrowRight" className="w-4 h-4" />
+            <m.h1 variants={heroItem} className="mt-6 mx-auto max-w-4xl
+              text-[2.4rem] leading-[1.05] sm:text-6xl lg:text-7xl font-extrabold tracking-[-0.04em] text-balance">
+              Find your next role.{' '}
+              <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-sky-500 bg-clip-text text-transparent">
+                Track every step.
               </span>
-            </Link>
-            <Link to="/login"
-              className="inline-flex items-center justify-center h-12 px-6 rounded-xl text-[15px]
-                font-semibold text-fg bg-surface border border-line hover:border-line-strong hover:bg-subtle shadow-xs">
-              I already have an account
-            </Link>
-          </div>
+            </m.h1>
 
-          <ul className="animate-rise-in [animation-delay:320ms] mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2">
-            {HERO_POINTS.map(point => (
-              <li key={point} className="flex items-center gap-1.5 text-[13px] text-fg-subtle">
-                <Icon name="checkCircle" className="w-4 h-4 text-emerald-600" />
-                {point}
-              </li>
-            ))}
-          </ul>
+            <m.p variants={heroItem} className="mt-6 mx-auto max-w-2xl
+              text-base sm:text-lg text-fg-subtle leading-relaxed text-pretty">
+              Browse open positions, apply in minutes with your CV, and follow your application
+              from Applied to Hired. No more wondering where you stand.
+            </m.p>
 
-          <div className="animate-rise-in [animation-delay:420ms] mt-14 sm:mt-20 mx-auto max-w-6xl text-left">
-            <HeroMockup />
-          </div>
-        </section>
+            <m.div variants={heroItem} className="mt-9 flex flex-col sm:flex-row
+              items-stretch sm:items-center justify-center gap-3 max-w-sm sm:max-w-none mx-auto">
+              <MotionLink to="/register"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                transition={PRESS_SPRING}
+                className="group inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl text-[15px]
+                  font-semibold bg-ink text-on-ink hover:bg-ink-hover shadow-xs hover:shadow-pop
+                  transition-[background-color,box-shadow]">
+                Get started for free
+                <span className="transition-transform group-hover:translate-x-0.5">
+                  <Icon name="arrowRight" className="w-4 h-4" />
+                </span>
+              </MotionLink>
+              <MotionLink to="/login"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                transition={PRESS_SPRING}
+                className="inline-flex items-center justify-center h-12 px-6 rounded-xl text-[15px]
+                  font-semibold text-fg bg-surface border border-line hover:border-line-strong hover:bg-subtle shadow-xs
+                  transition-[background-color,border-color]">
+                I already have an account
+              </MotionLink>
+            </m.div>
+
+            <m.ul variants={pointsList} className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2">
+              {HERO_POINTS.map(point => (
+                <m.li key={point} variants={heroItem} className="flex items-center gap-1.5 text-[13px] text-fg-subtle">
+                  <Icon name="checkCircle" className="w-4 h-4 text-emerald-600" />
+                  {point}
+                </m.li>
+              ))}
+            </m.ul>
+
+            <m.div variants={mockupItem} className="mt-14 sm:mt-20 mx-auto max-w-6xl text-left">
+              <m.div style={{ y: mockupY }}>
+                <HeroMockup />
+              </m.div>
+            </m.div>
+          </m.section>
+        </MotionConfig>
+        </LazyMotion>
 
         {/* ── How it works ─────────────────────────────────── */}
         <section id="how-it-works" className="scroll-mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32">
