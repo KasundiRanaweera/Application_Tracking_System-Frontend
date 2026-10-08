@@ -1,3 +1,4 @@
+import { m } from 'motion/react'
 import Icon from '../ui/Icon'
 import { LogoMark } from '../ui/Logo'
 import { StatusBadge } from '../ui/Badge'
@@ -15,11 +16,46 @@ const APPLICATIONS = [
   { title: 'QA Engineer',          status: 'UNDER_REVIEW', stage: 1 },
 ]
 
-function Progress({ stage }) {
+// Card animations. Labels ("hidden"/"show") are inherited from the hero
+// section in LandingPage, so these run as part of the hero entrance.
+const EASE_OUT = [0.16, 1, 0.3, 1]
+const CARDS_START = 0.55
+
+const jobCard = {
+  hidden: { opacity: 0, y: 14 },
+  show: (i) => ({ opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT, delay: CARDS_START + i * 0.08 } }),
+}
+const appCard = {
+  hidden: { opacity: 0, x: 16 },
+  show: (i) => ({ opacity: 1, x: 0, transition: { duration: 0.5, ease: EASE_OUT, delay: CARDS_START + 0.15 + i * 0.1 } }),
+}
+const badgePop = {
+  hidden: { opacity: 0, scale: 0.8 },
+  show: (delay) => ({ opacity: 1, scale: 1, transition: { type: 'spring', bounce: 0.3, visualDuration: 0.35, delay } }),
+}
+const segmentFill = {
+  hidden: { scaleX: 0 },
+  show: (delay) => ({ scaleX: 1, transition: { duration: 0.35, ease: EASE_OUT, delay } }),
+}
+const floatingCard = {
+  hidden: { opacity: 0, y: 16, scale: 0.94 },
+  show: (delay) => ({ opacity: 1, y: 0, scale: 1, transition: { type: 'spring', bounce: 0.25, visualDuration: 0.5, delay } }),
+}
+const HOVER_SPRING = { type: 'spring', bounce: 0, visualDuration: 0.25 }
+
+function Progress({ stage, delay }) {
   return (
     <div className="flex items-center gap-1 mt-2">
       {[0, 1, 2, 3, 4, 5].map(i => (
-        <span key={i} className={`h-1 flex-1 rounded-full ${i <= stage ? 'bg-brand-600' : 'bg-muted'}`} />
+        <span key={i} className="h-1 flex-1 rounded-full bg-muted overflow-hidden">
+          {i <= stage && (
+            <m.span
+              variants={segmentFill}
+              custom={delay + i * 0.07}
+              className="block h-full w-full rounded-full bg-brand-600 origin-left"
+            />
+          )}
+        </span>
       ))}
     </div>
   )
@@ -88,11 +124,17 @@ export default function HeroMockup() {
 
             <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-2.5 sm:gap-3">
               {JOBS.map((job, i) => (
-                <div key={job.title} className={[
-                  'rounded-lg bg-surface ring-1 ring-line shadow-card p-3',
-                  i === 2 ? 'hidden xl:block' : '',
-                  i === 1 ? 'hidden sm:block' : '',
-                ].join(' ')}>
+                <m.div key={job.title}
+                  variants={jobCard}
+                  custom={i}
+                  whileHover={{ y: -4 }}
+                  transition={HOVER_SPRING}
+                  className={[
+                    'group rounded-lg bg-surface ring-1 ring-line shadow-card p-3',
+                    'hover:shadow-pop hover:ring-line-strong transition-[box-shadow]',
+                    i === 2 ? 'hidden xl:block' : '',
+                    i === 1 ? 'hidden sm:block' : '',
+                  ].join(' ')}>
                   <div className="flex items-start justify-between">
                     <span className="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 ring-1 ring-inset ring-brand-100
                       flex items-center justify-center">
@@ -110,11 +152,12 @@ export default function HeroMockup() {
                   </div>
                   <div className="flex items-center justify-between mt-3 pt-2 border-t border-line">
                     <span className="text-[10px] font-semibold text-fg truncate">{job.salary}</span>
-                    <span className="w-5 h-5 rounded-full bg-ink text-on-ink flex items-center justify-center flex-shrink-0">
+                    <span className="w-5 h-5 rounded-full bg-ink text-on-ink flex items-center justify-center flex-shrink-0
+                      transition-transform duration-200 group-hover:translate-x-0.5">
                       <Icon name="arrowRight" className="w-2.5 h-2.5" strokeWidth={2.4} />
                     </span>
                   </div>
-                </div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -124,22 +167,29 @@ export default function HeroMockup() {
             <p className="text-[12px] font-bold text-fg mb-0.5">My Applications</p>
             <p className="text-[10px] text-fg-subtle mb-3">3 active</p>
             <div className="space-y-2.5">
-              {APPLICATIONS.map(app => (
-                <div key={app.title} className="rounded-lg bg-surface ring-1 ring-line shadow-card p-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-[11px] font-semibold text-fg truncate">{app.title}</p>
-                  </div>
-                  <div className="mt-1.5 scale-90 origin-left"><StatusBadge status={app.status} /></div>
-                  <Progress stage={app.stage} />
-                </div>
-              ))}
+              {APPLICATIONS.map((app, i) => {
+                const cardDelay = CARDS_START + 0.15 + i * 0.1
+                return (
+                  <m.div key={app.title} variants={appCard} custom={i}
+                    className="rounded-lg bg-surface ring-1 ring-line shadow-card p-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[11px] font-semibold text-fg truncate">{app.title}</p>
+                    </div>
+                    <m.div variants={badgePop} custom={cardDelay + 0.25} className="mt-1.5 origin-left">
+                      <div className="scale-90 origin-left"><StatusBadge status={app.status} /></div>
+                    </m.div>
+                    <Progress stage={app.stage} delay={cardDelay + 0.35} />
+                  </m.div>
+                )
+              })}
             </div>
           </div>
         </div>
       </div>
 
       {/* Floating: application submitted */}
-      <div className="hidden lg:flex absolute -left-8 -bottom-7 animate-float
+      <m.div variants={floatingCard} custom={1.15} className="hidden lg:block absolute -left-8 -bottom-7">
+      <div className="flex animate-float
         items-center gap-3 rounded-xl bg-surface border border-line shadow-pop px-4 py-3">
         <span className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
           <Icon name="checkCircle" className="w-4 h-4" strokeWidth={2} />
@@ -149,9 +199,11 @@ export default function HeroMockup() {
           <p className="text-[11px] text-fg-subtle">Senior Frontend Engineer</p>
         </div>
       </div>
+      </m.div>
 
       {/* Floating: status update */}
-      <div className="hidden lg:flex absolute -right-6 -top-9 animate-float [animation-delay:1.5s]
+      <m.div variants={floatingCard} custom={1.35} className="hidden lg:block absolute -right-6 -top-9">
+      <div className="flex animate-float [animation-delay:1.5s]
         items-center gap-3 rounded-xl bg-surface border border-line shadow-pop px-4 py-3">
         <span className="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
           <Icon name="bolt" className="w-4 h-4" strokeWidth={2} />
@@ -161,6 +213,7 @@ export default function HeroMockup() {
           <p className="text-[11px] text-fg-subtle">Product Manager · Stage 4 of 6</p>
         </div>
       </div>
+      </m.div>
     </div>
   )
 }
