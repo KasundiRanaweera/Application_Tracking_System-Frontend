@@ -16,7 +16,7 @@ The backend API is maintained separately in the `talentbridge-ats` repository. T
 |---|---|
 | Framework | React 19 + Vite |
 | Routing | React Router v7 |
-| Styling | Tailwind CSS v4 |
+| Styling | Tailwind CSS v4 with semantic design tokens (light and dark mode) |
 | HTTP client | Axios |
 | Auth | JWT (stored in `localStorage`, attached via Axios interceptor) |
 | Linting | ESLint |
@@ -27,9 +27,10 @@ The backend API is maintained separately in the `talentbridge-ats` repository. T
 ## Features
 
 ### Public
-- Landing page with product overview
+- Candidate-focused careers homepage: how it works, the six application stages and why to apply
 - Login (candidates and recruiters share the same login form)
 - Registration — **candidates only**; recruiter accounts are provisioned directly on the backend and cannot self-register
+- Light and dark mode on every page (remembers the visitor's choice, follows the system setting by default)
 
 ### Candidate
 - Browse and search open job listings
@@ -37,8 +38,7 @@ The backend API is maintained separately in the `talentbridge-ats` repository. T
 - Apply to a job with an optional cover note and CV upload (PDF, DOC, or DOCX up to 5 MB)
 - Provide an external resume URL instead of uploading a file
 - Track submitted applications and their pipeline status (Applied → Under Review → Shortlisted → Interview → Offer → Hired/Rejected/Withdrawn)
-- Withdraw an application
-- View their own submitted applications through the applications page and navigate to the uploaded CV safely when presented by the backend
+- Withdraw an application before a final decision
 
 ### Recruiter
 - Dashboard with an overview of jobs and pipeline activity
@@ -46,7 +46,7 @@ The backend API is maintained separately in the `talentbridge-ats` repository. T
 - Search and filter owned jobs by Draft, Open, or Closed status
 - View applicants for a specific job
 - Review an applicant's full profile: cover note, uploaded CV or resume link, rating, and notes
-- Open a recruiter-visible CV link in a new tab and download it from the browser
+- View an applicant's CV: PDFs open in a new tab, Word files (DOC/DOCX) download, and external resume links open directly
 - Move an applicant through the hiring pipeline
 - Add internal notes and a rating to an applicant
 
@@ -59,15 +59,18 @@ src/
 ├── api/            # Axios client + one file per API resource (auth, jobs, applications)
 ├── auth/           # AuthContext — current user, login/logout, token persistence
 ├── components/
-│   ├── layout/     # Navbar, Footer, Layout wrapper
-│   └── ui/         # Reusable UI primitives (Button, Card, Badge, Input, etc.)
+│   ├── landing/    # Homepage sections and the login/register showcase
+│   ├── layout/     # Navbar, Footer, Layout and AuthShell wrappers
+│   ├── recruiter/  # JobForm shared by Create Job and Edit Job
+│   └── ui/         # Reusable UI primitives (Button, Card, Badge, Input, Panel, etc.)
 ├── pages/
 │   ├── candidate/  # Jobs listing, job detail, my applications
 │   └── recruiter/  # Dashboard, job management, applicant review
 ├── routes/         # Route guards (PrivateRoute, RecruiterRoute, CandidateRoute)
+├── theme/          # ThemeContext — light/dark mode
 ├── utils/          # Shared constants (pipeline stages, status labels)
 ├── App.jsx         # Route definitions
-└── index.css       # Design tokens (brand colors, fonts) + Tailwind entry point
+└── index.css       # Design tokens (brand colour, light/dark surfaces, fonts) + Tailwind entry point
 ```
 
 ---
@@ -75,7 +78,7 @@ src/
 ## Getting Started (Local Development)
 
 ### Prerequisites
-- Node.js 18+
+- Node.js 20.19+ or 22.12+ (required by Vite 8)
 - A running instance of the TalentBridge backend (local or deployed)
 
 ### Setup
@@ -149,11 +152,13 @@ This frontend expects a REST API exposing (non-exhaustive):
 - `POST /api/auth/login`, `POST /api/auth/register`
 - `GET /api/jobs`, `GET /api/jobs/{id}`, `POST/PUT/DELETE /api/jobs/**` *(recruiter only)*
 - `GET /api/jobs/manage/all` *(recruiter only; supports search, status filtering, sorting, and pagination)*
-- `POST /api/applications`, `GET /api/applications/me`, `DELETE /api/applications/{id}`
+- `POST /api/applications`, `GET /api/applications/me`, `GET /api/applications/me/{id}`, `DELETE /api/applications/{id}`
 - `POST /api/applications/resume` and `GET /api/applications/resume/{filename}` for authenticated CV upload and viewing
-- `GET /api/applications/job/{jobId}`, `PATCH /api/applications/{id}/status`, `PATCH /api/applications/{id}/rating`, `POST /api/applications/{id}/notes` *(recruiter only)*
+- `GET /api/applications/job/{jobId}`, `GET /api/applications/{id}`, `PATCH /api/applications/{id}/status`, `PATCH /api/applications/{id}/rating`, `POST /api/applications/{id}/notes` *(recruiter only)*
 
 Authentication is JWT-based: the token returned on login is stored in `localStorage` and attached to every request as an `Authorization: Bearer <token>` header. A `401` response clears the session and redirects to `/login`; a `403` redirects to `/unauthorized`.
+
+CV links are always requested through `VITE_API_BASE_URL`, so links saved with an older host or `http://` still work.
 
 Full API documentation is available on the backend's Swagger UI at `/swagger-ui.html`.
 
