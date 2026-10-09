@@ -6,9 +6,13 @@ import Button from '../../components/ui/Button'
 import { RowListSkeleton } from '../../components/ui/Skeleton'
 import { JobStatusBadge } from '../../components/ui/Badge'
 import PageHeader from '../../components/ui/PageHeader'
+import StatCard from '../../components/ui/StatCard'
 import Icon from '../../components/ui/Icon'
 import { getRecruiterJobs } from '../../api/jobsApi'
+import { getJobApplications } from '../../api/applicationsApi'
 import { PIPELINE_STAGES, STATUS_LABELS } from '../../utils/pipelineRules'
+
+const EMPTY_PIPELINE = Object.fromEntries(PIPELINE_STAGES.map(s => [s, 0]))
 
 export default function RecruiterDashboardPage() {
   const navigate = useNavigate()
@@ -18,12 +22,15 @@ export default function RecruiterDashboardPage() {
   const [stats, setStats]     = useState({
     total: 0, open: 0, draft: 0, closed: 0,
   })
+  const [pipeline, setPipeline]               = useState(EMPTY_PIPELINE)
+  const [pipelineLoading, setPipelineLoading] = useState(true)
 
   useEffect(() => {
     const load = async () => {
+      let all = []
       try {
         const res = await getRecruiterJobs({ size: 100 })
-        const all = res.data.content || []
+        all = res.data.content || []
         setJobs(all)
         setStats({
           total:  all.length,
@@ -36,11 +43,31 @@ export default function RecruiterDashboardPage() {
       } finally {
         setLoading(false)
       }
+
+      // Count applicants per stage across every published job.
+      // Drafts are never visible to candidates, so they have no applicants.
+      try {
+        const published = all.filter(j => j.status !== 'DRAFT')
+        const pages = await Promise.all(
+          published.map(j => getJobApplications(j.id, { size: 1000 }))
+        )
+        const counts = { ...EMPTY_PIPELINE }
+        pages.forEach(res => (res.data.content || []).forEach(app => {
+          if (app.status in counts) counts[app.status] += 1
+        }))
+        setPipeline(counts)
+      } catch {
+        // keep zero counts
+      } finally {
+        setPipelineLoading(false)
+      }
     }
     load()
   }, [])
 
   const recentJobs = jobs.slice(0, 5)
+  const pipelineMax = Math.max(1, ...Object.values(pipeline))
+  const pipelineTotal = Object.values(pipeline).reduce((a, b) => a + b, 0)
 
   const formatDate = (d) => {
     if (!d) return '—'
@@ -52,14 +79,8 @@ export default function RecruiterDashboardPage() {
   const STAT_CARDS = [
     { label: 'Total Jobs', value: stats.total,  icon: 'briefcase',     tone: 'text-brand-600 bg-brand-50 ring-brand-100' },
     { label: 'Open',       value: stats.open,   icon: 'checkCircle',   tone: 'text-emerald-600 bg-emerald-50 ring-emerald-100' },
-    { label: 'Draft',      value: stats.draft,  icon: 'clipboardList', tone: 'text-fg-subtle bg-muted ring-line' },
-    { label: 'Closed',     value: stats.closed, icon: 'lock',          tone: 'text-red-600 bg-red-50 ring-red-100' },
-  ]
-
-  const PIPELINE_WIDTHS = [100, 75, 55, 35, 18, 8]
-  const PIPELINE_COLORS = [
-    'bg-brand-600', 'bg-brand-500', 'bg-brand-400',
-    'bg-amber-400', 'bg-emerald-400', 'bg-emerald-600',
+    { label: 'Draft',      value: stats.draft,  icon: 'clipboardList', tone: 'text-amber-600 bg-amber-50 ring-amber-100' },
+    { label: 'Closed',     value: stats.closed, icon: 'lock',          tone: 'text-fg-subtle bg-muted ring-line' },
   ]
 
   return (
@@ -77,34 +98,15 @@ export default function RecruiterDashboardPage() {
 
       {/* Stats grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {STAT_CARDS.map(({ label, value, icon, tone }, i) => (
-          <div
-            key={label}
-            className="bg-surface border border-line rounded-xl p-5 shadow-card animate-fade-up"
-            style={{ animationDelay: `${i * 50}ms` }}
-          >
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[13px] font-medium text-fg-subtle">
-                {label}
-              </span>
-              <div className={`w-8 h-8 rounded-lg ring-1 ring-inset flex items-center
-                justify-center flex-shrink-0 ${tone}`}>
-                <Icon name={icon} className="w-4 h-4" strokeWidth={2} />
-              </div>
-            </div>
-            <p className="font-display text-3xl font-extrabold tracking-tight text-fg tabular-nums">
-              {loading
-                ? <span className="inline-block h-8 w-10 rounded-md bg-muted animate-pulse align-middle" />
-                : value}
-            </p>
-          </div>
+        {STAT_CARDS.map((card, i) => (
+          <StatCard key={card.label} {...card} loading={loading} index={i} />
         ))}
       </div>
 
       {/* Pipeline overview */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
 
-        {/* Pipeline visual */}
+        {/* Pipeline visual — same stage styling as the landing page journey */}
         <section className="lg:col-span-2 bg-surface border border-line
           rounded-xl p-6 shadow-card">
           <div className="flex items-start justify-between gap-4 mb-6">
@@ -113,39 +115,48 @@ export default function RecruiterDashboardPage() {
                 Pipeline Overview
               </h2>
               <p className="text-[13px] text-fg-subtle">
-                Candidate journey from application to hire
+                Where your applicants are right now, across all jobs
               </p>
             </div>
             <span className="hidden sm:inline-flex items-center px-2 py-0.5
-              rounded-full bg-muted text-fg-muted text-xs font-medium">
-              6 stages
+              rounded-full bg-muted text-fg-muted text-xs font-medium tabular-nums">
+              {pipelineLoading ? '…' : `${pipelineTotal} in pipeline`}
             </span>
           </div>
 
           <ol className="space-y-4">
-            {PIPELINE_STAGES.map((stage, idx) => (
-              <li key={stage} className="grid grid-cols-[1.75rem_8.5rem_1fr] sm:grid-cols-[1.75rem_10rem_1fr]
-                items-center gap-3">
-                <span className={`w-7 h-7 rounded-full flex items-center justify-center
-                  text-[11px] font-bold tabular-nums ring-1 ring-inset ${idx === 0
-                    ? 'bg-brand-600 text-white ring-brand-600'
-                    : idx === PIPELINE_STAGES.length - 1
-                      ? 'bg-emerald-50 text-emerald-700 ring-emerald-200'
-                      : 'bg-subtle text-fg-subtle ring-line'}`}>
-                  {idx + 1}
-                </span>
-                <span className="text-[13px] font-semibold text-fg-muted truncate">
-                  {STATUS_LABELS[stage]}
-                </span>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className={`h-full ${PIPELINE_COLORS[idx]} rounded-full
-                      transition-[width] duration-700`}
-                    style={{ width: `${PIPELINE_WIDTHS[idx]}%` }}
-                  />
-                </div>
-              </li>
-            ))}
+            {PIPELINE_STAGES.map((stage, idx) => {
+              const last  = idx === PIPELINE_STAGES.length - 1
+              const count = pipeline[stage]
+              return (
+                <li key={stage} className="grid grid-cols-[1.75rem_7rem_1fr_2rem] sm:grid-cols-[1.75rem_9rem_1fr_2.5rem]
+                  items-center gap-3">
+                  <span className={`w-7 h-7 rounded-full flex items-center justify-center
+                    text-[11px] font-bold tabular-nums text-white
+                    ${last ? 'bg-emerald-600' : 'bg-brand-600'}`}>
+                    {last ? <Icon name="check" className="w-3.5 h-3.5" strokeWidth={2.5} /> : idx + 1}
+                  </span>
+                  <span className={`text-[13px] font-semibold truncate
+                    ${last ? 'text-emerald-700' : 'text-fg-muted'}`}>
+                    {STATUS_LABELS[stage]}
+                  </span>
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    {pipelineLoading
+                      ? <div className="h-full w-full bg-muted animate-pulse" />
+                      : (
+                        <div
+                          className={`h-full rounded-full transition-[width] duration-700
+                            ${last ? 'bg-emerald-600' : 'bg-brand-600'}`}
+                          style={{ width: `${(count / pipelineMax) * 100}%` }}
+                        />
+                      )}
+                  </div>
+                  <span className="text-[13px] font-semibold text-fg tabular-nums text-right">
+                    {pipelineLoading ? '' : count}
+                  </span>
+                </li>
+              )
+            })}
           </ol>
         </section>
 

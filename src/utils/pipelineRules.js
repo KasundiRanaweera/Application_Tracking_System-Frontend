@@ -35,9 +35,9 @@ export const STATUS_COLORS = {
 }
 
 export const JOB_STATUS_COLORS = {
-  DRAFT:  'bg-muted text-fg-muted ring-1 ring-gray-200',
+  DRAFT:  'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
   OPEN:   'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
-  CLOSED: 'bg-red-50 text-red-600 ring-1 ring-red-200',
+  CLOSED: 'bg-muted text-fg-subtle ring-1 ring-gray-200',
 }
 
 export const EMPLOYMENT_TYPE_LABELS = {
