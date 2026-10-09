@@ -410,7 +410,7 @@ export default function JobsPage() {
                           )}
                         </span>
                         <span className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0
-                          bg-muted text-fg-subtle group-hover:bg-ink group-hover:text-on-ink transition-colors">
+                          bg-ink text-on-ink transition-transform duration-200 group-hover:translate-x-0.5">
                           <Icon name="arrowRight" className="w-3.5 h-3.5" strokeWidth={2} />
                         </span>
                       </div>

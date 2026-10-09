@@ -1,4 +1,5 @@
 import { useAuth } from '../../auth/AuthContext'
+import { LogoMark } from '../ui/Logo'
 
 export default function Footer() {
   const { user } = useAuth()
@@ -12,10 +13,7 @@ export default function Footer() {
         flex flex-col sm:flex-row items-center justify-between gap-2
         text-xs text-fg-subtle">
         <div className="flex items-center gap-2">
-          <span className="w-5 h-5 rounded-md bg-gradient-to-br from-brand-500 to-brand-700
-            flex items-center justify-center text-[8px] font-extrabold text-white">
-            TB
-          </span>
+          <LogoMark size="sm" />
           <span>© {new Date().getFullYear()} TalentBridge</span>
         </div>
         <span>{tagline}</span>

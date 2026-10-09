@@ -4,6 +4,7 @@ import { useAuth } from '../../auth/AuthContext'
 import Button from '../ui/Button'
 import Icon from '../ui/Icon'
 import ThemeToggle from '../ui/ThemeToggle'
+import { LogoMark } from '../ui/Logo'
 
 function useIsActive(to) {
   const { pathname } = useLocation()
@@ -116,13 +117,7 @@ export default function Navbar() {
           {/* Logo + primary nav */}
           <div className="flex items-center gap-8 min-w-0">
             <Link to="/" className="flex items-center gap-2.5 flex-shrink-0 rounded-lg">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center
-                bg-gradient-to-br from-brand-500 to-brand-700 shadow-xs
-                ring-1 ring-inset ring-white/15">
-                <span className="text-white font-extrabold text-[11px] tracking-tight">
-                  TB
-                </span>
-              </div>
+              <LogoMark />
               <span className="font-display font-bold text-fg text-[15px]
                 tracking-tight hidden sm:block">
                 TalentBridge

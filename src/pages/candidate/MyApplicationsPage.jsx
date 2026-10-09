@@ -7,6 +7,7 @@ import EmptyState from '../../components/ui/EmptyState'
 import Icon from '../../components/ui/Icon'
 import { StatusBadge } from '../../components/ui/Badge'
 import PageHeader from '../../components/ui/PageHeader'
+import StatCard from '../../components/ui/StatCard'
 import { FilterTabs, Pagination, ErrorPanel } from '../../components/ui/ListControls'
 import { getMyApplications, withdrawApplication } from '../../api/applicationsApi'
 import { PIPELINE_STAGES, STATUS_LABELS } from '../../utils/pipelineRules'
@@ -31,12 +32,12 @@ export default function MyApplicationsPage() {
   const [applications, setApplications]     = useState([])
   const [loading, setLoading]               = useState(true)
   const [error, setError]                   = useState('')
-  const [totalElements, setTotalElements]   = useState(0)
   const [totalPages, setTotalPages]         = useState(0)
   const [statusFilter, setStatusFilterRaw]  = useState('')
   const [page, setPage]                     = useState(0)
   const [withdrawingId, setWithdrawingId]   = useState(null)
   const [confirmId, setConfirmId]           = useState(null)
+  const [counts, setCounts]                 = useState(null)
 
   // Wrap the filter setter so changing status also resets the page —
   // this replaces resetting page via a separate useEffect, which React's
@@ -57,7 +58,6 @@ export default function MyApplicationsPage() {
       }
       const res = await getMyApplications(params)
       setApplications(res.data.content)
-      setTotalElements(res.data.totalElements)
       setTotalPages(res.data.totalPages)
     } catch {
       setError('Failed to load applications. Please try again.')
@@ -73,12 +73,34 @@ export default function MyApplicationsPage() {
     fetchApplications()
   }, [fetchApplications])
 
+  // Stats cover every application, not just the current page or filter.
+  const fetchCounts = useCallback(async () => {
+    try {
+      const res = await getMyApplications({ size: 1000 })
+      const all = res.data.content || []
+      setCounts({
+        total:    res.data.totalElements ?? all.length,
+        active:   all.filter(a => !TERMINAL.includes(a.status)).length,
+        hired:    all.filter(a => a.status === 'HIRED').length,
+        rejected: all.filter(a => a.status === 'REJECTED').length,
+      })
+    } catch {
+      // stats are optional; the list shows its own error
+    }
+  }, [])
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- legitimate data-fetching effect
+    fetchCounts()
+  }, [fetchCounts])
+
   const handleWithdraw = async (id) => {
     setWithdrawingId(id)
     try {
       await withdrawApplication(id)
       setConfirmId(null)
       fetchApplications()
+      fetchCounts()
     } catch (err) {
       alert(err.response?.data?.error || 'Failed to withdraw.')
     } finally {
@@ -98,11 +120,6 @@ export default function MyApplicationsPage() {
   const isTerminal = (status) => TERMINAL.includes(status)
   const canWithdraw = (status) => !TERMINAL.includes(status)
 
-  // Compute counts from totalElements + current page data
-  const hired    = applications.filter(a => a.status === 'HIRED').length
-  const active   = applications.filter(a => !isTerminal(a.status)).length
-  const rejected = applications.filter(a => a.status === 'REJECTED').length
-
   return (
     <Layout>
       <PageHeader
@@ -117,29 +134,15 @@ export default function MyApplicationsPage() {
       />
 
       {/* Stats row */}
-      {!loading && totalElements > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+      {counts && counts.total > 0 && (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {[
-            { label: 'Total Applied', value: totalElements, icon: 'clipboardList', tone: 'bg-muted text-fg-subtle ring-line' },
-            { label: 'Active',        value: active,        icon: 'bolt',          tone: 'bg-brand-50 text-brand-600 ring-brand-100' },
-            { label: 'Hired',         value: hired,         icon: 'sparkles',      tone: 'bg-emerald-50 text-emerald-600 ring-emerald-100' },
-            { label: 'Rejected',      value: rejected,      icon: 'xCircle',       tone: 'bg-red-50 text-red-600 ring-red-100' },
-          ].map(({ label, value, icon, tone }, i) => (
-            <div
-              key={label}
-              className="bg-surface border border-line rounded-xl shadow-card p-4
-                flex items-center gap-3 animate-fade-up"
-              style={{ animationDelay: `${i * 50}ms` }}
-            >
-              <div className={`w-9 h-9 rounded-lg ring-1 ring-inset flex items-center
-                justify-center flex-shrink-0 ${tone}`}>
-                <Icon name={icon} className="w-4 h-4" strokeWidth={2} />
-              </div>
-              <div>
-                <p className="font-display text-xl font-extrabold text-fg tabular-nums leading-tight">{value}</p>
-                <p className="text-xs text-fg-subtle">{label}</p>
-              </div>
-            </div>
+            { label: 'Total Applied', value: counts.total,    icon: 'clipboardList', tone: 'bg-brand-50 text-brand-600 ring-brand-100' },
+            { label: 'Active',        value: counts.active,   icon: 'bolt',          tone: 'bg-amber-50 text-amber-600 ring-amber-100' },
+            { label: 'Hired',         value: counts.hired,    icon: 'sparkles',      tone: 'bg-emerald-50 text-emerald-600 ring-emerald-100' },
+            { label: 'Rejected',      value: counts.rejected, icon: 'xCircle',       tone: 'bg-red-50 text-red-600 ring-red-100' },
+          ].map((card, i) => (
+            <StatCard key={card.label} {...card} index={i} />
           ))}
         </div>
       )}
@@ -272,64 +275,38 @@ export default function MyApplicationsPage() {
                       )}
                     </div>
 
-                    {/* Pipeline progress — active stages only */}
-                    {!isTerminal(app.status) && (
-                      <div className="mb-5 rounded-lg bg-subtle ring-1 ring-inset ring-line px-4 py-3">
-                        <ol className="flex items-start">
-                          {PIPELINE_STAGES.map((stage, idx) => {
-                            const currentIdx = getStageIndex(app.status)
-                            const isDone    = idx < currentIdx
-                            const isCurrent = idx === currentIdx
-                            const isLast    = idx === PIPELINE_STAGES.length - 1
-
-                            return (
+                    {/* Pipeline progress — same segmented bar as the landing hero */}
+                    {!isTerminal(app.status) && (() => {
+                      const currentIdx = getStageIndex(app.status)
+                      const next = PIPELINE_STAGES[currentIdx + 1]
+                      return (
+                        <div className="mb-5 rounded-lg bg-subtle ring-1 ring-inset ring-line px-4 py-3">
+                          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mb-2.5 text-xs">
+                            <span className="font-semibold text-fg">
+                              Stage {currentIdx + 1} of {PIPELINE_STAGES.length}
+                              <span className="text-fg-faint"> · </span>
+                              <span className="text-brand-600">{STATUS_LABELS[app.status]}</span>
+                            </span>
+                            {next && (
+                              <span className="text-fg-subtle">Next: {STATUS_LABELS[next]}</span>
+                            )}
+                          </div>
+                          <ol className="flex items-center gap-1" aria-label="Application progress">
+                            {PIPELINE_STAGES.map((stage, idx) => (
                               <li
                                 key={stage}
-                                className={`flex items-start ${isLast ? '' : 'flex-1'}`}
+                                title={STATUS_LABELS[stage]}
+                                aria-current={idx === currentIdx ? 'step' : undefined}
+                                className={`h-1.5 flex-1 rounded-full transition-colors
+                                  ${idx <= currentIdx ? 'bg-brand-600' : 'bg-line'}`}
                               >
-                                {/* Dot */}
-                                <div className="flex flex-col items-center
-                                  gap-1.5 flex-shrink-0">
-                                  <div className={`
-                                    w-3 h-3 rounded-full transition-all
-                                    ${isDone
-                                      ? 'bg-brand-600'
-                                      : isCurrent
-                                        ? 'bg-surface ring-[3px] ring-brand-600 shadow-[0_0_0_6px_var(--color-brand-50)]'
-                                        : 'bg-surface ring-2 ring-line-strong'}
-                                  `}/>
-                                  <span className={`
-                                    text-[11px] hidden sm:block font-medium
-                                    leading-none
-                                    ${isCurrent
-                                      ? 'text-brand-600 font-semibold'
-                                      : isDone
-                                        ? 'text-fg-muted'
-                                        : 'text-fg-faint'}
-                                  `}>
-                                    {stage === 'UNDER_REVIEW'
-                                      ? 'Review'
-                                      : stage === 'SHORTLISTED'
-                                        ? 'Shortlisted'
-                                        : STATUS_LABELS[stage]?.split(' ')[0]}
-                                  </span>
-                                </div>
-
-                                {/* Connector line */}
-                                {!isLast && (
-                                  <div className={`
-                                    flex-1 h-0.5 mt-[5px] mx-1 rounded-full
-                                    ${idx < currentIdx
-                                      ? 'bg-brand-600'
-                                      : 'bg-line-strong/60'}
-                                  `}/>
-                                )}
+                                <span className="sr-only">{STATUS_LABELS[stage]}</span>
                               </li>
-                            )
-                          })}
-                        </ol>
-                      </div>
-                    )}
+                            ))}
+                          </ol>
+                        </div>
+                      )
+                    })()}
 
                     {/* Terminal state messages */}
                     {app.status === 'HIRED' && (
