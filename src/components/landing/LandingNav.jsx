@@ -51,14 +51,14 @@ export default function LandingNav() {
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <Link to="/login"
-            className="hidden sm:inline-flex h-9 px-3 items-center rounded-lg text-sm font-semibold
+            className="inline-flex h-9 px-3 items-center rounded-lg text-sm font-semibold
               text-fg-muted hover:text-fg hover:bg-subtle">
-            Sign in
+            Login
           </Link>
           <Link to="/register"
-            className="hidden sm:inline-flex h-9 px-4 items-center rounded-lg text-sm font-semibold
+            className="inline-flex h-9 px-4 items-center rounded-lg text-sm font-semibold
               bg-ink text-on-ink hover:bg-ink-hover shadow-xs">
-            Get started
+            Sign up
           </Link>
           <button
             type="button"
@@ -86,18 +86,6 @@ export default function LandingNav() {
                 {l.label}
               </a>
             ))}
-          </div>
-          <div className="px-4 pb-4 grid grid-cols-2 gap-2">
-            <Link to="/login"
-              className="h-10 inline-flex items-center justify-center rounded-lg text-sm font-semibold
-                border border-line text-fg hover:bg-subtle">
-              Sign in
-            </Link>
-            <Link to="/register"
-              className="h-10 inline-flex items-center justify-center rounded-lg text-sm font-semibold
-                bg-ink text-on-ink hover:bg-ink-hover">
-              Get started
-            </Link>
           </div>
         </div>
       )}
