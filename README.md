@@ -8,6 +8,15 @@ The backend API is maintained separately in the `talentbridge-ats` repository. T
 **Backend API:** [https://application-tracking-system-backend.onrender.com](https://application-tracking-system-backend.onrender.com) <br>
 **API docs (Swagger):** [https://application-tracking-system-backend.onrender.com/swagger-ui.html](https://application-tracking-system-backend.onrender.com/swagger-ui.html)
 
+> **Note:** the backend runs on a free Render instance and is pinged regularly by UptimeRobot to keep it awake. If it has been idle, the first request (login, loading jobs) may still take up to ~30–60 seconds.
+
+### Demo logins
+
+| Role | Email | Password |
+|---|---|---|
+| Recruiter | `recruiter@talentbridge.com` | `Recruiter@123` |
+| Candidate | Register a new account on the sign-up page | — |
+
 ---
 
 ## Tech Stack
