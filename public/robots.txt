@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /recruiter/
+Disallow: /jobs
+Disallow: /my-applications
+Disallow: /unauthorized
+
+Sitemap: https://application-tracking-system-fronten.vercel.app/sitemap.xml
