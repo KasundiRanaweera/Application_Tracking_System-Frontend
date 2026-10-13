@@ -3,7 +3,6 @@ import { LazyMotion, domAnimation, m, MotionConfig, useReducedMotion, useScroll,
 import Icon from '../components/ui/Icon'
 import LandingNav from '../components/landing/LandingNav'
 import HeroMockup from '../components/landing/HeroMockup'
-import HeroAuthCard from '../components/landing/HeroAuthCard'
 import LandingFooter from '../components/landing/LandingFooter'
 
 const HERO_POINTS = [
@@ -107,10 +106,8 @@ export default function LandingPage() {
             variants={heroContainer}
             initial="hidden"
             animate="show"
-            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 lg:pt-20 text-center"
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-20 lg:pt-24 text-center"
           >
-            <div className="grid lg:grid-cols-[minmax(0,1fr)_440px] gap-12 lg:gap-10 xl:gap-16 items-center lg:text-left">
-              <div>
             <m.a href="#how-it-works"
               variants={heroItem}
               className="inline-flex items-center gap-2 rounded-full border border-line
@@ -122,22 +119,22 @@ export default function LandingPage() {
               <Icon name="arrowRight" className="w-3.5 h-3.5 text-fg-faint" />
             </m.a>
 
-            <m.h1 variants={heroItem} className="mt-6 mx-auto lg:mx-0 max-w-4xl
-              text-[2.4rem] leading-[1.05] sm:text-6xl lg:text-6xl xl:text-7xl font-extrabold tracking-[-0.04em] text-balance">
+            <m.h1 variants={heroItem} className="mt-6 mx-auto max-w-4xl
+              text-[2.4rem] leading-[1.05] sm:text-6xl lg:text-7xl font-extrabold tracking-[-0.04em] text-balance">
               Find your next role.{' '}
               <span className="bg-gradient-to-r from-brand-600 via-brand-500 to-sky-500 bg-clip-text text-transparent">
                 Track every step.
               </span>
             </m.h1>
 
-            <m.p variants={heroItem} className="mt-6 mx-auto lg:mx-0 max-w-2xl
+            <m.p variants={heroItem} className="mt-6 mx-auto max-w-2xl
               text-base sm:text-lg text-fg-subtle leading-relaxed text-pretty">
               Browse open positions, apply in minutes with your CV, and follow your application
               from Applied to Hired. No more wondering where you stand.
             </m.p>
 
             <m.div variants={heroItem} className="mt-9 flex flex-col sm:flex-row
-              items-stretch sm:items-center justify-center lg:justify-start gap-3 max-w-sm sm:max-w-none mx-auto lg:mx-0">
+              items-stretch sm:items-center justify-center gap-3 max-w-sm sm:max-w-none mx-auto">
               <MotionLink to="/register"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
@@ -145,7 +142,7 @@ export default function LandingPage() {
                 className="group inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl text-[15px]
                   font-semibold bg-ink text-on-ink hover:bg-ink-hover shadow-xs hover:shadow-pop
                   transition-[background-color,box-shadow]">
-                Create free account
+                Get started for free
                 <span className="transition-transform group-hover:translate-x-0.5">
                   <Icon name="arrowRight" className="w-4 h-4" />
                 </span>
@@ -161,7 +158,7 @@ export default function LandingPage() {
               </MotionLink>
             </m.div>
 
-            <m.ul variants={pointsList} className="mt-7 flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-2">
+            <m.ul variants={pointsList} className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2">
               {HERO_POINTS.map(point => (
                 <m.li key={point} variants={heroItem} className="flex items-center gap-1.5 text-[13px] text-fg-subtle">
                   <Icon name="checkCircle" className="w-4 h-4 text-emerald-600" />
@@ -169,12 +166,6 @@ export default function LandingPage() {
                 </m.li>
               ))}
             </m.ul>
-
-              </div>
-              <m.div variants={heroItem} id="auth" className="scroll-mt-24">
-                <HeroAuthCard />
-              </m.div>
-            </div>
 
             <m.div variants={mockupItem} className="mt-14 sm:mt-20 mx-auto max-w-6xl text-left">
               <m.div style={{ y: mockupY }}>

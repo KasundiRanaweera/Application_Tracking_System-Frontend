@@ -1,3 +1,4 @@
+import { Link, useLocation } from 'react-router-dom'
 import Logo from '../ui/Logo'
 import ThemeToggle from '../ui/ThemeToggle'
 
@@ -6,7 +7,14 @@ import ThemeToggle from '../ui/ThemeToggle'
  * fading grid on the canvas, a product showcase on the left (desktop
  * only) and the form in a card on the right.
  */
+const AUTH_LINKS = [
+  { to: '/login',    label: 'Login' },
+  { to: '/register', label: 'Sign up' },
+]
+
 export default function AuthShell({ eyebrow, title, highlight, description, visual, children }) {
+  const { pathname } = useLocation()
+
   return (
     <div className="relative min-h-screen bg-canvas text-fg overflow-x-clip flex flex-col">
       {/* Background: same glow + grid as the landing hero */}
@@ -21,7 +29,24 @@ export default function AuthShell({ eyebrow, title, highlight, description, visu
       <header className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 h-16
         flex items-center justify-between">
         <Logo />
-        <ThemeToggle />
+        <nav className="flex items-center gap-2" aria-label="Account">
+          {AUTH_LINKS.map(link => {
+            const active = pathname === link.to
+            return (
+              <Link key={link.to} to={link.to}
+                aria-current={active ? 'page' : undefined}
+                className={[
+                  'inline-flex h-9 px-4 items-center rounded-lg text-sm font-semibold transition-colors',
+                  active
+                    ? 'bg-ink text-on-ink shadow-xs'
+                    : 'text-fg-muted hover:text-fg hover:bg-subtle',
+                ].join(' ')}>
+                {link.label}
+              </Link>
+            )
+          })}
+          <ThemeToggle />
+        </nav>
       </header>
 
       <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-4 lg:pt-8
