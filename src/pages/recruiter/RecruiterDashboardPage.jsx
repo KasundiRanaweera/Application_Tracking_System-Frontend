@@ -1,6 +1,7 @@
 // src/pages/recruiter/RecruiterDashboardPage.jsx
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../auth/AuthContext'
 import Layout from '../../components/layout/Layout'
 import Button from '../../components/ui/Button'
 import { RowListSkeleton } from '../../components/ui/Skeleton'
@@ -10,35 +11,66 @@ import Icon from '../../components/ui/Icon'
 import { getRecruiterJobs } from '../../api/jobsApi'
 import { PIPELINE_STAGES, STATUS_LABELS } from '../../utils/pipelineRules'
 
+const cacheKey = (userId) => `tb_recruiter_dashboard_${userId}`
+const EMPTY_STATS = { total: 0, open: 0, draft: 0, closed: 0 }
+
+// Last dashboard snapshot, so a revisit paints instantly while fresh data loads.
+const readCache = (userId) => {
+  try {
+    const raw = sessionStorage.getItem(cacheKey(userId))
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
+const countByStatus = (status) =>
+  getRecruiterJobs({ status, size: 1 }).then(res => res.data.totalElements ?? 0)
+
 export default function RecruiterDashboardPage() {
   const navigate = useNavigate()
+  const { user } = useAuth()
+  const userId = user?.userId
 
-  const [jobs, setJobs]       = useState([])
-  const [loading, setLoading] = useState(true)
-  const [stats, setStats]     = useState({
-    total: 0, open: 0, draft: 0, closed: 0,
-  })
+  const cached = readCache(userId)
+  const [jobs, setJobs]       = useState(cached?.jobs ?? [])
+  const [stats, setStats]     = useState(cached?.stats ?? EMPTY_STATS)
+  const [loading, setLoading] = useState(!cached)
 
   useEffect(() => {
+    let cancelled = false
+
     const load = async () => {
       try {
-        const res = await getRecruiterJobs({ size: 100 })
-        const all = res.data.content || []
-        setJobs(all)
-        setStats({
-          total:  all.length,
-          open:   all.filter(j => j.status === 'OPEN').length,
-          draft:  all.filter(j => j.status === 'DRAFT').length,
-          closed: all.filter(j => j.status === 'CLOSED').length,
-        })
+        // Small parallel requests instead of one 100-job payload:
+        // three count-only queries plus the five most recent jobs.
+        const [open, draft, closed, recent] = await Promise.all([
+          countByStatus('OPEN'),
+          countByStatus('DRAFT'),
+          countByStatus('CLOSED'),
+          getRecruiterJobs({ size: 5, sort: 'createdAt,desc' }),
+        ])
+        if (cancelled) return
+
+        const nextStats = { total: open + draft + closed, open, draft, closed }
+        const nextJobs  = recent.data.content || []
+        setStats(nextStats)
+        setJobs(nextJobs)
+        try {
+          sessionStorage.setItem(cacheKey(userId), JSON.stringify({ stats: nextStats, jobs: nextJobs }))
+        } catch {
+          // storage unavailable; the page still works without the cache
+        }
       } catch {
         // fail silently on dashboard
       } finally {
-        setLoading(false)
+        if (!cancelled) setLoading(false)
       }
     }
     load()
-  }, [])
+
+    return () => { cancelled = true }
+  }, [userId])
 
   const recentJobs = jobs.slice(0, 5)
 
