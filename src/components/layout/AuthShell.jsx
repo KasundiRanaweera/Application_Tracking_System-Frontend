@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Logo from '../ui/Logo'
 import ThemeToggle from '../ui/ThemeToggle'
@@ -12,8 +13,23 @@ const AUTH_LINKS = [
   { to: '/register', label: 'Sign up' },
 ]
 
+// Same section links as the landing page nav
+const NAV_LINKS = [
+  { href: '/#how-it-works', label: 'How it works' },
+  { href: '/#pipeline',     label: 'Your journey' },
+  { href: '/#features',     label: 'Why apply here' },
+]
+
 export default function AuthShell({ eyebrow, title, highlight, description, visual, children }) {
   const { pathname } = useLocation()
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
     <div className="relative min-h-screen bg-canvas text-fg overflow-x-clip flex flex-col">
@@ -25,33 +41,43 @@ export default function AuthShell({ eyebrow, title, highlight, description, visu
         bg-[size:56px_56px] opacity-50
         [mask-image:radial-gradient(55%_60%_at_25%_10%,black,transparent_80%)]" />
 
-      {/* Nav bar */}
-      <header className="relative z-20 sticky top-0 border-b border-line bg-surface/80 backdrop-blur-xl backdrop-saturate-150">
-        <nav className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4"
+      {/* Nav bar: same design as the landing page nav */}
+      <header className={[
+        'sticky top-0 z-50 transition-[background-color,border-color,box-shadow] duration-200',
+        scrolled
+          ? 'bg-surface/80 backdrop-blur-xl backdrop-saturate-150 border-b border-line'
+          : 'bg-transparent border-b border-transparent',
+      ].join(' ')}>
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4"
           aria-label="Main">
           <Logo />
-          <div className="flex items-center gap-1 sm:gap-2">
-            <Link to="/"
-              className="hidden sm:inline-flex h-9 px-3 items-center rounded-lg text-sm font-medium
-                text-fg-subtle hover:text-fg hover:bg-subtle">
-              Home
-            </Link>
-            {AUTH_LINKS.map(link => {
-              const active = pathname === link.to
-              return (
-                <Link key={link.to} to={link.to}
-                  aria-current={active ? 'page' : undefined}
-                  className={[
-                    'inline-flex h-9 px-4 items-center rounded-lg text-sm font-semibold transition-colors',
-                    active
-                      ? 'bg-ink text-on-ink shadow-xs'
-                      : 'text-fg-muted hover:text-fg hover:bg-subtle',
-                  ].join(' ')}>
-                  {link.label}
-                </Link>
-              )
-            })}
+
+          <div className="hidden md:flex items-center gap-1">
+            {NAV_LINKS.map(l => (
+              <a key={l.href} href={l.href}
+                className="px-3 h-9 inline-flex items-center rounded-lg text-sm font-medium
+                  text-fg-subtle hover:text-fg hover:bg-subtle">
+                {l.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
             <ThemeToggle />
+            <Link to="/login"
+              aria-current={pathname === '/login' ? 'page' : undefined}
+              className={[
+                'inline-flex h-9 px-3 items-center rounded-lg text-sm font-semibold hover:bg-subtle',
+                pathname === '/login' ? 'text-fg bg-subtle' : 'text-fg-muted hover:text-fg',
+              ].join(' ')}>
+              Login
+            </Link>
+            <Link to="/register"
+              aria-current={pathname === '/register' ? 'page' : undefined}
+              className="inline-flex h-9 px-4 items-center rounded-lg text-sm font-semibold
+                bg-ink text-on-ink hover:bg-ink-hover shadow-xs">
+              Sign up
+            </Link>
           </div>
         </nav>
       </header>
