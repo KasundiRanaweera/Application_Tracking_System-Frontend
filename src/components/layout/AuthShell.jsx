@@ -25,37 +25,59 @@ export default function AuthShell({ eyebrow, title, highlight, description, visu
         bg-[size:56px_56px] opacity-50
         [mask-image:radial-gradient(55%_60%_at_25%_10%,black,transparent_80%)]" />
 
-      {/* Top bar */}
-      <header className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 h-16
-        flex items-center justify-between">
-        <Logo />
-        <nav className="flex items-center gap-2" aria-label="Account">
-          {AUTH_LINKS.map(link => {
-            const active = pathname === link.to
-            return (
-              <Link key={link.to} to={link.to}
-                aria-current={active ? 'page' : undefined}
-                className={[
-                  'inline-flex h-9 px-4 items-center rounded-lg text-sm font-semibold transition-colors',
-                  active
-                    ? 'bg-ink text-on-ink shadow-xs'
-                    : 'text-fg-muted hover:text-fg hover:bg-subtle',
-                ].join(' ')}>
-                {link.label}
-              </Link>
-            )
-          })}
-          <ThemeToggle />
+      {/* Nav bar */}
+      <header className="relative z-20 sticky top-0 border-b border-line bg-surface/80 backdrop-blur-xl backdrop-saturate-150">
+        <nav className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4"
+          aria-label="Main">
+          <Logo />
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Link to="/"
+              className="hidden sm:inline-flex h-9 px-3 items-center rounded-lg text-sm font-medium
+                text-fg-subtle hover:text-fg hover:bg-subtle">
+              Home
+            </Link>
+            {AUTH_LINKS.map(link => {
+              const active = pathname === link.to
+              return (
+                <Link key={link.to} to={link.to}
+                  aria-current={active ? 'page' : undefined}
+                  className={[
+                    'inline-flex h-9 px-4 items-center rounded-lg text-sm font-semibold transition-colors',
+                    active
+                      ? 'bg-ink text-on-ink shadow-xs'
+                      : 'text-fg-muted hover:text-fg hover:bg-subtle',
+                  ].join(' ')}>
+                  {link.label}
+                </Link>
+              )
+            })}
+            <ThemeToggle />
+          </div>
         </nav>
       </header>
 
-      <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-4 lg:pt-8
-        grid lg:grid-cols-[1fr_minmax(0,440px)] gap-10 xl:gap-14 items-center">
+      <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-6 lg:pt-10
+        grid lg:grid-cols-[1fr_minmax(0,440px)] gap-10 xl:gap-14 items-start">
 
         {/* Form card */}
-        <div className="w-full max-w-[440px] mx-auto lg:mr-0 lg:order-2 animate-rise-in">
-          <div className="rounded-2xl border border-line bg-surface/90 backdrop-blur shadow-pop
-            dark:bg-surface dark:border-line-strong/60 p-6 sm:p-8">
+        <div className="w-full max-w-[440px] mx-auto lg:mr-0 lg:order-2 lg:sticky lg:top-24 animate-rise-in">
+          <div className="rounded-2xl border-2 border-line-strong bg-surface shadow-pop
+            ring-4 ring-brand-600/5 p-6 sm:p-8">
+            <div role="tablist" aria-label="Login or sign up"
+              className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-muted mb-7">
+              {AUTH_LINKS.map(link => {
+                const active = pathname === link.to
+                return (
+                  <Link key={link.to} to={link.to} role="tab" aria-selected={active}
+                    className={[
+                      'h-10 inline-flex items-center justify-center rounded-lg text-sm font-semibold transition-colors',
+                      active ? 'bg-surface text-fg shadow-xs ring-1 ring-line' : 'text-fg-subtle hover:text-fg',
+                    ].join(' ')}>
+                    {link.label}
+                  </Link>
+                )
+              })}
+            </div>
             {children}
           </div>
         </div>
