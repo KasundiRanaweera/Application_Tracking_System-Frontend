@@ -2,10 +2,11 @@
 
 TalentBridge is an Applicant Tracking System (ATS) that connects **candidates** looking for jobs with **recruiters** managing a hiring pipeline. This repository contains the React frontend - a single-page app served as static files and backed by a separate Spring Boot API.
 
-The backend API is maintained separately in the `talentbridge-ats` repository. The frontend and backend are intentionally kept in separate Git repositories, with the frontend deployed to Vercel and the backend deployed independently on Render.
+The backend API is maintained separately in the [Application_Tracking_System-Backend](https://github.com/KasundiRanaweera/Application_Tracking_System-Backend) repository. The frontend and backend are intentionally kept in separate Git repositories, with the frontend deployed to Vercel and the backend deployed independently on Render.
 
-**Live app:** [https://application-tracking-system-fronten.vercel.app](https://application-tracking-system-fronten.vercel.app) <br>
+**Live app:** [https://talentbridge-application-tracking-system.vercel.app](https://talentbridge-application-tracking-system.vercel.app) <br>
 **Backend API:** [https://application-tracking-system-backend.onrender.com](https://application-tracking-system-backend.onrender.com) <br>
+**Backend repository:** [https://github.com/KasundiRanaweera/Application_Tracking_System-Backend](https://github.com/KasundiRanaweera/Application_Tracking_System-Backend) <br>
 **API docs (Swagger):** [https://application-tracking-system-backend.onrender.com/swagger-ui.html](https://application-tracking-system-backend.onrender.com/swagger-ui.html)
 
 > **Note:** the backend runs on a free Render instance and is pinged regularly by UptimeRobot to keep it awake. If it has been idle, the first request (login, loading jobs) may still take up to ~30–60 seconds.
@@ -93,8 +94,8 @@ src/
 ### Setup
 
 ```bash
-git clone <this-repo-url>
-cd talentbridge-frontend
+git clone https://github.com/KasundiRanaweera/Application_Tracking_System-Frontend.git
+cd Application_Tracking_System-Frontend
 npm install
 ```
 
