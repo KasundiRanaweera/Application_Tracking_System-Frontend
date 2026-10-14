@@ -1,21 +1,11 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
-  <rect width="256" height="256" fill="#ffffff"/>
-
-  <!-- Outer circle/badge -->
-  <circle cx="128" cy="128" r="88" fill="none" stroke="#53c4d9" stroke-width="12"/>
-
-  <!-- Top person head -->
-  <circle cx="128" cy="54" r="16" fill="#56c7dd"/>
-
-  <!-- Body / figure -->
-  <path d="M128 78 L128 118 L96 118 L92 96 L128 78 Z" fill="#56c7dd" opacity="0.95"/>
-  <path d="M128 78 L128 118 L160 118 L164 96 L128 78 Z" fill="#56c7dd" opacity="0.95"/>
-
-  <!-- Tie -->
-  <path d="M128 98 L150 130 L128 170 L106 130 Z" fill="#56c7dd"/>
-
-  <!-- Base shape to mimic a magnifying glass -->
-  <path d="M50 170 C78 202, 104 198, 128 180 C154 204, 180 204, 202 170" fill="none" stroke="#53c4d9" stroke-width="12" stroke-linecap="round"/>
-  <path d="M172 172 L202 202" fill="none" stroke="#53c4d9" stroke-width="14" stroke-linecap="round"/>
-  <path d="M202 202 L216 216" fill="none" stroke="#53c4d9" stroke-width="14" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b63f0"/>
+      <stop offset="1" stop-color="#183ac8"/>
+    </linearGradient>
+  </defs>
+  <rect width="96" height="96" rx="21" fill="url(#g)"/>
+  <text x="48" y="48" text-anchor="middle" dominant-baseline="central"
+        font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="50" fill="#ffffff">TB</text>
 </svg>

@@ -2,7 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Icons: Google uses the rel="icon" files (sizes are multiples of 48px) -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="TalentBridge is an applicant tracking system. Browse open positions, apply with your CV and track every application from Applied to Hired." />
     <meta name="theme-color" content="#1e4ce0" />
@@ -16,10 +21,23 @@
     <meta property="og:title" content="TalentBridge · Applicant Tracking System" />
     <meta property="og:description" content="Browse open positions, apply with your CV and track every application from Applied to Hired." />
     <meta property="og:url" content="https://talentbridge-application-tracking-system.vercel.app/" />
+    <meta property="og:image" content="https://talentbridge-application-tracking-system.vercel.app/icon-512.png" />
     <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="https://talentbridge-application-tracking-system.vercel.app/icon-512.png" />
     <meta name="twitter:title" content="TalentBridge · Applicant Tracking System" />
     <meta name="twitter:description" content="Browse open positions, apply with your CV and track every application from Applied to Hired." />
     <title>TalentBridge · Applicant Tracking System</title>
+
+    <!-- Site name for Google results -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "TalentBridge",
+        "alternateName": "TalentBridge ATS",
+        "url": "https://talentbridge-application-tracking-system.vercel.app/"
+      }
+    </script>
     <script>
       // Apply the saved theme before first paint to avoid a light flash.
       (function () {
